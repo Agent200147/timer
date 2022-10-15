@@ -20,6 +20,7 @@
 
 body{
     font-family: "PlayRegular", sans-serif;
+    overflow-x: hidden;
 }
 
 .timer{
@@ -37,4 +38,125 @@ body{
 
 .timer__current-time{
     font-size: 70px;
+}
+
+.timer__self{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 470px;
+    height: 470px;
+    border-radius: 50%;
+    /*vertical-align: middle;*/
+    border: 7px solid orange;
+}
+
+.timer__counter{
+    font-size: 60px;
+    display: flex;
+    justify-content: center;
+    max-width: 400px;
+    height: 300px;
+    /*background: -webkit-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(125,185,232,0) 100%);*/
+    /*opacity: 0.5;*/
+    filter: alpha(opacity=50);
+    /*opacity: 0.5;*/
+}
+
+.timer__item{
+    /*width: 92px;*/
+    /*height: 300px;*/
+
+    padding: 0 25px;
+    margin: auto;
+
+}
+
+.swiper-slide{
+    cursor: pointer;
+    transition: 0.3s all;
+}
+
+.timer__hours{
+}
+
+.timer__minutes{
+
+}
+
+.vr{
+    height: 300px;
+    width: 1px;
+    opacity: 0.4;
+    background: gray;
+}
+
+.swiper-wrapper{
+    height: 300px !important;
+    user-select: none;
+}
+
+/*.swiper-slide-active{*/
+/*    transform: scale(0.6);*/
+/*    opacity: 0.4;*/
+/*}*/
+
+/*.swiper-slide-next{*/
+/*    transform: scale(0.8);*/
+/*    opacity: 0.7;*/
+/*}*/
+
+/*.swiper-slide-next ~ .swiper-slide:nth-child(2){*/
+/*    transform: scale(0.8);*/
+/*    opacity: 0.7;*/
+/*}*/
+
+.timer__selected{
+    position: absolute;
+    top: calc(50% - 28px);
+
+    height: 68px;
+    width: 400px;
+    /*border-bottom: 1px solid black;*/
+    /*border-top: 1px solid black;*/
+    opacity: 1;
+
+    /*background: rgb(0, 0, 0, 0.1);*/
+    /*background: linear-gradient(to right, white, rgb(0, 0, 0, 0.3) 50%, white);*/
+    /*background: white;*/
+    /*z-index: 1000;*/
+
+}
+
+.timer__top{
+    position: absolute;
+    /*top: calc(50% - 28px);*/
+
+    height: 122px;
+    width: 320px;
+    /*border-bottom: 1px solid black;*/
+    /*border-top: 1px solid black;*/
+    opacity: 1;
+
+    /*background: rgb(0, 0, 0, 0.1);*/
+    background: rgb(255, 255, 255, 0.8);
+    /*background: white;*/
+    z-index: 1000;
+}
+
+.timer__bottom{
+    position: absolute;
+    top: calc(50% + 40px);
+
+    height: 122px;
+    width: 320px;
+    /*border-bottom: 1px solid black;*/
+    /*border-top: 1px solid black;*/
+    opacity: 1;
+
+    /*background: rgb(0, 0, 0, 0.1);*/
+    background: rgb(255, 255, 255, 0.8);
+    z-index: 1000;
 }
