@@ -16,6 +16,8 @@
     <title>Document</title>
 </head>
 <body>
+
+    <header class="header"></header>
     <section class="timer">
         <div class="timer__wrapper">
 <!--            <div class="timer__current-time"></div>-->
@@ -41,38 +43,67 @@
 <!--                </div>-->
 <!--            </div>-->
 
+<!--            <div class="timer__self">-->
+<!--                <div class="timer__counter">-->
+
+<!--&lt;!&ndash;                    <div class="timer__top">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="timer__selected">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="timer__bottom">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                    <div class="timer__item timer__hours swiper">-->
+<!--                        <div class="swiper-wrapper swiper-wrapper__hours">-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <span class="vr"></span>-->
+
+<!--                    <div class="timer__item timer__minutes swiper">-->
+<!--                        <div class="swiper-wrapper swiper-wrapper__minutes">-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <span class="vr"></span>-->
+
+<!--                    <div class="timer__item timer__seconds swiper">-->
+<!--                        <div class="swiper-wrapper swiper-wrapper__seconds">-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+
             <div class="timer__self">
                 <div class="timer__counter">
 
-                    <div class="timer__top">
-                    </div>
-                    <div class="timer__selected">
-                    </div>
-                    <div class="timer__bottom">
-                    </div>
-                    <div class="timer__item timer__hours swiper">
-                        <div class="swiper-wrapper swiper-wrapper__hours">
-
-                        </div>
+                    <div class="timer__item timer__hours">
+                        <input type="number" placeholder="00"/>
                     </div>
 
-                    <span class="vr"></span>
+<!--                    <span class="vr"></span>-->
 
-                    <div class="timer__item timer__minutes swiper">
-                        <div class="swiper-wrapper swiper-wrapper__minutes">
-
-                        </div>
+                    <div class="timer__item timer__minutes">
+                        <input type="number" placeholder="00"/>
                     </div>
 
-                    <span class="vr"></span>
+<!--                    <span class="vr"></span>-->
 
-                    <div class="timer__item timer__seconds swiper">
-                        <div class="swiper-wrapper swiper-wrapper__seconds">
+                    <div class="timer__item timer__seconds">
+                        <input type="number" placeholder="00"/>
 
-                        </div>
                     </div>
                 </div>
+
+                <button class="timer__btn btn-play">
+                    <span class="timer__btn-icon"></span>
+                </button>
             </div>
+
         </div>
     </section>
     <script src="jquery-3.2.1.min.js" ></script>

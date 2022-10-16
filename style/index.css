@@ -21,10 +21,20 @@
 body{
     font-family: "PlayRegular", sans-serif;
     overflow-x: hidden;
+    /*background: #ddb5e8;*/
+    background: linear-gradient(90deg, #A18CD1 0%, #FBC2EB 100%);
+}
+
+.header{
+    margin: 0 auto;
+    max-width: 1400px;
+    height: 70px;
+    background: #8648B4;
+    border-radius: 0px 0px 10px 10px;
 }
 
 .timer{
-    height: 100vh;
+    margin-top: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,22 +53,39 @@ body{
 .timer__self{
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
     width: 470px;
     height: 470px;
     border-radius: 50%;
-    /*vertical-align: middle;*/
-    border: 7px solid orange;
+
+    /*background-color: #ddb5e8;*/
+    box-shadow:
+            10px 10px 12px 0 #bc9ac5,
+            -10px -10px 12px 0 #ddb5e8;
+
+    /*box-shadow: 0 5px 20px rgb(0 0 0 / 30%);*/
+
+    /*background: #ddb5e8;*/
+    /*box-shadow:  20px 20px 20px #bc9ac5,*/
+    /*-20px -20px 20px #fed0ff;*/
+
+    /*box-shadow: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.2),*/
+    /*inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);*/
+
+    /*box-shadow:*/
+    /*        12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,*/
+    /*        -8px -8px 12px 0 rgba(0, 0, 0, .25) inset;*/
+
 }
 
 .timer__counter{
-    font-size: 60px;
+
     display: flex;
     justify-content: center;
     max-width: 400px;
-    height: 300px;
     /*background: -webkit-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(125,185,232,0) 100%);*/
     /*opacity: 0.5;*/
     filter: alpha(opacity=50);
@@ -132,17 +159,13 @@ body{
 
 .timer__top{
     position: absolute;
-    /*top: calc(50% - 28px);*/
 
     height: 122px;
     width: 320px;
-    /*border-bottom: 1px solid black;*/
-    /*border-top: 1px solid black;*/
+
     opacity: 1;
 
-    /*background: rgb(0, 0, 0, 0.1);*/
     background: rgb(255, 255, 255, 0.8);
-    /*background: white;*/
     z-index: 1000;
 }
 
@@ -152,11 +175,95 @@ body{
 
     height: 122px;
     width: 320px;
-    /*border-bottom: 1px solid black;*/
-    /*border-top: 1px solid black;*/
     opacity: 1;
 
-    /*background: rgb(0, 0, 0, 0.1);*/
     background: rgb(255, 255, 255, 0.8);
     z-index: 1000;
+}
+
+.timer__item input{
+    width: 100%;
+    text-align: center;
+    padding-left: 3px;
+    font-size: 60px;
+    outline: none;
+    border: 0px;
+    border-radius: 10px;
+    background: #F3E4FF;
+
+    box-shadow: inset
+            4px 4px 7px 0 #bc9ac5,
+            -2px -2px 7px 0 #ddb5e8;
+}
+
+.timer__btn{
+    position: absolute;
+    cursor: pointer;
+    width: 70px;
+    aspect-ratio: 14/9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    border: 0;
+
+    margin-top: 250px;
+
+    /*box-shadow: inset*/
+    /*4px 4px 7px 0 #bc9ac5,*/
+    /*-2px -2px 7px 0 #ddb5e8;*/
+
+    box-shadow:
+    3px 3px 3px 0 #bc9ac5,
+    -2px -2px 3px 0 #ddb5e8;
+
+    background: #F3E4FF;
+
+    -webkit-transition: all 0.2s ease;;
+    -moz-transition: all 0.2s ease;;
+    -o-transition: all 0.2s ease;;
+    transition: all 0.2s ease;
+}
+
+.timer__btn:hover{
+    background: white;
+    box-shadow:
+            6px 6px 3px 0 #bc9ac5,
+            -2px -2px 3px 0 #ddb5e8
+}
+
+.timer__btn-icon {
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+    width: 0;
+    height: 20px;
+
+    border-color: transparent transparent transparent #8648B4;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+
+    -webkit-transition: all 0.2s ease;;
+    -moz-transition: all 0.2s ease;;
+    -o-transition: all 0.2s ease;;
+    transition: all 0.2s ease;
+}
+.timer__btn-icon.paused {
+     border-style: double;
+     border-width: 0px 0 0px 18px;
+ }
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; // Yeah, yeah everybody write about it
+}
+
+input[type='number'],
+input[type="number"]:hover,
+input[type="number"]:focus {
+    appearance: none;
+    -moz-appearance: textfield;
 }

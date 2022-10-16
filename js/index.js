@@ -21,20 +21,20 @@ const timer__hours = document.querySelector('.swiper-wrapper__hours')
 const timer__minutes = document.querySelector('.swiper-wrapper__minutes')
 const timer__seconds = document.querySelector('.swiper-wrapper__seconds')
 
-for (let i = 0; i < 24; i++) {
-    i < 10 ? i = '0' + i : i
-    timer__hours.innerHTML += `<div class="timer__hours-item swiper-slide">${i}</div>`
-}
-
-for (let i = 0; i < 60; i++) {
-    i < 10 ? i = '0' + i : i
-    timer__minutes.innerHTML += `<div class="timer__minutes-item swiper-slide">${i}</div>`
-}
-
-for (let i = 0; i < 60; i++) {
-    i < 10 ? i = '0' + i : i
-    timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
-}
+// for (let i = 0; i < 24; i++) {
+//     i < 10 ? i = '0' + i : i
+//     timer__hours.innerHTML += `<div class="timer__hours-item swiper-slide">${i}</div>`
+// }
+//
+// for (let i = 0; i < 60; i++) {
+//     i < 10 ? i = '0' + i : i
+//     timer__minutes.innerHTML += `<div class="timer__minutes-item swiper-slide">${i}</div>`
+// }
+//
+// for (let i = 0; i < 60; i++) {
+//     i < 10 ? i = '0' + i : i
+//     timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
+// }
 
 // $(function(){
 //     $('.timer__item').slick({
@@ -85,12 +85,18 @@ var mySwiper = new Swiper('.swiper', {
         sticky: true,
     },
     //
-    // effect: 'coverflow',
+    // effect: 'flip',
     // coverflowEffect: {
     //     rotate: 30,
     //     slideShadows: false,
     //     depth: 100,
     // },
 });
+
+const timerBtnPlay = document.querySelector('.timer__btn')
+const timerBtnPlayIcon = document.querySelector('.timer__btn-icon')
+timerBtnPlay.addEventListener('click', () => {
+    timerBtnPlayIcon.classList.toggle('paused')
+})
 
 
