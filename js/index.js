@@ -93,10 +93,29 @@ var mySwiper = new Swiper('.swiper', {
     // },
 });
 
-const timerBtnPlay = document.querySelector('.timer__btn')
+const timerBtnWrapper = document.querySelectorAll('.btn-wrapper')
+// const timerBtnStopWrapper = document.querySelector('.btn-stop-wrapper')
+const timerBtn = document.querySelectorAll('.timer__btn')
+const timerBtnPlay = document.querySelector('.timer__btn.btn-play')
 const timerBtnPlayIcon = document.querySelector('.timer__btn-icon')
 timerBtnPlay.addEventListener('click', () => {
     timerBtnPlayIcon.classList.toggle('paused')
 })
+
+timerBtnWrapper.forEach((btn) => {
+    btn.addEventListener('mousedown', () => {
+        btn.classList.toggle('tapped')
+        // btn.style.boxShadow = "inset 3px 3px 6px #ad8dbd, inset -4px -4px 7px #ebbfff"
+        // btn.parentNode.style.transform = "scale(0.97)"
+    })
+
+    btn.addEventListener('mouseup', () => {
+        btn.classList.toggle('tapped')
+
+        // btn.style.boxShadow = " 2px 2px 2px 0 #bc9ac5, -2px -2px 3px 0 #ddb5e8"
+        // btn.parentNode.style.transform = "scale(1)"
+    })
+})
+
 
 

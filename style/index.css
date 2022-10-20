@@ -21,8 +21,9 @@
 body{
     font-family: "PlayRegular", sans-serif;
     overflow-x: hidden;
+    height: 100vh;
     /*background: #ddb5e8;*/
-    background: linear-gradient(90deg, #A18CD1 0%, #FBC2EB 100%);
+    background: linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%);
 }
 
 .header{
@@ -59,12 +60,18 @@ body{
 
     width: 470px;
     height: 470px;
-    border-radius: 50%;
+    /*background: linear-gradient(145deg, #d8afec, #b694c7);*/
+    /*background: linear-gradient(145deg, #b694c7, #d8afec);*/
+    /*background: linear-gradient(145deg, #ba97c9, #ddb4ef);*/
+    background: linear-gradient(135deg, #A18CD1, #FBC2EB);
 
-    /*background-color: #ddb5e8;*/
-    box-shadow:
-            10px 10px 12px 0 #bc9ac5,
-            -10px -10px 12px 0 #ddb5e8;
+
+    /*background-color: #CCA6DE;*/
+
+    opacity: 0;
+
+    border-radius: 17px;
+
 
     /*box-shadow: 0 5px 20px rgb(0 0 0 / 30%);*/
 
@@ -79,6 +86,46 @@ body{
     /*        12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,*/
     /*        -8px -8px 12px 0 rgba(0, 0, 0, .25) inset;*/
 
+    /*-webkit-transition: all 0.2s ease;*/
+    /*-moz-transition: all 0.2s ease;*/
+    /*-o-transition: all 0.2s ease;*/
+    /*transition: all 0.2s ease;*/
+
+    animation: timerAppear 2s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes timerAppear {
+    50%{
+        /*border-radius: 0;*/
+        /*box-shadow:*/
+        /*        0px 0px 0px 0 #bc9ac5,*/
+        /*        0px 0px 0px 0 #ddb5e8;*/
+
+        box-shadow:
+                10px 10px 12px 0 #bc9ac5,
+                -10px -10px 12px 0 #ddb5e8;
+        border-radius: 17px;
+        opacity: 0.5;
+    }
+
+
+    100%{
+        border-radius: 50%;
+        box-shadow:
+                10px 10px 12px 0 #bc9ac5,
+                -10px -10px 12px 0 #ddb5e8;
+        opacity: 1;
+    }
+}
+
+.timer__self:hover{
+    /*box-shadow: inset 10px 10px 12px #ad8dbd,*/
+    /*inset -10px -10px 12px #ebbfff;*/
+
+    /*box-shadow:*/
+    /*        14px 14px 12px 0 #bc9ac5,*/
+    /*        -14px -14px 12px 0 #ddb5e8;*/
 }
 
 .timer__counter{
@@ -185,7 +232,7 @@ body{
     width: 100%;
     text-align: center;
     padding-left: 3px;
-    font-size: 60px;
+    font-size: 56px;
     outline: none;
     border: 0px;
     border-radius: 10px;
@@ -194,10 +241,23 @@ body{
     box-shadow: inset
             4px 4px 7px 0 #bc9ac5,
             -2px -2px 7px 0 #ddb5e8;
+
+    box-shadow: inset 4px 4px 7px #ad8dbd,
+    inset -4px -4px 7px #ebbfff;
+
+    caret-color: #8648B4;
+    caret: #ad8dbd;
+}
+
+.timer__controls{
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 250px;
+    width: 200px;
 }
 
 .timer__btn{
-    position: absolute;
     cursor: pointer;
     width: 70px;
     aspect-ratio: 14/9;
@@ -208,32 +268,70 @@ body{
     border-radius: 10px;
     border: 0;
 
-    margin-top: 250px;
-
     /*box-shadow: inset*/
     /*4px 4px 7px 0 #bc9ac5,*/
     /*-2px -2px 7px 0 #ddb5e8;*/
 
     box-shadow:
-    3px 3px 3px 0 #bc9ac5,
+    2px 2px 2px 0 #bc9ac5,
     -2px -2px 3px 0 #ddb5e8;
+
+    /*box-shadow: inset 0px 0px 0px #ad8dbd,*/
+    /*inset 0px 0px 0px #ebbfff;*/
 
     background: #F3E4FF;
 
-    -webkit-transition: all 0.2s ease;;
-    -moz-transition: all 0.2s ease;;
-    -o-transition: all 0.2s ease;;
-    transition: all 0.2s ease;
+    -webkit-transition: all 0.08s ease;
+    -moz-transition: all 0.08s ease;
+    -o-transition: all 0.08s ease;
+    transition: all 0.08s ease;
 }
 
-.timer__btn:hover{
-    background: white;
-    box-shadow:
-            6px 6px 3px 0 #bc9ac5,
-            -2px -2px 3px 0 #ddb5e8
+.btn-wrapper{
+    transform: scale(1);
+
+    -webkit-transition: all 0.08s ease;
+    -moz-transition: all 0.08s ease;
+    -o-transition: all 0.08s ease;
+    transition: all 0.08s ease;
 }
 
-.timer__btn-icon {
+.btn-wrapper.tapped .timer__btn{
+    box-shadow: inset 3px 3px 6px #ad8dbd, inset -4px -4px 7px #ebbfff;
+}
+
+.btn-wrapper.tapped{
+    transform: scale(0.97);
+
+}
+
+@keyframes tap {
+    0%{
+        box-shadow: inset 0px 0px 0px #ad8dbd, inset 0px 0px 0px #ebbfff;
+    }
+    100%{
+        box-shadow: inset 3px 3px 6px #ad8dbd, inset -4px -4px 7px #ebbfff;
+    }
+}
+/*.timer__btn.btn-play{*/
+/*}*/
+
+/*.timer__btn.btn-stop{*/
+/*    margin-top: 250px;*/
+/*    margin-left: 50px;*/
+/*}*/
+
+/*.timer__btn:focus{*/
+/*    !*background: white;*!*/
+/*    !*box-shadow:*!*/
+/*    !*        6px 6px 3px 0 #bc9ac5,*!*/
+/*    !*        -2px -2px 3px 0 #ddb5e8*!*/
+
+/*    box-shadow: inset 4px 4px 7px #ad8dbd,*/
+/*    inset -4px -4px 7px #ebbfff;*/
+/*}*/
+
+.btn-play .timer__btn-icon {
     border: 0;
     background: transparent;
     box-sizing: border-box;
@@ -248,12 +346,27 @@ body{
     -webkit-transition: all 0.2s ease;;
     -moz-transition: all 0.2s ease;;
     -o-transition: all 0.2s ease;;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
 }
 .timer__btn-icon.paused {
      border-style: double;
      border-width: 0px 0 0px 18px;
  }
+
+.btn-stop .timer__btn-icon {
+
+    width: 16px;
+    aspect-ratio: 1/1;
+
+    background: #8648B4;
+
+
+    -webkit-transition: all 0.2s ease;;
+    -moz-transition: all 0.2s ease;;
+    -o-transition: all 0.2s ease;;
+    transition: all 0.25s ease;
+}
+
 
 
 input[type="number"]::-webkit-outer-spin-button,

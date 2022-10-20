@@ -13,6 +13,8 @@
             href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
     />
     <link rel="stylesheet" href="style/index.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <title>Document</title>
 </head>
 <body>
@@ -78,30 +80,42 @@
 
 
 
-            <div class="timer__self">
-                <div class="timer__counter">
+            <div class="timer__self ">
 
-                    <div class="timer__item timer__hours">
+                <div class="timer__counter ">
+
+                    <div class="timer__item timer__hours animate__animated animate__fadeInLeft animate__delay-1s">
                         <input type="number" placeholder="00"/>
                     </div>
 
 <!--                    <span class="vr"></span>-->
 
-                    <div class="timer__item timer__minutes">
+                    <div class="timer__item timer__minutes animate__animated animate__zoomIn animate__delay-1s">
                         <input type="number" placeholder="00"/>
                     </div>
 
 <!--                    <span class="vr"></span>-->
 
-                    <div class="timer__item timer__seconds">
+                    <div class="timer__item timer__seconds animate__animated animate__fadeInRight animate__delay-1s">
                         <input type="number" placeholder="00"/>
 
                     </div>
                 </div>
 
-                <button class="timer__btn btn-play">
-                    <span class="timer__btn-icon"></span>
-                </button>
+                <div class="timer__controls">
+                    <div class="btn-wrapper btn-play-wrapper">
+                        <button class="timer__btn btn-play h animate__animated animate__fadeInUp animate__delay-1s">
+                            <span class="timer__btn-icon"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-wrapper btn-stop-wrapper">
+                        <button class="timer__btn btn-stop animate__animated animate__fadeInUp animate__delay-1s">
+                            <span class="timer__btn-icon"></span>
+                        </button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
