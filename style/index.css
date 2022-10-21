@@ -279,8 +279,9 @@ body{
     /*box-shadow: inset 0px 0px 0px #ad8dbd,*/
     /*inset 0px 0px 0px #ebbfff;*/
 
-    background: #F3E4FF;
-
+    /*background: #F3E4FF;*/
+    background: linear-gradient(145deg, #fff4ff, #dbcde6);
+    /*background: linear-gradient(145deg, #dbcde6, #fff4ff);*/
     -webkit-transition: all 0.08s ease;
     -moz-transition: all 0.08s ease;
     -o-transition: all 0.08s ease;

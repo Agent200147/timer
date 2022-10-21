@@ -93,24 +93,61 @@ var mySwiper = new Swiper('.swiper', {
     // },
 });
 
+const timer = document.getElementById('timer__counter')
 const timerBtnWrapper = document.querySelectorAll('.btn-wrapper')
 // const timerBtnStopWrapper = document.querySelector('.btn-stop-wrapper')
 const timerBtn = document.querySelectorAll('.timer__btn')
 const timerBtnPlay = document.querySelector('.timer__btn.btn-play')
 const timerBtnPlayIcon = document.querySelector('.timer__btn-icon')
-timerBtnPlay.addEventListener('click', () => {
+
+const timerHours = document.getElementById('hours')
+const timerMinutes = document.getElementById('minutes')
+const timerSeconds = document.getElementById('seconds')
+
+
+var timerInterval
+
+function timerStart() {
+    timerInterval = setInterval(() => {
+        if(timerSeconds.value == 0){
+            timerMinutes.value --
+            timerSeconds.value = 59
+            return
+        }
+
+        timerSeconds.value --
+
+    }, 1000)
+    console.log("play")
+}
+
+function timerStop() {
+    clearInterval(timerInterval)
+}
+
+timerBtnPlay.addEventListener('click', function () {
+
+    if(!timerBtnPlayIcon.classList.contains('paused')){
+        timerStart()
+    }
+    else{
+        timerStop()
+        console.log("pause")
+    }
+
     timerBtnPlayIcon.classList.toggle('paused')
 })
 
 timerBtnWrapper.forEach((btn) => {
     btn.addEventListener('mousedown', () => {
-        btn.classList.toggle('tapped')
-        // btn.style.boxShadow = "inset 3px 3px 6px #ad8dbd, inset -4px -4px 7px #ebbfff"
+        btn.classList.add('tapped')
+        // timerBtnPlay.style.boxShadow = "inset 0px 0px 0px #ad8dbd, inset 0px -0px 0px #ebbfff"
+        // timerBtnPlay.style.boxShadow = "inset 3px 3px 6px #ad8dbd, inset -4px -4px 7px #ebbfff"
         // btn.parentNode.style.transform = "scale(0.97)"
     })
 
     btn.addEventListener('mouseup', () => {
-        btn.classList.toggle('tapped')
+        btn.classList.remove('tapped')
 
         // btn.style.boxShadow = " 2px 2px 2px 0 #bc9ac5, -2px -2px 3px 0 #ddb5e8"
         // btn.parentNode.style.transform = "scale(1)"
