@@ -73,25 +73,7 @@ const timer__seconds = document.querySelector('.swiper-wrapper__seconds')
 //
 // })
 
-var mySwiper = new Swiper('.swiper', {
-    direction: 'vertical',
-    speed: 500,
-    slidesPerView: 5,
-    loopedSlides: 60,
-    // spaceBetween: 65,
-    loop: true,
-    freeMode: {
-        enabled: true,
-        sticky: true,
-    },
-    //
-    // effect: 'flip',
-    // coverflowEffect: {
-    //     rotate: 30,
-    //     slideShadows: false,
-    //     depth: 100,
-    // },
-});
+
 
 const timer = document.getElementById('timer__counter')
 const timerBtnWrapper = document.querySelectorAll('.btn-wrapper')
@@ -104,18 +86,54 @@ const timerHours = document.getElementById('hours')
 const timerMinutes = document.getElementById('minutes')
 const timerSeconds = document.getElementById('seconds')
 
+// for (let i = 0; i < 5; i++) {
+//     i < 10 ? i = '0' + i : i
+//
+//     timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
+// }
 
 var timerInterval
 
 function timerStart() {
-    timerInterval = setInterval(() => {
-        if(timerSeconds.value == 0){
-            timerMinutes.value --
-            timerSeconds.value = 59
-            return
-        }
 
-        timerSeconds.value --
+
+    for (let i = 0; i < 60; i++) {
+        i < 10 ? i = '0' + i : i
+        timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
+    }
+
+    var mySwiper = new Swiper('.swiper', {
+        direction: 'vertical',
+        speed: 500,
+        slidesPerView: 1,
+        loopedSlides: 60,
+        // spaceBetween: 65,
+        loop: true,
+        freeMode: {
+            enabled: true,
+            sticky: true,
+        },
+
+        initialSlide: 7,
+        //
+        // effect: 'flip',
+        // // coverflowEffect: {
+        // //     rotate: 30,
+        // //     slideShadows: false,
+        // //     depth: 100,
+        // // },
+    });
+
+    timerInterval = setInterval(() => {
+        // if(timerSeconds.value == 0){
+        //     timerMinutes.value --
+        //     timerSeconds.value = 59
+        //     return
+        // }
+
+        mySwiper.slidePrev();
+
+        // timerSeconds.value --
 
     }, 1000)
     console.log("play")
