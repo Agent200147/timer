@@ -235,6 +235,7 @@ body{
 }
 
 .timer__item input{
+    font-family: "PlayRegular", sans-serif;
     width: 83px;
     text-align: center;
     padding-left: 3px;
@@ -259,6 +260,7 @@ body{
 }
 
 .swiper{
+    display: none;
     height: 68px !important;
     min-width: 83px;
     text-align: center;
@@ -278,6 +280,44 @@ body{
 
     caret-color: #8648B4;
     caret: #ad8dbd;
+}
+
+.slider-wrapper__seconds{
+    display: none;
+    height: 64px !important;
+    min-width: 83px;
+    text-align: center;
+    padding-left: 3px;
+    font-size: 56px;
+    outline: none;
+    border: 0px;
+    border-radius: 10px;
+    background: #F3E4FF;
+
+    /*box-shadow: inset*/
+    /*4px 4px 7px 0 #bc9ac5,*/
+    /*-2px -2px 7px 0 #ddb5e8;*/
+
+    box-shadow: inset 4px 4px 7px #ad8dbd,
+    inset -4px -4px 7px #ebbfff;
+
+    caret-color: #8648B4;
+    caret: #ad8dbd;
+
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.slider-wrapper__seconds::-webkit-scrollbar {
+    width: 0;
+}
+
+.slider-slide{
+    /*padding-top: 2px;*/
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 .timer__controls{

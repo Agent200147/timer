@@ -19,7 +19,7 @@
 
 const timer__hours = document.querySelector('.swiper-wrapper__hours')
 const timer__minutes = document.querySelector('.swiper-wrapper__minutes')
-const timer__seconds = document.querySelector('.swiper-wrapper__seconds')
+const timer__seconds = document.querySelector('.slider-wrapper__seconds')
 
 // for (let i = 0; i < 24; i++) {
 //     i < 10 ? i = '0' + i : i
@@ -94,35 +94,63 @@ const timerSeconds = document.getElementById('seconds')
 
 var timerInterval
 
+
+const mySwiper1 = document.querySelector('.swiper')
+
+// var mySwiper = new Swiper('.swiper', {
+//     direction: 'vertical',
+//     speed: 500,
+//     slidesPerView: 1,
+//     loopedSlides: 60 ,
+//     // spaceBetween: 65,
+//     loop: true,
+//     freeMode: {
+//         enabled: true,
+//         sticky: true,
+//     },
+//
+//     // initialSlide: 4,
+//     //
+//     // effect: 'flip',
+//     // // coverflowEffect: {
+//     // //     rotate: 30,
+//     // //     slideShadows: false,
+//     // //     depth: 100,
+//     // // },
+// });
+
+// timerSeconds.addEventListener('input', () => {
+//     timer__seconds.innerHTML = " "
+//     for (let i = 0; i <= timerSeconds.value; i++) {
+//         i < 10 ? i = '0' + i : i
+//         timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
+//     }
+//     mySwiper.slideTo(timerSeconds.value + 1)
+// })
+
+
+for (let i = 0; i < 60; i++) {
+    i < 10 ? i = '0' + i : i
+    timer__seconds.innerHTML += `<div class="timer__seconds-item slider-slide">${i}</div>`
+}
+
+
+var i = 0
 function timerStart() {
 
+    const firstSlide = document.querySelector('.slider-slide')
 
-    for (let i = 0; i < 60; i++) {
-        i < 10 ? i = '0' + i : i
-        timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
+
+    if(i == 0){
+        firstSlide.style.marginTop = `-${(timerSeconds.value) * 64}px`
+        i = -timerSeconds.value * 64
     }
+    else{
+        firstSlide.style.marginTop = `${i}px`
+    }
+    timerSeconds.style.display = 'none'
+    timer__seconds.style.display = 'block'
 
-    var mySwiper = new Swiper('.swiper', {
-        direction: 'vertical',
-        speed: 500,
-        slidesPerView: 1,
-        loopedSlides: 60,
-        // spaceBetween: 65,
-        loop: true,
-        freeMode: {
-            enabled: true,
-            sticky: true,
-        },
-
-        initialSlide: 7,
-        //
-        // effect: 'flip',
-        // // coverflowEffect: {
-        // //     rotate: 30,
-        // //     slideShadows: false,
-        // //     depth: 100,
-        // // },
-    });
 
     timerInterval = setInterval(() => {
         // if(timerSeconds.value == 0){
@@ -130,10 +158,16 @@ function timerStart() {
         //     timerSeconds.value = 59
         //     return
         // }
+        //
+        // mySwiper.slidePrev();
+        //
+        // // timerSeconds.value --
 
-        mySwiper.slidePrev();
-
-        // timerSeconds.value --
+        i = i + 64
+        if(i == 64){
+            i = -59 * 64
+        }
+        firstSlide.style.marginTop = `${i}px`
 
     }, 1000)
     console.log("play")
