@@ -18,7 +18,7 @@
 // }, 1000)
 
 const timer__hours = document.querySelector('.swiper-wrapper__hours')
-const timer__minutes = document.querySelector('.swiper-wrapper__minutes')
+const timer__minutes = document.querySelector('.slider-wrapper__minutes')
 const timer__seconds = document.querySelector('.slider-wrapper__seconds')
 
 // for (let i = 0; i < 24; i++) {
@@ -128,29 +128,43 @@ const mySwiper1 = document.querySelector('.swiper')
 //     mySwiper.slideTo(timerSeconds.value + 1)
 // })
 
+for (let i = 0; i < 60; i++) {
+    i < 10 ? i = '0' + i : i
+    timer__minutes.innerHTML += `<div class="timer__minutes-slide">${i}</div>`
+}
 
 for (let i = 0; i < 60; i++) {
     i < 10 ? i = '0' + i : i
-    timer__seconds.innerHTML += `<div class="timer__seconds-item slider-slide">${i}</div>`
+    timer__seconds.innerHTML += `<div class="timer__seconds-slide">${i}</div>`
 }
 
 
-var i = 0
+var hours_i = 0
+var minutes_i = 0
+var seconds_i = 0
+const sliderHeight = 64
+
 function timerStart() {
 
-    const firstSlide = document.querySelector('.slider-slide')
-
-
-    if(i == 0){
-        firstSlide.style.marginTop = `-${(timerSeconds.value) * 64}px`
-        i = -timerSeconds.value * 64
+    const firstSlideMinutes = document.querySelector('.timer__minutes-slide')
+    const firstSlideSeconds = document.querySelector('.timer__seconds-slide')
+    if(minutes_i == 0){
+        firstSlideMinutes.style.marginTop = `-${timerMinutes.value * sliderHeight}px`
+        minutes_i = -timerMinutes.value * sliderHeight
     }
     else{
-        firstSlide.style.marginTop = `${i}px`
+        firstSlideMinutes.style.marginTop = `${minutes_i}px`
     }
-    timerSeconds.style.display = 'none'
-    timer__seconds.style.display = 'block'
 
+    if(seconds_i == 0){
+        firstSlideSeconds.style.marginTop = `-${timerSeconds.value * sliderHeight}px`
+        seconds_i = -timerSeconds.value * sliderHeight
+    }
+
+    timerSeconds.style.display = 'none'
+    timerMinutes.style.display = 'none'
+    timer__seconds.style.display = 'block'
+    timer__minutes.style.display = 'block'
 
     timerInterval = setInterval(() => {
         // if(timerSeconds.value == 0){
@@ -163,11 +177,13 @@ function timerStart() {
         //
         // // timerSeconds.value --
 
-        i = i + 64
-        if(i == 64){
-            i = -59 * 64
+        seconds_i = seconds_i + sliderHeight
+        if(seconds_i == sliderHeight){
+            minutes_i = minutes_i + sliderHeight
+            firstSlideMinutes.style.marginTop = `${minutes_i}px`
+            seconds_i = -59 * sliderHeight
         }
-        firstSlide.style.marginTop = `${i}px`
+        firstSlideSeconds.style.marginTop = `${seconds_i}px`
 
     }, 1000)
     console.log("play")

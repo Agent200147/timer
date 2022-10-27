@@ -282,7 +282,7 @@ body{
     caret: #ad8dbd;
 }
 
-.slider-wrapper__seconds{
+.slider-wrapper__seconds, .slider-wrapper__minutes{
     display: none;
     height: 64px !important;
     min-width: 83px;
@@ -312,7 +312,7 @@ body{
     width: 0;
 }
 
-.slider-slide{
+.timer__seconds-slide, .timer__minutes-slide{
     /*padding-top: 2px;*/
     -webkit-transition: all 0.4s ease;
     -moz-transition: all 0.4s ease;
