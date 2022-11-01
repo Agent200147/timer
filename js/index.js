@@ -17,7 +17,7 @@
 //     currentTimeContainer.innerHTML = currentTime
 // }, 1000)
 
-const timer__hours = document.querySelector('.swiper-wrapper__hours')
+const timerSliderHours = document.querySelector('.slider-wrapper__hours')
 const timerSliderMinutes = document.querySelector('.slider-wrapper__minutes')
 const timerSliderSeconds = document.querySelector('.slider-wrapper__seconds')
 
@@ -36,48 +36,10 @@ const timerSliderSeconds = document.querySelector('.slider-wrapper__seconds')
 //     timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
 // }
 
-// $(function(){
-//     $('.timer__item').slick({
-//         vertical: true,
-//         verticalSwiping: true,
-//         arrows: false,
-//         dots: false,
-//         infinite: true,
-//
-//         autoplay: false,
-//         // autoplaySpeed: 5000,
-//         // touchThreshold: 10,
-//         // speed: 200,
-//         pauseOnFocus: false,
-//         pauseOnHover: false,
-//
-//         slidesToShow: 3,
-//         // slidesToScroll: auto,
-//
-//         swipe: true,
-//         swipeToSlide: true,
-//         // TouchMove: true,
-//         // centerMode: true,
-//         // centerPadding: '60px',
-//         responsive: [
-//             {
-//                 breakpoint: 576,
-//                 settings: {
-//                     speed: 200,
-//                     autoplay: false,
-//                     infinite: false,
-//                 }
-//             },
-//         ]
-//     })
-//
-// })
-
 
 
 const timer = document.getElementById('timer__counter')
 const timerBtnWrapper = document.querySelectorAll('.btn-wrapper')
-// const timerBtnStopWrapper = document.querySelector('.btn-stop-wrapper')
 const timerBtn = document.querySelectorAll('.timer__btn')
 const timerBtnPlay = document.querySelector('.timer__btn.btn-play')
 const timerBtnStop = document.querySelector('.timer__btn.btn-stop')
@@ -87,50 +49,13 @@ const timerHours = document.getElementById('hours')
 const timerMinutes = document.getElementById('minutes')
 const timerSeconds = document.getElementById('seconds')
 
-// for (let i = 0; i < 5; i++) {
-//     i < 10 ? i = '0' + i : i
-//
-//     timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
-// }
+const timerSliderItems = [timerSliderHours, timerSliderMinutes, timerSliderSeconds]
+const timerInputItems = [timerHours, timerMinutes, timerSeconds]
 
-var timerInterval
-
-
-const mySwiper1 = document.querySelector('.swiper')
-
-// var mySwiper = new Swiper('.swiper', {
-//     direction: 'vertical',
-//     speed: 500,
-//     slidesPerView: 1,
-//     loopedSlides: 60 ,
-//     // spaceBetween: 65,
-//     loop: true,
-//     freeMode: {
-//         enabled: true,
-//         sticky: true,
-//     },
-//
-//     // initialSlide: 4,
-//     //
-//     // effect: 'flip',
-//     // // coverflowEffect: {
-//     // //     rotate: 30,
-//     // //     slideShadows: false,
-//     // //     depth: 100,
-//     // // },
-// });
-
-timerSeconds.addEventListener('input', () => {
-    // timer__seconds.innerHTML = " "
-    // for (let i = 0; i <= timerSeconds.value; i++) {
-    //     i < 10 ? i = '0' + i : i
-    //     timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
-    // }
-    // mySwiper.slideTo(timerSeconds.value + 1)
-
-    // timerSeconds.value < 10 ? timerSeconds.value = "0" + timerSeconds.value : timerSeconds.value
-    // console.log(03 < 10)
-})
+for (let i = 0; i < 100; i++) {
+    i < 10 ? i = '0' + i : i
+    timerSliderHours.innerHTML += `<div class="timer__hours-slide">${i}</div>`
+}
 
 for (let i = 0; i < 60; i++) {
     i < 10 ? i = '0' + i : i
@@ -142,6 +67,9 @@ for (let i = 0; i < 60; i++) {
     timerSliderSeconds.innerHTML += `<div class="timer__seconds-slide">${i}</div>`
 }
 
+var timerInterval
+
+const firstSlideHours = document.querySelector('.timer__hours-slide')
 const firstSlideMinutes = document.querySelector('.timer__minutes-slide')
 const firstSlideSeconds = document.querySelector('.timer__seconds-slide')
 
@@ -150,10 +78,22 @@ var minutes_i = 0
 var seconds_i = 0
 const sliderHeight = 64
 
+var timerSecondsIsChanged = false
+var timerMinutesIsChanged = false
+var timerHoursIsChanged = false
+
 function timerStart() {
 
+    if(hours_i == 0 || timerHoursIsChanged){
+        firstSlideHours.style.marginTop = `-${timerHours.value * sliderHeight}px`
+       hours_i = -timerHours.value * sliderHeight
+    }
+    else{
+        firstSlideHours.style.marginTop = `${hours_i}px`
+    }
 
-    if(minutes_i == 0 || timerMinutesChanged){
+
+    if(minutes_i == 0 || timerMinutesIsChanged){
         firstSlideMinutes.style.marginTop = `-${timerMinutes.value * sliderHeight}px`
         minutes_i = -timerMinutes.value * sliderHeight
     }
@@ -161,29 +101,26 @@ function timerStart() {
         firstSlideMinutes.style.marginTop = `${minutes_i}px`
     }
 
-    if(seconds_i == 0 || timerSecondsChanged){
+    if(seconds_i == 0 || timerSecondsIsChanged){
         firstSlideSeconds.style.marginTop = `-${timerSeconds.value * sliderHeight}px`
         seconds_i = -timerSeconds.value * sliderHeight
     }
 
-    timerSecondsChanged = false
-    timerMinutesChanged = false
+    timerSecondsIsChanged = false
+    timerMinutesIsChanged = false
+    timerHoursIsChanged = false
 
     timerSeconds.style.display = 'none'
     timerMinutes.style.display = 'none'
+    timerHours.style.display = 'none'
+
     timerSliderSeconds.style.display = 'block'
     timerSliderMinutes.style.display = 'block'
+    timerSliderHours.style.display = 'block'
+
+
 
     timerInterval = setInterval(() => {
-        // if(timerSeconds.value == 0){
-        //     timerMinutes.value --
-        //     timerSeconds.value = 59
-        //     return
-        // }
-        //
-        // mySwiper.slidePrev();
-        //
-        // // timerSeconds.value --
 
         seconds_i = seconds_i + sliderHeight
         if(seconds_i == sliderHeight){
@@ -191,30 +128,24 @@ function timerStart() {
             firstSlideMinutes.style.marginTop = `${minutes_i}px`
             seconds_i = -59 * sliderHeight
         }
+
+        if(minutes_i == sliderHeight){
+            hours_i =  hours_i + sliderHeight
+            firstSlideHours.style.marginTop = `${hours_i}px`
+            minutes_i = -59 * sliderHeight
+            firstSlideMinutes.style.marginTop = `${minutes_i}px`
+        }
         firstSlideSeconds.style.marginTop = `${seconds_i}px`
 
     }, 1000)
     console.log("play")
 }
 
-function timerStop() {
+function timerPause() {
     clearInterval(timerInterval)
 }
 
-timerBtnPlay.addEventListener('click', function () {
-
-    if(!timerBtnPlayIcon.classList.contains('paused')){
-        timerStart()
-    }
-    else{
-        timerStop()
-        console.log("pause")
-    }
-
-    timerBtnPlayIcon.classList.toggle('paused')
-})
-
-timerBtnStop.addEventListener('click', () => {
+function timerStop() {
     timerSeconds.value = ""
     timerMinutes.value = ""
     timerHours.value = ""
@@ -223,14 +154,48 @@ timerBtnStop.addEventListener('click', () => {
     timerSeconds.style.display = 'block'
     timerMinutes.style.display = 'block'
     timerHours.style.display = 'block'
+
     timerSliderSeconds.style.display = 'none'
     timerSliderMinutes.style.display = 'none'
+    timerSliderHours.style.display = 'none'
 
-    timerSecondsChanged = true
-    timerMinutesChanged = true
-    timerStop()
+    timerSecondsIsChanged = true
+    timerMinutesIsChanged = true
+    timerHoursIsChanged = true
+
+    timerPause()
     timerBtnPlayIcon.classList.remove('paused')
+}
+
+timerBtnPlay.addEventListener('click', function () {
+
+    if(!timerBtnPlayIcon.classList.contains('paused')){
+        if(timerHours.value == ""){
+            timerHours.focus()
+            return
+        }
+
+        if(timerMinutes.value == ""){
+            timerMinutes.focus()
+            return
+        }
+
+        if(timerSeconds.value == ""){
+            timerSeconds.focus()
+            return
+        }
+
+        timerStart()
+    }
+    else{
+        timerPause()
+        console.log("pause")
+    }
+
+    timerBtnPlayIcon.classList.toggle('paused')
 })
+
+timerBtnStop.addEventListener('click', timerStop)
 
 timerBtnWrapper.forEach((btn) => {
     btn.addEventListener('mousedown', () => {
@@ -248,30 +213,52 @@ timerBtnWrapper.forEach((btn) => {
     })
 })
 
-var timerSecondsChanged = false
-var timerMinutesChanged = false
 
-timerSliderSeconds.addEventListener('click', () => {
-    if(!timerBtnPlayIcon.classList.contains('paused')){
+timerSliderItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+        if(!timerBtnPlayIcon.classList.contains('paused')){
 
-        // firstSlideMinutes.style.marginTop = `-${timerMinutes.value * sliderHeight}px`
-        // firstSlideSeconds.style.marginTop = `-${timerSeconds.value * sliderHeight}px`
-        timerSeconds.value = parseInt(firstSlideSeconds.style.marginTop.match(/\d+/)) / sliderHeight
-        timerMinutes.value = parseInt(firstSlideMinutes.style.marginTop.match(/\d+/)) / sliderHeight
+            timerHoursCurrent = parseInt(firstSlideHours.style.marginTop.match(/\d+/)) / sliderHeight
+            timerMinutesCurrent = parseInt(firstSlideMinutes.style.marginTop.match(/\d+/)) / sliderHeight
+            timerSecondsCurrent = parseInt(firstSlideSeconds.style.marginTop.match(/\d+/)) / sliderHeight
 
-        // console.log()
-        timerSeconds.style.display = 'block'
-        timerSeconds.focus()
-        timerMinutes.style.display = 'block'
-        timerSliderSeconds.style.display = 'none'
-        timerSliderMinutes.style.display = 'none'
+            timerHours.value = timerHoursCurrent < 10 ? timerHoursCurrent = '0' + timerHoursCurrent : timerHoursCurrent
+            timerMinutes.value = timerMinutesCurrent < 10 ? timerMinutesCurrent = '0' + timerMinutesCurrent : timerMinutesCurrent
+            timerSeconds.value = timerSecondsCurrent < 10 ? timerSecondsCurrent = '0' + timerSecondsCurrent : timerSecondsCurrent
 
-        timerSecondsChanged = true
-        timerMinutesChanged = true
+            timerSeconds.style.display = 'block'
+            timerMinutes.style.display = 'block'
+            timerHours.style.display = 'block'
 
-    }
+            timerSliderSeconds.style.display = 'none'
+            timerSliderMinutes.style.display = 'none'
+            timerSliderHours.style.display = 'none'
 
+            timerSecondsIsChanged = true
+            timerMinutesIsChanged = true
+            timerHoursIsChanged = true
+
+            index === 0 ? timerHours.focus() :
+            index === 1 ? timerMinutes.focus() :
+            index === 2 ? timerSeconds.focus() : timerSeconds.focus()
+        }
+    })
 })
+
+timerInputItems.forEach((item) => {
+    item.addEventListener('input', () => {
+        item.value = item.value.replace(/[^0-9]/g, '')
+        item.value = item.value.slice(0, 2)
+
+        if(item.id == "hours")
+            item.value > 99 ? item.value = 99 : item.value
+        else
+            item.value > 59 ? item.value = 59 : item.value
+
+        // console.log(item.value)
+    })
+})
+
 
 
 

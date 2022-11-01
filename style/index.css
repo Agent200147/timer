@@ -255,8 +255,18 @@ body{
     box-shadow: inset 4px 4px 7px #ad8dbd,
     inset -4px -4px 7px #ebbfff;
 
+    color: #3F086B;
     caret-color: #8648B4;
     caret: #ad8dbd;
+
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    -o-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+}
+
+.timer__item input.error{
+    /*box-shadow: inset 0px 0px 10px 1px #8648B4;*/
 }
 
 .swiper{
@@ -282,7 +292,7 @@ body{
     caret: #ad8dbd;
 }
 
-.slider-wrapper__seconds, .slider-wrapper__minutes{
+.slider-wrapper__seconds, .slider-wrapper__minutes, .slider-wrapper__hours{
     display: none;
     height: 64px !important;
     min-width: 83px;
@@ -301,6 +311,8 @@ body{
     box-shadow: inset 4px 4px 7px #ad8dbd,
     inset -4px -4px 7px #ebbfff;
 
+    color: #3F086B;
+
     caret-color: #8648B4;
     caret: #ad8dbd;
 
@@ -308,11 +320,15 @@ body{
     scrollbar-width: none;
 }
 
+.slider-active{
+
+}
+
 .slider-wrapper__seconds::-webkit-scrollbar, .slider-wrapper__minutes::-webkit-scrollbar {
     width: 0;
 }
 
-.timer__seconds-slide, .timer__minutes-slide{
+.timer__seconds-slide, .timer__minutes-slide, .timer__hours-slide{
     /*padding-top: 2px;*/
     -webkit-transition: all 0.4s ease;
     -moz-transition: all 0.4s ease;
