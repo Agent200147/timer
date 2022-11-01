@@ -238,7 +238,7 @@ body{
     font-family: "PlayRegular", sans-serif;
     width: 83px;
     text-align: center;
-    padding-left: 3px;
+    padding-left: 2px;
     font-size: 56px;
     outline: none;
     border: 0px;
@@ -287,7 +287,7 @@ body{
     height: 64px !important;
     min-width: 83px;
     text-align: center;
-    padding-left: 3px;
+    padding-left: 2px;
     font-size: 56px;
     outline: none;
     border: 0px;
@@ -308,7 +308,7 @@ body{
     scrollbar-width: none;
 }
 
-.slider-wrapper__seconds::-webkit-scrollbar {
+.slider-wrapper__seconds::-webkit-scrollbar, .slider-wrapper__minutes::-webkit-scrollbar {
     width: 0;
 }
 

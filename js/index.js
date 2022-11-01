@@ -18,8 +18,8 @@
 // }, 1000)
 
 const timer__hours = document.querySelector('.swiper-wrapper__hours')
-const timer__minutes = document.querySelector('.slider-wrapper__minutes')
-const timer__seconds = document.querySelector('.slider-wrapper__seconds')
+const timerSliderMinutes = document.querySelector('.slider-wrapper__minutes')
+const timerSliderSeconds = document.querySelector('.slider-wrapper__seconds')
 
 // for (let i = 0; i < 24; i++) {
 //     i < 10 ? i = '0' + i : i
@@ -80,6 +80,7 @@ const timerBtnWrapper = document.querySelectorAll('.btn-wrapper')
 // const timerBtnStopWrapper = document.querySelector('.btn-stop-wrapper')
 const timerBtn = document.querySelectorAll('.timer__btn')
 const timerBtnPlay = document.querySelector('.timer__btn.btn-play')
+const timerBtnStop = document.querySelector('.timer__btn.btn-stop')
 const timerBtnPlayIcon = document.querySelector('.timer__btn-icon')
 
 const timerHours = document.getElementById('hours')
@@ -119,25 +120,30 @@ const mySwiper1 = document.querySelector('.swiper')
 //     // // },
 // });
 
-// timerSeconds.addEventListener('input', () => {
-//     timer__seconds.innerHTML = " "
-//     for (let i = 0; i <= timerSeconds.value; i++) {
-//         i < 10 ? i = '0' + i : i
-//         timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
-//     }
-//     mySwiper.slideTo(timerSeconds.value + 1)
-// })
+timerSeconds.addEventListener('input', () => {
+    // timer__seconds.innerHTML = " "
+    // for (let i = 0; i <= timerSeconds.value; i++) {
+    //     i < 10 ? i = '0' + i : i
+    //     timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
+    // }
+    // mySwiper.slideTo(timerSeconds.value + 1)
+
+    // timerSeconds.value < 10 ? timerSeconds.value = "0" + timerSeconds.value : timerSeconds.value
+    // console.log(03 < 10)
+})
 
 for (let i = 0; i < 60; i++) {
     i < 10 ? i = '0' + i : i
-    timer__minutes.innerHTML += `<div class="timer__minutes-slide">${i}</div>`
+    timerSliderMinutes.innerHTML += `<div class="timer__minutes-slide">${i}</div>`
 }
 
 for (let i = 0; i < 60; i++) {
     i < 10 ? i = '0' + i : i
-    timer__seconds.innerHTML += `<div class="timer__seconds-slide">${i}</div>`
+    timerSliderSeconds.innerHTML += `<div class="timer__seconds-slide">${i}</div>`
 }
 
+const firstSlideMinutes = document.querySelector('.timer__minutes-slide')
+const firstSlideSeconds = document.querySelector('.timer__seconds-slide')
 
 var hours_i = 0
 var minutes_i = 0
@@ -146,9 +152,8 @@ const sliderHeight = 64
 
 function timerStart() {
 
-    const firstSlideMinutes = document.querySelector('.timer__minutes-slide')
-    const firstSlideSeconds = document.querySelector('.timer__seconds-slide')
-    if(minutes_i == 0){
+
+    if(minutes_i == 0 || timerMinutesChanged){
         firstSlideMinutes.style.marginTop = `-${timerMinutes.value * sliderHeight}px`
         minutes_i = -timerMinutes.value * sliderHeight
     }
@@ -156,15 +161,18 @@ function timerStart() {
         firstSlideMinutes.style.marginTop = `${minutes_i}px`
     }
 
-    if(seconds_i == 0){
+    if(seconds_i == 0 || timerSecondsChanged){
         firstSlideSeconds.style.marginTop = `-${timerSeconds.value * sliderHeight}px`
         seconds_i = -timerSeconds.value * sliderHeight
     }
 
+    timerSecondsChanged = false
+    timerMinutesChanged = false
+
     timerSeconds.style.display = 'none'
     timerMinutes.style.display = 'none'
-    timer__seconds.style.display = 'block'
-    timer__minutes.style.display = 'block'
+    timerSliderSeconds.style.display = 'block'
+    timerSliderMinutes.style.display = 'block'
 
     timerInterval = setInterval(() => {
         // if(timerSeconds.value == 0){
@@ -206,6 +214,24 @@ timerBtnPlay.addEventListener('click', function () {
     timerBtnPlayIcon.classList.toggle('paused')
 })
 
+timerBtnStop.addEventListener('click', () => {
+    timerSeconds.value = ""
+    timerMinutes.value = ""
+    timerHours.value = ""
+
+    // console.log()
+    timerSeconds.style.display = 'block'
+    timerMinutes.style.display = 'block'
+    timerHours.style.display = 'block'
+    timerSliderSeconds.style.display = 'none'
+    timerSliderMinutes.style.display = 'none'
+
+    timerSecondsChanged = true
+    timerMinutesChanged = true
+    timerStop()
+    timerBtnPlayIcon.classList.remove('paused')
+})
+
 timerBtnWrapper.forEach((btn) => {
     btn.addEventListener('mousedown', () => {
         btn.classList.add('tapped')
@@ -221,6 +247,32 @@ timerBtnWrapper.forEach((btn) => {
         // btn.parentNode.style.transform = "scale(1)"
     })
 })
+
+var timerSecondsChanged = false
+var timerMinutesChanged = false
+
+timerSliderSeconds.addEventListener('click', () => {
+    if(!timerBtnPlayIcon.classList.contains('paused')){
+
+        // firstSlideMinutes.style.marginTop = `-${timerMinutes.value * sliderHeight}px`
+        // firstSlideSeconds.style.marginTop = `-${timerSeconds.value * sliderHeight}px`
+        timerSeconds.value = parseInt(firstSlideSeconds.style.marginTop.match(/\d+/)) / sliderHeight
+        timerMinutes.value = parseInt(firstSlideMinutes.style.marginTop.match(/\d+/)) / sliderHeight
+
+        // console.log()
+        timerSeconds.style.display = 'block'
+        timerSeconds.focus()
+        timerMinutes.style.display = 'block'
+        timerSliderSeconds.style.display = 'none'
+        timerSliderMinutes.style.display = 'none'
+
+        timerSecondsChanged = true
+        timerMinutesChanged = true
+
+    }
+
+})
+
 
 
 
