@@ -1,41 +1,25 @@
-// const currentTimeContainer = document.querySelector('.timer__current-time')
-//
-// setInterval(() => {
-//     let date = new Date()
-//
-//     let hours
-//     let minutes
-//     let seconds
-//
-//     date.getHours().toString().length === 2 ? hours = date.getMinutes() : hours = "0" + date.getHours()
-//     date.getMinutes().toString().length === 2 ? minutes = date.getMinutes() : minutes = "0" + date.getMinutes()
-//     date.getSeconds().toString().length === 2 ? seconds = date.getSeconds() : seconds = "0" + date.getSeconds()
-//
-//     let currentTime
-//
-//     currentTime = `${date.getHours()}:${minutes}:${seconds}`
-//     currentTimeContainer.innerHTML = currentTime
-// }, 1000)
+const currentTimeContainer = document.querySelector('.timer__current-time')
+
+setInterval(() => {
+    let date = new Date()
+
+    let hours
+    let minutes
+    let seconds
+
+    date.getHours().toString().length === 2 ? hours = date.getHours() : hours = "0" + date.getHours()
+    date.getMinutes().toString().length === 2 ? minutes = date.getMinutes() : minutes = "0" + date.getMinutes()
+    date.getSeconds().toString().length === 2 ? seconds = date.getSeconds() : seconds = "0" + date.getSeconds()
+
+    let currentTime
+
+    currentTime = `${hours}:${minutes}:${seconds}`
+    currentTimeContainer.innerHTML = currentTime
+}, 1000)
 
 const timerSliderHours = document.querySelector('.slider-wrapper__hours')
 const timerSliderMinutes = document.querySelector('.slider-wrapper__minutes')
 const timerSliderSeconds = document.querySelector('.slider-wrapper__seconds')
-
-// for (let i = 0; i < 24; i++) {
-//     i < 10 ? i = '0' + i : i
-//     timer__hours.innerHTML += `<div class="timer__hours-item swiper-slide">${i}</div>`
-// }
-//
-// for (let i = 0; i < 60; i++) {
-//     i < 10 ? i = '0' + i : i
-//     timer__minutes.innerHTML += `<div class="timer__minutes-item swiper-slide">${i}</div>`
-// }
-//
-// for (let i = 0; i < 60; i++) {
-//     i < 10 ? i = '0' + i : i
-//     timer__seconds.innerHTML += `<div class="timer__seconds-item swiper-slide">${i}</div>`
-// }
-
 
 
 const timer = document.getElementById('timer__counter')
@@ -49,6 +33,8 @@ const timerHours = document.getElementById('hours')
 const timerMinutes = document.getElementById('minutes')
 const timerSeconds = document.getElementById('seconds')
 
+const dots = document.querySelectorAll('.dots')
+
 const timerSliderItems = [timerSliderHours, timerSliderMinutes, timerSliderSeconds]
 const timerInputItems = [timerHours, timerMinutes, timerSeconds]
 
@@ -60,10 +46,6 @@ for (let i = 0; i < 100; i++) {
 for (let i = 0; i < 60; i++) {
     i < 10 ? i = '0' + i : i
     timerSliderMinutes.innerHTML += `<div class="timer__minutes-slide">${i}</div>`
-}
-
-for (let i = 0; i < 60; i++) {
-    i < 10 ? i = '0' + i : i
     timerSliderSeconds.innerHTML += `<div class="timer__seconds-slide">${i}</div>`
 }
 
@@ -81,6 +63,10 @@ const sliderHeight = 64
 var timerSecondsIsChanged = false
 var timerMinutesIsChanged = false
 var timerHoursIsChanged = false
+
+var timerProgress = document.querySelector('.circle_animation')
+const initialOffset = 1508
+var i = 1
 
 function timerStart() {
 
@@ -106,6 +92,10 @@ function timerStart() {
         seconds_i = -timerSeconds.value * sliderHeight
     }
 
+    let totalSeconds = Number(timerHours.value * 3600) + Number(timerMinutes.value * 60)  + Number(timerSeconds.value)
+
+    // timerProgress.style.strokeDashoffset = '0'
+
     timerSecondsIsChanged = false
     timerMinutesIsChanged = false
     timerHoursIsChanged = false
@@ -118,10 +108,21 @@ function timerStart() {
     timerSliderMinutes.style.display = 'block'
     timerSliderHours.style.display = 'block'
 
+    dots.forEach((item, index) => {
+        item.style.opacity = '1'
+        if(index === 0){
+            item.style.animation = 'dotsRotate2 1s infinite cubic-bezier(.65, 1.95, .03, .82)'
+            return
+        }
+        item.style.animation = 'dotsRotate1 1s infinite cubic-bezier(.65, 1.95, .03, .82)'
 
+    })
+
+    timerSliderHours.style.animation = 'inputAppear1 0.2s forwards'
+    timerSliderMinutes.style.animation = 'inputAppear2 0.2s forwards'
+    timerSliderSeconds.style.animation = 'inputAppear3 0.2s forwards'
 
     timerInterval = setInterval(() => {
-
         seconds_i = seconds_i + sliderHeight
         if(seconds_i == sliderHeight){
             minutes_i = minutes_i + sliderHeight
@@ -137,11 +138,22 @@ function timerStart() {
         }
         firstSlideSeconds.style.marginTop = `${seconds_i}px`
 
+        timerProgress.style.strokeDashoffset = initialOffset * i/totalSeconds
+        i++
+        console.log(i,totalSeconds)
     }, 1000)
     console.log("play")
 }
 
 function timerPause() {
+    dots.forEach((item, index) => {
+        item.style.opacity = '1'
+        if(index === 0){
+            item.style.animation = 'dotsStop1 0.2s forwards ease-in-out'
+            return
+        }
+        item.style.animation = 'dotsStop2 0.2s forwards ease-in-out'
+    })
     clearInterval(timerInterval)
 }
 
@@ -254,12 +266,15 @@ timerInputItems.forEach((item) => {
             item.value > 99 ? item.value = 99 : item.value
         else
             item.value > 59 ? item.value = 59 : item.value
-
-        // console.log(item.value)
     })
 })
 
+// -------------------------------------------------------------------
 
+// const loader = document.querySelector('.loader')
+// setInterval(() => {
+//     loader.innerHTML = Math.round(Math.random() * 89) + 10
+// }, 120)
 
 
 

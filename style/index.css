@@ -12,6 +12,24 @@
     font-weight: normal;
 }
 
+@font-face {
+    font-family: "TimerFont";
+    src: url("fonts/CursedTimerUlil.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Timmana";
+    src: url("fonts/Timmana-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+html{
+    font-size: 24px;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -27,11 +45,56 @@ body{
 }
 
 .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
     margin: 0 auto;
+    padding: 0 45px;
     max-width: 1400px;
     height: 70px;
     background: #8648B4;
     border-radius: 0px 0px 10px 10px;
+}
+
+.header__logo{
+    font-family: "Timmana", sans-serif;
+    font-size: 52px;
+    color: white;
+    padding-top: 20px;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+
+    margin-right: auto;
+    margin-left: 125px;
+    height: 100%;
+
+}
+
+.menu a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+
+    padding: 0 45px;
+    text-decoration: none;
+    list-style: none;
+    font-size: 1rem;
+    color: white;
+
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.menu a:hover{
+    background: #67378A;
 }
 
 .timer{
@@ -48,15 +111,60 @@ body{
 }
 
 .timer__current-time{
-    font-size: 70px;
+    font-size: 1.25rem;
+}
+
+/*.pie {*/
+/*    position: absolute;*/
+/*    display: inline-block;*/
+/*    margin: .5em;*/
+/*    width: 500px;*/
+/*    height: 500px;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+/*.pie:after {*/
+/*    border-radius: 50%;*/
+/*    display: block;*/
+/*    content: "";*/
+/*    background: #fff;*/
+/*    position: absolute;*/
+/*    left: .5em;*/
+/*    top: .5em;*/
+/*    height: 490em;*/
+/*    width: 490em;*/
+/*}*/
+
+/*.p1 {*/
+/*    background-image: linear-gradient(0deg, #ddd 50%, transparent 50%),*/
+/*    linear-gradient(180deg, #ddd 50%, #8648B4 50%);*/
+/*}*/
+
+
+svg {
+    /*-webkit-transform: rotate(-90deg);*/
+    transform: rotate(-90deg);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+}
+
+.circle_animation {
+    position: absolute;
+
+    /*stroke-dasharray: 1508; !* this value is the pixel circumference of the circle *!*/
+    stroke-dasharray: 1508; /* this value is the pixel circumference of the circle */
+    stroke-dashoffset: 1508;
+    transition: all 1s linear;
 }
 
 .timer__self{
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    /*border: 5px solid #8648B4;*/
 
     width: 470px;
     height: 470px;
@@ -91,8 +199,7 @@ body{
     /*-o-transition: all 0.2s ease;*/
     /*transition: all 0.2s ease;*/
 
-    animation: timerAppear 2s ease-in-out;
-    animation-fill-mode: forwards;
+    animation: timerAppear 2s forwards ease-in-out;
 }
 
 @keyframes timerAppear {
@@ -102,9 +209,9 @@ body{
         /*        0px 0px 0px 0 #bc9ac5,*/
         /*        0px 0px 0px 0 #ddb5e8;*/
 
-        box-shadow:
-                10px 10px 12px 0 #bc9ac5,
-                -10px -10px 12px 0 #ddb5e8;
+        /*box-shadow:*/
+        /*        10px 10px 12px 0 #bc9ac5,*/
+        /*        -10px -10px 12px 0 #ddb5e8;*/
         border-radius: 17px;
         opacity: 0.5;
     }
@@ -112,9 +219,9 @@ body{
 
     100%{
         border-radius: 50%;
-        box-shadow:
-                10px 10px 12px 0 #bc9ac5,
-                -10px -10px 12px 0 #ddb5e8;
+        /*box-shadow:*/
+        /*        10px 10px 12px 0 #bc9ac5,*/
+        /*        -10px -10px 12px 0 #ddb5e8;*/
         opacity: 1;
     }
 }
@@ -255,7 +362,8 @@ body{
     box-shadow: inset 4px 4px 7px #ad8dbd,
     inset -4px -4px 7px #ebbfff;
 
-    color: #3F086B;
+    /*color: #3F086B;*/
+    color: #8648B4;
     caret-color: #8648B4;
     caret: #ad8dbd;
 
@@ -267,6 +375,10 @@ body{
 
 .timer__item input.error{
     /*box-shadow: inset 0px 0px 10px 1px #8648B4;*/
+}
+
+.timer__item input:focus{
+
 }
 
 .swiper{
@@ -304,6 +416,8 @@ body{
     border-radius: 10px;
     background: #F3E4FF;
 
+    /*font-family: "TimerFont", sans-serif;*/
+
     /*box-shadow: inset*/
     /*4px 4px 7px 0 #bc9ac5,*/
     /*-2px -2px 7px 0 #ddb5e8;*/
@@ -316,7 +430,7 @@ body{
     caret-color: #8648B4;
     caret: #ad8dbd;
 
-    overflow-y: scroll;
+    overflow-y: hidden;
     scrollbar-width: none;
 }
 
@@ -393,6 +507,63 @@ body{
 
 }
 
+.dots{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 25px;
+    opacity: 0;
+}
+
+.dots span {
+    width: 5px;
+    aspect-ratio: 1;
+    /*height: 10px;*/
+    /*margin-top: 10px;*/
+    background: #8648B4;
+}
+
+@keyframes dotsRotate1 {
+    from{
+        transform: rotate(0deg);
+    }
+
+    to{
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes dotsRotate2 {
+    from{
+        transform: rotate(0deg);
+    }
+
+    to{
+        transform: rotate(-180deg);
+    }
+}
+
+
+@keyframes dotsStop1 {
+    from{
+        transform: rotate(-180deg);
+    }
+
+    to{
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes dotsStop2 {
+    from{
+        transform: rotate(180deg);
+    }
+
+    to{
+        transform: rotate(0deg);
+    }
+}
+
 @keyframes tap {
     0%{
         box-shadow: inset 0px 0px 0px #ad8dbd, inset 0px 0px 0px #ebbfff;
@@ -401,6 +572,36 @@ body{
         box-shadow: inset 3px 3px 6px #ad8dbd, inset -4px -4px 7px #ebbfff;
     }
 }
+
+@keyframes inputAppear1 {
+    to{
+        /*width: 93px;*/
+        /*transform: translateX(20px);*/
+        box-shadow: inset 2px 3px 5px #ad8dbd,
+        inset -2px -3px 5px #ebbfff;
+    }
+}
+
+@keyframes inputAppear2 {
+    to{
+        /*width: 93px;*/
+
+        /*transform: translateX(20px);*/
+        box-shadow: inset 2px 3px 5px #ad8dbd,
+        inset -2px -3px 5px #ebbfff;
+    }
+}
+
+@keyframes inputAppear3 {
+    to{
+        /*width: 93px;*/
+
+        /*transform: translateX(-20px);*/
+        box-shadow: inset 2px 3px 5px #ad8dbd,
+        inset -2px -3px 5px #ebbfff;
+    }
+}
+
 /*.timer__btn.btn-play{*/
 /*}*/
 
@@ -442,20 +643,16 @@ body{
  }
 
 .btn-stop .timer__btn-icon {
-
     width: 16px;
     aspect-ratio: 1/1;
 
     background: #8648B4;
-
 
     -webkit-transition: all 0.2s ease;;
     -moz-transition: all 0.2s ease;;
     -o-transition: all 0.2s ease;;
     transition: all 0.25s ease;
 }
-
-
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -467,4 +664,11 @@ input[type="number"]:hover,
 input[type="number"]:focus {
     appearance: none;
     -moz-appearance: textfield;
+}
+
+.loader{
+    margin-top: 100px;
+    text-align: center;
+    font-size: 56px;
+    font-family: 'TimerFont', sans-serif;
 }
