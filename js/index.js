@@ -22,7 +22,7 @@ const timerSliderMinutes = document.querySelector('.slider-wrapper__minutes')
 const timerSliderSeconds = document.querySelector('.slider-wrapper__seconds')
 
 
-const timer = document.getElementById('timer__counter')
+const timer = document.getElementById('timer__self')
 const timerBtnWrapper = document.querySelectorAll('.btn-wrapper')
 const timerBtn = document.querySelectorAll('.timer__btn')
 const timerBtnPlay = document.querySelector('.timer__btn.btn-play')
@@ -58,28 +58,35 @@ const firstSlideSeconds = document.querySelector('.timer__seconds-slide')
 var hours_i = 0
 var minutes_i = 0
 var seconds_i = 0
-const sliderHeight = 64
+const sliderHeight = 74
 
 var timerSecondsIsChanged = false
 var timerMinutesIsChanged = false
 var timerHoursIsChanged = false
 
 var timerProgress = document.querySelector('.circle_animation')
+var timerProgressSvg = document.querySelector('.svg')
 const initialOffset = 1508
 var i = 1
 
+// timer.addEventListener('click', () => {
+//     timer.onmouseover = () => {
+//         timer.style.cursor = 'auto'
+//     }
+// })
+
 function timerStart() {
 
-    if(hours_i == 0 || timerHoursIsChanged){
+    if(i == 1 || timerHoursIsChanged){
         firstSlideHours.style.marginTop = `-${timerHours.value * sliderHeight}px`
-       hours_i = -timerHours.value * sliderHeight
+        hours_i = -timerHours.value * sliderHeight
     }
     else{
         firstSlideHours.style.marginTop = `${hours_i}px`
     }
 
 
-    if(minutes_i == 0 || timerMinutesIsChanged){
+    if(i == 1 || timerMinutesIsChanged){
         firstSlideMinutes.style.marginTop = `-${timerMinutes.value * sliderHeight}px`
         minutes_i = -timerMinutes.value * sliderHeight
     }
@@ -87,11 +94,18 @@ function timerStart() {
         firstSlideMinutes.style.marginTop = `${minutes_i}px`
     }
 
-    if(seconds_i == 0 || timerSecondsIsChanged){
+    if(i == 1 || timerSecondsIsChanged){
         firstSlideSeconds.style.marginTop = `-${timerSeconds.value * sliderHeight}px`
         seconds_i = -timerSeconds.value * sliderHeight
     }
 
+    // if(i != 1 && minutes_i == -64){
+    //     firstSlideMinutes.style.marginTop = '0px'
+    //     console.log("i")
+    // }
+    if(timerHoursIsChanged || timerMinutesIsChanged || timerSecondsIsChanged){
+        i = 1
+    }
     let totalSeconds = Number(timerHours.value * 3600) + Number(timerMinutes.value * 60)  + Number(timerSeconds.value)
 
     // timerProgress.style.strokeDashoffset = '0'
@@ -109,7 +123,7 @@ function timerStart() {
     timerSliderHours.style.display = 'block'
 
     dots.forEach((item, index) => {
-        item.style.opacity = '1'
+        // item.style.opacity = '1'
         if(index === 0){
             item.style.animation = 'dotsRotate2 1s infinite cubic-bezier(.65, 1.95, .03, .82)'
             return
@@ -122,7 +136,9 @@ function timerStart() {
     timerSliderMinutes.style.animation = 'inputAppear2 0.2s forwards'
     timerSliderSeconds.style.animation = 'inputAppear3 0.2s forwards'
 
-    timerInterval = setInterval(() => {
+    timerProgress.style.transition = 'all 1s linear'
+
+    if(i != 1){
         seconds_i = seconds_i + sliderHeight
         if(seconds_i == sliderHeight){
             minutes_i = minutes_i + sliderHeight
@@ -140,19 +156,64 @@ function timerStart() {
 
         timerProgress.style.strokeDashoffset = initialOffset * i/totalSeconds
         i++
-        console.log(i,totalSeconds)
+    }
+
+
+    timerInterval = setInterval(() => {
+        if( hours_i == 0 && minutes_i == 0 && seconds_i == 0){
+            timerStop()
+            // timer.style.animation = 'beep 0.5s infinite cubic-bezier(.5, .5, .82, .3)'
+            // timerProgress.style.animation = 'beep2 0.5s infinite cubic-bezier(.5, .5, .82, .3)'
+            timerProgress.style.strokeDashoffset = '1508'
+
+            timer.style.animation = 'timerBeep 0.75s infinite ease-in-out'
+            timerProgressSvg.style.animation = 'progressBeep 0.75s infinite ease-in-out'
+
+            timer.addEventListener('mouseover', () => {
+                timer.style.cursor = 'pointer'
+            }, {once: true})
+
+
+            timer.addEventListener('click', () => {
+                timerProgress.style.strokeDashoffset = '0'
+                timer.style.animation = 'none'
+                timer.style.cursor = 'auto'
+                timerProgressSvg.style.animation = 'none'
+            }, {once: true})
+            return
+        }
+        seconds_i = seconds_i + sliderHeight
+        if(seconds_i == sliderHeight){
+            minutes_i = minutes_i + sliderHeight
+            firstSlideMinutes.style.marginTop = `${minutes_i}px`
+            seconds_i = -59 * sliderHeight
+
+        }
+
+        if(minutes_i == sliderHeight){
+            hours_i =  hours_i + sliderHeight
+            firstSlideHours.style.marginTop = `${hours_i}px`
+            minutes_i = -59 * sliderHeight
+            firstSlideMinutes.style.marginTop = `${minutes_i}px`
+        }
+        firstSlideSeconds.style.marginTop = `${seconds_i}px`
+
+        timerProgress.style.strokeDashoffset = initialOffset * i/totalSeconds
+        i++
+        console.log(hours_i,minutes_i, seconds_i)
     }, 1000)
     console.log("play")
 }
 
 function timerPause() {
     dots.forEach((item, index) => {
-        item.style.opacity = '1'
-        if(index === 0){
-            item.style.animation = 'dotsStop1 0.2s forwards ease-in-out'
-            return
-        }
-        item.style.animation = 'dotsStop2 0.2s forwards ease-in-out'
+        // item.style.opacity = '1'
+        // if(index === 0){
+        //     item.style.animation = 'dotsStop1 0.2s forwards ease-in-out'
+        //     return
+        // }
+        // item.style.animation = 'dotsStop2 0.2s forwards ease-in-out'
+        item.style.animation = 'none'
     })
     clearInterval(timerInterval)
 }
@@ -174,6 +235,9 @@ function timerStop() {
     timerSecondsIsChanged = true
     timerMinutesIsChanged = true
     timerHoursIsChanged = true
+
+    timerProgress.style.transition = 'all 0.5s ease-in-out'
+    timerProgress.style.strokeDashoffset = '0'
 
     timerPause()
     timerBtnPlayIcon.classList.remove('paused')

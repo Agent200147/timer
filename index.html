@@ -30,8 +30,9 @@
     </nav>
     <div class="timer__current-time"></div>
 </header>
+
 <section class="timer">
-    <svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+    <svg width="600" class="svg" height="600" xmlns="http://www.w3.org/2000/svg">
         <circle id="circle" class="circle_animation" cy="300" cx="300" r="238" stroke-width="8" stroke="#8648B4" fill="none"/>
     </svg>
     <div class="timer__wrapper">
@@ -92,9 +93,8 @@
 
 
 
-        <div class="timer__self ">
-
-            <div class="timer__counter " id="timer__counter">
+        <div class="timer__self" id="timer__self">
+            <div class="timer__counter" id="timer__counter">
 
                 <div class="timer__item timer__hours animate__animated animate__fadeInLeft animate__delay-1s">
                     <input type="number" id="hours" placeholder="00"/>
