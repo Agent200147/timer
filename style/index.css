@@ -39,7 +39,10 @@ html{
 body{
     font-family: "PlayRegular", sans-serif;
     overflow-x: hidden;
-    height: 100vh;
+    min-height: 100vh;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: space-between;*/
     /*background: #ddb5e8;*/
     background: linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%);
 }
@@ -72,15 +75,48 @@ body{
     margin-right: auto;
     margin-left: 125px;
     height: 100%;
+    z-index: 1;
 
 }
 
-.menu a{
+.menu::before{
+    position: absolute;
+    content: " ";
+    height: 70px;
+
+    z-index: 0;
+    background: #67378A;
+
+    -webkit-transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
+    -moz-transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
+    -o-transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
+    transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
+}
+
+.menu.firstTab::before{
+    transform: translateX(0);
+    width: 175px;
+}
+
+.menu.secondTab::before{
+    transform: translateX(175px);
+    width: 225px;
+}
+
+.menu.thirdTab::before{
+    transform: translateX(400px);
+    width: 270px;
+}
+.menu__item{
     display: flex;
     justify-content: center;
     align-items: center;
 
     height: 100%;
+
+    cursor: pointer;
+
+    z-index: 2;
 
     padding: 0 45px;
     text-decoration: none;
@@ -94,19 +130,26 @@ body{
     transition: all 0.2s ease;
 }
 
-.menu a:hover{
+.menu__item.active{
     background: #67378A;
 }
 
+.menu__item:hover{
+    color: rgba(62,193,170,0.5);
+}
+
 .timer{
-    margin-top: 150px;
+    margin-top: 200px;
+
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .timer__wrapper{
+
     margin: 0 auto;
+
     padding: 0 20px;
     max-width: 1300px;
 }
@@ -149,9 +192,9 @@ svg {
     display: flex;
     justify-content: center;
     /*animation: progressBeep 0.75s infinite linear;*/
-
+    transition: all 1s cubic-bezier(.5, 1.95, .03, .82);
     /*animation: svgBeep 1s infinite linear;*/
-    /*z-index: 1;*/
+    z-index: -1;
 
 }
 
@@ -160,7 +203,7 @@ svg {
 
     /*stroke-dasharray: 1508; !* this value is the pixel circumference of the circle *!*/
     stroke-dasharray: 1508; /* this value is the pixel circumference of the circle */
-    stroke-dashoffset: 0;
+    stroke-dashoffset: 1508;
     transition: all 1s;
     opacity: 1;
     /*animation: progressAppear 1s forwards ease-in-out;*/
@@ -285,7 +328,7 @@ svg {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 0.2s ease;
+    transition: all 0.5s cubic-bezier(.5, 1.95, .03, .82);
 
     /*animation: timerAppear 2s forwards ease-in-out;*/
 
@@ -805,3 +848,37 @@ input[type="number"]:focus {
     font-size: 56px;
     font-family: 'TimerFont', sans-serif;
 }
+
+
+
+
+/*---------------------------------------------------------------------------------*/
+
+
+
+.secondTab .timer__self{
+    width: 600px;
+    height: 400px;
+    box-shadow:
+            6px 6px 10px 0 #bc9ac5,
+            -6px -6px 10px 0 #ddb5e8;
+    border-radius: 11px;
+}
+
+.firstTab .svg{
+    opacity: 1;
+}
+
+.firstTab .svg .circle_animation{
+    stroke-dashoffset: 0;
+}
+
+.secondTab .svg{
+    opacity: 0;
+}
+
+.timer.secondTab {
+    margin-top: 235px;
+}
+
+

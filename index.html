@@ -23,76 +23,17 @@
     <div class="header__logo">
         Aesthetic Timer
     </div>
-    <nav class="menu">
-        <a href="/timer">Таймер</a>
-        <a href="/stopwatch">Секундомер</a>
-        <a href="/worldTime">Мировое время</a>
+    <nav class="menu firstTab">
+        <div class="menu__item" data-id="firstTab">Таймер</div>
+        <div class="menu__item" data-id="secondTab">Секундомер</div>
+        <div class="menu__item" data-id="thirdTab">Мировое время</div>
     </nav>
     <div class="timer__current-time"></div>
 </header>
 
-<section class="timer">
-    <svg width="600" class="svg" height="600" xmlns="http://www.w3.org/2000/svg">
-        <circle id="circle" class="circle_animation" cy="300" cx="300" r="238" stroke-width="8" stroke="#8648B4" fill="none"/>
-    </svg>
+
+<section class="timer firstTab">
     <div class="timer__wrapper">
-
-        <!--            <div class="timer__self">-->
-        <!--                <div class="timer__counter">-->
-
-        <!--                    <div class="timer__item timer__hours">-->
-
-        <!--                    </div>-->
-
-        <!--                    <span class="vr"></span>-->
-
-        <!--                    <div class="timer__item timer__minutes">-->
-
-        <!--                    </div>-->
-
-        <!--                    <span class="vr"></span>-->
-
-        <!--                    <div class="timer__item timer__seconds">-->
-
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </div>-->
-
-        <!--            <div class="timer__self">-->
-        <!--                <div class="timer__counter">-->
-
-        <!--&lt;!&ndash;                    <div class="timer__top">&ndash;&gt;-->
-        <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-        <!--&lt;!&ndash;                    <div class="timer__selected">&ndash;&gt;-->
-        <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-        <!--&lt;!&ndash;                    <div class="timer__bottom">&ndash;&gt;-->
-        <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-        <!--                    <div class="timer__item timer__hours swiper">-->
-        <!--                        <div class="swiper-wrapper swiper-wrapper__hours">-->
-
-        <!--                        </div>-->
-        <!--                    </div>-->
-
-        <!--                    <span class="vr"></span>-->
-
-        <!--                    <div class="timer__item timer__minutes swiper">-->
-        <!--                        <div class="swiper-wrapper swiper-wrapper__minutes">-->
-
-        <!--                        </div>-->
-        <!--                    </div>-->
-
-        <!--                    <span class="vr"></span>-->
-
-        <!--                    <div class="timer__item timer__seconds swiper">-->
-        <!--                        <div class="swiper-wrapper swiper-wrapper__seconds">-->
-
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </div>-->
-
-
-
         <div class="timer__self" id="timer__self">
             <div class="timer__counter" id="timer__counter">
 
@@ -103,42 +44,23 @@
                 </div>
 
                 <span class="dots">
-                        <span></span>
-                        <span></span>
-                    </span>
+                    <span></span>
+                    <span></span>
+                </span>
 
                 <div class="timer__item timer__minutes animate__animated animate__zoomIn animate__delay-1s">
                     <input type="number" id="minutes" class="" placeholder="00"/>
-                    <div class="slider-wrapper__minutes">
-                    </div>
+                    <div class="slider-wrapper__minutes"></div>
                 </div>
 
                 <span class="dots">
-                        <span></span>
-                        <span></span>
-                    </span>
+                    <span></span>
+                    <span></span>
+                </span>
 
                 <div class="timer__item timer__seconds animate__animated animate__fadeInRight animate__delay-1s">
                     <input type="number" name="seconds" id="seconds" placeholder="00" max="2"/>
-                    <!--                        <div class="swiper">-->
-                    <!--                            <div class="swiper-wrapper swiper-wrapper__seconds">-->
-
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-
-                    <div class="slider-wrapper__seconds">
-                        <!--                            <div class="timer__seconds-item slider-slide">01</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">02</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">03</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">04</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">05</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">05</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">05</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">05</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">05</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">05</div>-->
-                        <!--                            <div class="timer__seconds-item slider-slide">05</div>-->
-                    </div>
+                    <div class="slider-wrapper__seconds"></div>
                 </div>
             </div>
 
@@ -159,13 +81,16 @@
         </div>
 
     </div>
+    <svg width="492" class="svg" height="492" xmlns="http://www.w3.org/2000/svg">
+        <circle id="circle" class="circle_animation" cy="246" cx="246" r="239" stroke-width="8" stroke="#8648B4" fill="none"/>
+    </svg>
 </section>
 
-<div class="loader"></div>
+<!--<div class="loader"></div>-->
 <script src="jquery-3.2.1.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 
-<script src="js/index.js"></script>
+<script type="module" src="js/index.js"></script>
 
 <!--    <script src="swiper/swiper.js" ></script>-->
 
