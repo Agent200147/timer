@@ -144,10 +144,11 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+
+    transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
 }
 
 .timer__wrapper{
-
     margin: 0 auto;
 
     padding: 0 20px;
@@ -328,7 +329,7 @@ svg {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 0.5s cubic-bezier(.5, 1.95, .03, .82);
+    transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
 
     /*animation: timerAppear 2s forwards ease-in-out;*/
 
@@ -596,7 +597,7 @@ svg {
     -webkit-transition: all 0.4s ease;
     -moz-transition: all 0.4s ease;
     -o-transition: all 0.4s ease;
-    transition: all 0.4s ease;
+    transition: all 0.4s cubic-bezier(.9, 1.95, .53, .52);
 }
 
 .timer__controls{
