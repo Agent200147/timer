@@ -665,6 +665,22 @@ svg {
     /*opacity: 0;*/
 }
 
+.dots.rotatingTimer{
+    animation: dotsRotate1 1s infinite cubic-bezier(.65, 1.95, .03, .82)
+}
+
+.dots.rotatingTimer:nth-child(2){
+    animation: dotsRotate2 1s infinite cubic-bezier(.65, 1.95, .03, .82)
+}
+
+.dots.rotatingSecundomer{
+    animation: dotsRotate2 .5s infinite linear;
+}
+
+.dots.rotatingSecundomer:nth-child(2){
+    animation: dotsRotate1 .5s infinite linear;
+}
+
 .dots span {
     width: 5px;
     aspect-ratio: 1;

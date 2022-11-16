@@ -115,13 +115,8 @@ menuItems.forEach((item, index) => {
         localStorage.setItem('currentPage', currentPage)
 
         if(currentPage == 'firstTab'){
-            if(timerIsGoing){
-                timerBtnPlayIcon.classList.remove('paused')
-                timerBtnPlayIcon.classList.add('paused')
-            }
-            else{
-                timerBtnPlayIcon.classList.remove('paused')
-            }
+            dots.forEach((item, index) => item.classList.remove('rotatingSecundomer'))
+
             timerSeconds.style.display = 'block'
             timerMinutes.style.display = 'block'
             timerHours.style.display = 'block'
@@ -148,9 +143,34 @@ menuItems.forEach((item, index) => {
             firstSlideHours = qs('.timer__hours-slide')
             firstSlideMinutes = qs('.timer__minutes-slide')
             firstSlideSeconds = qs('.timer__seconds-slide')
+
+            if(timerIsGoing){
+                dots.forEach((item, index) => item.classList.add('rotatingTimer'))
+                timerBtnPlayIcon.classList.remove('paused')
+                timerBtnPlayIcon.classList.add('paused')
+                timerStart()
+            }
+            else{
+                if(i != 1){
+                    timerSeconds.style.display = 'none'
+                    timerMinutes.style.display = 'none'
+                    timerHours.style.display = 'none'
+
+                    timerSliderSeconds.style.display = 'block'
+                    timerSliderMinutes.style.display = 'block'
+                    timerSliderHours.style.display = 'block'
+
+                    firstSlideHours.style.marginTop = `${timer_hours_i}px`
+                    firstSlideMinutes.style.marginTop = `${timer_minutes_i}px`
+                    firstSlideSeconds.style.marginTop = `${timer_seconds_i}px`
+                }
+                timerBtnPlayIcon.classList.remove('paused')
+            }
         }
 
         if(currentPage == 'secondTab'){
+            dots.forEach((item, index) => item.classList.remove('rotatingTimer'))
+
             timerSeconds.style.display = 'none'
             timerMinutes.style.display = 'none'
             timerHours.style.display = 'none'
@@ -160,14 +180,21 @@ menuItems.forEach((item, index) => {
             timerSliderHours.style.display = 'block'
 
             if(secundomer_seconds_i == 0 && secundomer_minutes_i == 0 && secundomer_hours_i == 0){
+                timerBtnPlayIcon.classList.remove('paused')
                 timerSliderSeconds.innerHTML = '<div class="timer__seconds-slide">00</div>'
                 timerSliderMinutes.innerHTML = '<div class="timer__minutes-slide">00</div>'
                 timerSliderHours.innerHTML = '<div class="timer__hours-slide">00</div>'
             }
             else if(secundomerIsGoing){
+                // timerSliderSeconds.innerHTML = '<div class="timer__seconds-slide">00</div>'
+                // timerSliderMinutes.innerHTML = '<div class="timer__minutes-slide">00</div>'
+                // timerSliderHours.innerHTML = '<div class="timer__hours-slide">00</div>'
+
+
+
                 timerBtnPlayIcon.classList.remove('paused')
                 timerBtnPlayIcon.classList.add('paused')
-                // timerSliderSeconds.innerHTML = `<div class="timer__seconds-slide">${secundomer_seconds_i}</div>`
+                timerSliderSeconds.innerHTML = `<div class="timer__seconds-slide">${secundomer_seconds_i}</div>`
                 secundomer_minutes_i < 10
                     ? timerSliderMinutes.innerHTML = `<div class="timer__minutes-slide">${'0' + secundomer_minutes_i}</div>`
                     : timerSliderMinutes.innerHTML = `<div class="timer__minutes-slide">${secundomer_minutes_i}</div>`
@@ -175,9 +202,13 @@ menuItems.forEach((item, index) => {
                 secundomerStart()
                 // cl(test)
             }
-
-            if(!secundomerIsGoing){
+            else {
                 timerBtnPlayIcon.classList.remove('paused')
+                timerSliderSeconds.innerHTML = `<div class="timer__seconds-slide">${secundomer_seconds_i}</div>`
+                secundomer_minutes_i < 10
+                    ? timerSliderMinutes.innerHTML = `<div class="timer__minutes-slide">${'0' + secundomer_minutes_i}</div>`
+                    : timerSliderMinutes.innerHTML = `<div class="timer__minutes-slide">${secundomer_minutes_i}</div>`
+                timerSliderHours.innerHTML = `<div class="timer__hours-slide">${secundomer_hours_i}</div>`
             }
 
             // secundomer_hours_i = 0
@@ -227,7 +258,7 @@ const timerSliderItems = [timerSliderHours, timerSliderMinutes, timerSliderSecon
 const timerInputItems = [timerHours, timerMinutes, timerSeconds]
 
 function timerStart() {
-
+    clearInterval(timerInterval)
     if(i == 1 || timerHoursIsChanged){
         firstSlideHours.style.marginTop = `-${timerHours.value * sliderHeight}px`
         timer_hours_i = -timerHours.value * sliderHeight
@@ -272,11 +303,13 @@ function timerStart() {
 
     dots.forEach((item, index) => {
         // item.style.opacity = '1'
-        if(index === 0){
-            item.style.animation = 'dotsRotate2 1s infinite cubic-bezier(.65, 1.95, .03, .82)'
-            return
-        }
-        item.style.animation = 'dotsRotate1 1s infinite cubic-bezier(.65, 1.95, .03, .82)'
+        // if(index === 0){
+        //     item.style.animation = 'dotsRotate2 1s infinite cubic-bezier(.65, 1.95, .03, .82)'
+        //     return
+        // }
+        // item.style.animation = 'dotsRotate1 1s infinite cubic-bezier(.65, 1.95, .03, .82)'
+
+        item.classList.add('rotatingTimer')
 
     })
 
@@ -362,13 +395,17 @@ function timerPause() {
         //     return
         // }
         // item.style.animation = 'dotsStop2 0.2s forwards ease-in-out'
-        item.style.animation = 'none'
+        // item.style.animation = 'none'
+
+        item.classList.remove('rotatingTimer')
+
     })
     timerIsGoing = false
     clearInterval(timerInterval)
 }
 
 function timerStop() {
+    i = 1
     timerSeconds.value = ""
     timerMinutes.value = ""
     timerHours.value = ""
@@ -515,8 +552,10 @@ var secundomer_seconds_i = 0
 
 var secundomerInterval
 function secundomerStart() {
-    secundomerIsGoing = true
     clearInterval(secundomerInterval)
+    secundomerIsGoing = true
+    dots.forEach((item, index) => item.classList.add('rotatingSecundomer'))
+
     cl('secundomerStart')
     const timer__seconds_slide = qs('.timer__seconds-slide')
     const timer__minutes_slide = qs('.timer__minutes-slide')
@@ -543,6 +582,7 @@ function secundomerStart() {
 }
 
 function secundomerPause() {
+    dots.forEach((item, index) => item.classList.remove('rotatingSecundomer'))
     secundomerIsGoing = false
     clearInterval(secundomerInterval)
 }
