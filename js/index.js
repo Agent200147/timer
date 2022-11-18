@@ -40,13 +40,21 @@ const timerSliderHours = qs('.slider-wrapper__hours')
 const timerSliderMinutes = qs('.slider-wrapper__minutes')
 const timerSliderSeconds = qs('.slider-wrapper__seconds')
 
+const secundomerHours = qs('.secundomer-wrapper__hours')
+const secundomerMinutes = qs('.secundomer-wrapper__minutes')
+const secundomerSeconds = qs('.secundomer-wrapper__seconds')
+
 const timer = gbid('timer__self')
 const timerBtnWrapper = qsAll('.btn-wrapper')
 const timerBtn = qsAll('.timer__btn')
+
 const timerBtnPlay = qs('.timer__btn.btn-play')
 const timerBtnStop = qs('.timer__btn.btn-stop')
+const timerBtnFlag = qs('.timer__btn.btn-flag')
+
 const timerBtnPlayIcon = qs('.timer__btn-icon')
 
+const flagsWrapper = qs('.flags__wrapper')
 
 
 var timer_hours_i = 0
@@ -125,24 +133,28 @@ menuItems.forEach((item, index) => {
             timerSliderMinutes.style.display = 'none'
             timerSliderHours.style.display = 'none'
 
-            timerSliderHours.innerHTML = ""
-            timerSliderMinutes.innerHTML = ""
-            timerSliderSeconds.innerHTML = ""
+            secundomerHours.style.display = 'none'
+            secundomerMinutes.style.display = 'none'
+            secundomerSeconds.style.display = 'none'
 
-            for (let i = 0; i < 100; i++) {
-                i < 10 ? i = '0' + i : i
-                timerSliderHours.innerHTML += `<div class="timer__hours-slide">${i}</div>`
-            }
+            // timerSliderHours.innerHTML = ""
+            // timerSliderMinutes.innerHTML = ""
+            // timerSliderSeconds.innerHTML = ""
 
-            for (let i = 0; i < 60; i++) {
-                i < 10 ? i = '0' + i : i
-                timerSliderMinutes.innerHTML += `<div class="timer__minutes-slide">${i}</div>`
-                timerSliderSeconds.innerHTML += `<div class="timer__seconds-slide">${i}</div>`
-            }
-
-            firstSlideHours = qs('.timer__hours-slide')
-            firstSlideMinutes = qs('.timer__minutes-slide')
-            firstSlideSeconds = qs('.timer__seconds-slide')
+            // for (let i = 0; i < 100; i++) {
+            //     i < 10 ? i = '0' + i : i
+            //     timerSliderHours.innerHTML += `<div class="timer__hours-slide">${i}</div>`
+            // }
+            //
+            // for (let i = 0; i < 60; i++) {
+            //     i < 10 ? i = '0' + i : i
+            //     timerSliderMinutes.innerHTML += `<div class="timer__minutes-slide">${i}</div>`
+            //     timerSliderSeconds.innerHTML += `<div class="timer__seconds-slide">${i}</div>`
+            // }
+            //
+            // firstSlideHours = qs('.timer__hours-slide')
+            // firstSlideMinutes = qs('.timer__minutes-slide')
+            // firstSlideSeconds = qs('.timer__seconds-slide')
 
             if(timerIsGoing){
                 dots.forEach((item, index) => item.classList.add('rotatingTimer'))
@@ -175,15 +187,19 @@ menuItems.forEach((item, index) => {
             timerMinutes.style.display = 'none'
             timerHours.style.display = 'none'
 
-            timerSliderSeconds.style.display = 'block'
-            timerSliderMinutes.style.display = 'block'
-            timerSliderHours.style.display = 'block'
+            timerSliderSeconds.style.display = 'none'
+            timerSliderMinutes.style.display = 'none'
+            timerSliderHours.style.display = 'none'
+
+            secundomerSeconds.style.display = 'block'
+            secundomerMinutes.style.display = 'block'
+            secundomerHours.style.display = 'block'
 
             if(secundomer_seconds_i == 0 && secundomer_minutes_i == 0 && secundomer_hours_i == 0){
                 timerBtnPlayIcon.classList.remove('paused')
-                timerSliderSeconds.innerHTML = '<div class="timer__seconds-slide">00</div>'
-                timerSliderMinutes.innerHTML = '<div class="timer__minutes-slide">00</div>'
-                timerSliderHours.innerHTML = '<div class="timer__hours-slide">00</div>'
+                secundomerSeconds.innerHTML = '<div class="unit__item" id="secundomer__seconds-unit">00</div>'
+                secundomerMinutes.innerHTML = '<div class="unit__item" id="secundomer__minutes-unit">00</div>'
+                secundomerHours.innerHTML = '<div class="unit__item" id="secundomer__hours-unit">00</div>'
             }
             else if(secundomerIsGoing){
                 // timerSliderSeconds.innerHTML = '<div class="timer__seconds-slide">00</div>'
@@ -194,21 +210,21 @@ menuItems.forEach((item, index) => {
 
                 timerBtnPlayIcon.classList.remove('paused')
                 timerBtnPlayIcon.classList.add('paused')
-                timerSliderSeconds.innerHTML = `<div class="timer__seconds-slide">${secundomer_seconds_i}</div>`
+                secundomerSeconds.innerHTML = `<div class="unit__item" id="secundomer__seconds-unit">${secundomer_seconds_i}</div>`
                 secundomer_minutes_i < 10
-                    ? timerSliderMinutes.innerHTML = `<div class="timer__minutes-slide">${'0' + secundomer_minutes_i}</div>`
-                    : timerSliderMinutes.innerHTML = `<div class="timer__minutes-slide">${secundomer_minutes_i}</div>`
-                timerSliderHours.innerHTML = `<div class="timer__hours-slide">${secundomer_hours_i}</div>`
+                    ? secundomerMinutes.innerHTML = `<div class="unit__item" id="secundomer__minutes-unit">${'0' + secundomer_minutes_i}</div>`
+                    : secundomerMinutes.innerHTML = `<div class="unit__item" id="secundomer__minutes-unit">${secundomer_minutes_i}</div>`
+                secundomerHours.innerHTML = `<div class="unit__item" id="secundomer__hours-unit">${secundomer_hours_i}</div>`
                 secundomerStart()
                 // cl(test)
             }
             else {
                 timerBtnPlayIcon.classList.remove('paused')
-                timerSliderSeconds.innerHTML = `<div class="timer__seconds-slide">${secundomer_seconds_i}</div>`
+                secundomerSeconds.innerHTML = `<div class="timer__seconds-slide">${secundomer_seconds_i}</div>`
                 secundomer_minutes_i < 10
-                    ? timerSliderMinutes.innerHTML = `<div class="timer__minutes-slide">${'0' + secundomer_minutes_i}</div>`
-                    : timerSliderMinutes.innerHTML = `<div class="timer__minutes-slide">${secundomer_minutes_i}</div>`
-                timerSliderHours.innerHTML = `<div class="timer__hours-slide">${secundomer_hours_i}</div>`
+                    ? secundomerMinutes.innerHTML = `<div class="timer__minutes-slide">${'0' + secundomer_minutes_i}</div>`
+                    : secundomerMinutes.innerHTML = `<div class="timer__minutes-slide">${secundomer_minutes_i}</div>`
+                secundomerHours.innerHTML = `<div class="timer__hours-slide">${secundomer_hours_i}</div>`
             }
 
             // secundomer_hours_i = 0
@@ -222,18 +238,18 @@ menuItems.forEach((item, index) => {
 if(currentPage == 'firstTab'){
     for (let i = 0; i < 100; i++) {
         i < 10 ? i = '0' + i : i
-        timerSliderHours.innerHTML += `<div class="timer__hours-slide">${i}</div>`
+        timerSliderHours.innerHTML += `<div class="unit__item" id="timer__hours-unit">${i}</div>`
     }
 
     for (let i = 0; i < 60; i++) {
         i < 10 ? i = '0' + i : i
-        timerSliderMinutes.innerHTML += `<div class="timer__minutes-slide">${i}</div>`
-        timerSliderSeconds.innerHTML += `<div class="timer__seconds-slide">${i}</div>`
+        timerSliderMinutes.innerHTML += `<div class="unit__item" id="timer__minutes-unit">${i}</div>`
+        timerSliderSeconds.innerHTML += `<div class="unit__item" id="timer__seconds-unit">${i}</div>`
     }
 
-    firstSlideHours = qs('.timer__hours-slide')
-    firstSlideMinutes = qs('.timer__minutes-slide')
-    firstSlideSeconds = qs('.timer__seconds-slide')
+    firstSlideHours = gbid('timer__hours-unit')
+    firstSlideMinutes = gbid('timer__minutes-unit')
+    firstSlideSeconds = gbid('timer__seconds-unit')
 }
 
 if(currentPage == 'secondTab'){
@@ -241,13 +257,13 @@ if(currentPage == 'secondTab'){
     timerMinutes.style.display = 'none'
     timerHours.style.display = 'none'
 
-    timerSliderSeconds.style.display = 'block'
-    timerSliderMinutes.style.display = 'block'
-    timerSliderHours.style.display = 'block'
+    secundomerSeconds.style.display = 'block'
+    secundomerMinutes.style.display = 'block'
+    secundomerHours.style.display = 'block'
 
-    timerSliderSeconds.innerHTML = '<div class="timer__seconds-slide">00</div>'
-    timerSliderMinutes.innerHTML = '<div class="timer__minutes-slide">00</div>'
-    timerSliderHours.innerHTML = '<div class="timer__hours-slide">00</div>'
+    secundomerSeconds.innerHTML = '<div class="unit__item" id="secundomer__seconds-unit">00</div>'
+    secundomerMinutes.innerHTML = '<div class="unit__item" id="secundomer__minutes-unit">00</div>'
+    secundomerHours.innerHTML = '<div class="unit__item" id="secundomer__hours-unit">00</div>'
 }
 
 
@@ -557,8 +573,11 @@ function secundomerStart() {
     dots.forEach((item, index) => item.classList.add('rotatingSecundomer'))
 
     cl('secundomerStart')
-    const timer__seconds_slide = qs('.timer__seconds-slide')
-    const timer__minutes_slide = qs('.timer__minutes-slide')
+    var timer__seconds_slide = gbid('secundomer__seconds-unit')
+    var timer__minutes_slide = gbid('secundomer__minutes-unit')
+
+    cl(timer__seconds_slide)
+    cl(timer__minutes_slide)
 
     // if(secundomer_seconds_i != 0 || secundomer_minutes_i != 0 || secundomer_hours_i != 0){
     //
@@ -573,6 +592,7 @@ function secundomerStart() {
         // cl(seconds)
         secundomer_seconds_i++
         if(secundomer_seconds_i == 10){
+
             secundomer_minutes_i += 1
             secundomer_minutes_i < 10 ? timer__minutes_slide.innerText = "0" + secundomer_minutes_i : timer__minutes_slide.innerText = secundomer_minutes_i
             // timerMinutes.value = minutes
@@ -588,14 +608,28 @@ function secundomerPause() {
 }
 
 function secundomerStop() {
-    timerSliderSeconds.innerHTML = '<div class="timer__seconds-slide">00</div>'
-    timerSliderMinutes.innerHTML = '<div class="timer__minutes-slide">00</div>'
-    timerSliderHours.innerHTML = '<div class="timer__hours-slide">00</div>'
+    secundomerSeconds.innerHTML = '<div class="timer__seconds-slide">00</div>'
+    secundomerMinutes.innerHTML = '<div class="timer__minutes-slide">00</div>'
+    secundomerHours.innerHTML = '<div class="timer__hours-slide">00</div>'
     secundomerPause()
     timerBtnPlayIcon.classList.remove('paused')
 
     secundomer_hours_i = 0
     secundomer_minutes_i = 0
     secundomer_seconds_i = 0
+}
 
+timerBtnFlag.addEventListener('click', secundomerFlag)
+
+function secundomerFlag() {
+    let seconds
+    let minutes
+    secundomerSeconds.innerText < 10 ? seconds = secundomerSeconds.innerText + "0" : seconds = secundomerSeconds.innerText
+    minutes = secundomerMinutes.innerText
+    // timerSliderMinutes.innerText < 10 ? minutes = "0" + timerSliderMinutes.innerText : minutes = timerSliderMinutes.innerText
+    // cl(timerSliderSeconds.innerText)
+    flagsWrapper.innerHTML += `
+        <div class="flags__item">
+           ${minutes} : ${seconds}
+        </div>`
 }

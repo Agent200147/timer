@@ -37,10 +37,10 @@
         <div class="timer__self" id="timer__self">
             <div class="timer__counter" id="timer__counter">
 
-                <div class="timer__item timer__hours animate__animated animate__fadeInLeft animate__delay-1s">
+                <div class="timer__item timer__hours ">
                     <input type="number" id="hours" placeholder="00"/>
-                    <div class="slider-wrapper__hours">
-                    </div>
+                    <div class="slider-wrapper__hours unit"></div>
+                    <div class="secundomer-wrapper__hours unit"></div>
                 </div>
 
                 <span class="dots">
@@ -48,9 +48,10 @@
                     <span></span>
                 </span>
 
-                <div class="timer__item timer__minutes animate__animated animate__zoomIn animate__delay-1s">
+                <div class="timer__item timer__minutes ">
                     <input type="number" id="minutes" class="" placeholder="00"/>
-                    <div class="slider-wrapper__minutes"></div>
+                    <div class="slider-wrapper__minutes unit"></div>
+                    <div class="secundomer-wrapper__minutes unit"></div>
                 </div>
 
                 <span class="dots">
@@ -58,21 +59,28 @@
                     <span></span>
                 </span>
 
-                <div class="timer__item timer__seconds animate__animated animate__fadeInRight animate__delay-1s">
+                <div class="timer__item timer__seconds ">
                     <input type="number" name="seconds" id="seconds" placeholder="00" max="2"/>
-                    <div class="slider-wrapper__seconds"></div>
+                    <div class="slider-wrapper__seconds unit"></div>
+                    <div class="secundomer-wrapper__seconds unit"></div>
                 </div>
             </div>
 
             <div class="timer__controls">
+                <div class="btn-wrapper btn-flag-wrapper">
+                    <button class="timer__btn btn-flag ">
+                        <img src="img/flag.svg" alt="">
+                    </button>
+                </div>
+                
                 <div class="btn-wrapper btn-play-wrapper">
-                    <button class="timer__btn btn-play h animate__animated animate__fadeInUp animate__delay-1s">
+                    <button class="timer__btn btn-play h">
                         <span class="timer__btn-icon"></span>
                     </button>
                 </div>
 
                 <div class="btn-wrapper btn-stop-wrapper">
-                    <button class="timer__btn btn-stop animate__animated animate__fadeInUp animate__delay-1s">
+                    <button class="timer__btn btn-stop ">
                         <span class="timer__btn-icon"></span>
                     </button>
                 </div>
@@ -85,7 +93,9 @@
         <circle id="circle" class="circle_animation" cy="246" cx="246" r="239" stroke-width="8" stroke="#8648B4" fill="none"/>
     </svg>
 </section>
-
+<section class="flags">
+    <div class="flags__wrapper"></div>
+</section>
 <!--<div class="loader"></div>-->
 <script src="jquery-3.2.1.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>

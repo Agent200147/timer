@@ -148,11 +148,14 @@ body{
     transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
 }
 
-.timer__wrapper{
+[class*="__wrapper"]{
     margin: 0 auto;
-
     padding: 0 20px;
     max-width: 1300px;
+}
+
+.timer__wrapper{
+
 }
 
 .timer__current-time{
@@ -548,7 +551,7 @@ svg {
     caret: #ad8dbd;
 }
 
-.slider-wrapper__seconds, .slider-wrapper__minutes, .slider-wrapper__hours{
+.unit{
     display: none;
     /*height: 64px !important;*/
 
@@ -591,7 +594,7 @@ svg {
     width: 0;
 }
 
-.timer__seconds-slide, .timer__minutes-slide, .timer__hours-slide{
+.unit__item{
     /*padding-top: 2px;*/
     line-height: 74px;
     -webkit-transition: all 0.4s ease;
@@ -847,6 +850,13 @@ svg {
     transition: all 0.25s ease;
 }
 
+
+.btn-flag-wrapper{
+    display: none;
+}
+
+.fla
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none; // Yeah, yeah everybody write about it
@@ -880,6 +890,14 @@ input[type="number"]:focus {
             6px 6px 10px 0 #bc9ac5,
             -6px -6px 10px 0 #ddb5e8;
     border-radius: 11px;
+}
+
+.secondTab .timer__controls{
+    width: 300px;
+}
+
+.secondTab .btn-flag-wrapper{
+    display: block;
 }
 
 .firstTab .svg{
