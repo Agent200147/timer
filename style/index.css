@@ -139,13 +139,16 @@ body{
 }
 
 .timer{
-    margin-top: 200px;
+    /*margin-top: 200px;*/
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
+    min-height: 90vh;
+    transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82), margin-top 0s;
+
+
 }
 
 [class*="__wrapper"]{
@@ -913,7 +916,7 @@ input[type="number"]:focus {
 }
 
 .timer.secondTab {
-    margin-top: 235px;
+    /*margin-top: 235px;*/
 }
 
 
