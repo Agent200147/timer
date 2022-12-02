@@ -66,7 +66,118 @@ function hideControls() {
 
 // Текуще время
 const currentTimeContainer = qs('.timer__current-time')
+const worldTimeContainer = qs('.worldTime')
 
+const worldTimeItems = [
+    {
+        city: 'Лондон',
+        zone: 'GMT',
+        utc: '0',
+        img: 'australia.png'
+    },
+    {
+        city: 'Вена',
+        zone: 'CET',
+        utc: '+1',
+    },
+    {
+        city: 'Афины',
+        zone: 'EET',
+        utc: '+2',
+        img: 'greece.svg'
+    },
+    {
+        city: 'Москва',
+        zone: 'MSK',
+        utc: '+3',
+    },
+    {
+        city: 'Ереван',
+        zone: 'AMT',
+        utc: '+4',
+    },
+    {
+        city: 'Ташкент',
+        zone: 'UZT',
+        utc: '+5',
+    },
+    {
+        city: 'Астана',
+        zone: 'ALMT',
+        utc: '+6',
+    },
+    {
+        city: 'Джакарта',
+        zone: 'WIB',
+        utc: '+7',
+    },
+    {
+        city: 'Пекин',
+        zone: 'CST',
+        utc: '+8',
+    },
+    {
+        city: 'Токио',
+        zone: 'JST',
+        utc: '+9',
+    },
+    {
+        city: 'Порт-Морсби',
+        zone: 'PGT',
+        utc: '+10',
+    },
+    {
+        city: 'Канберра',
+        zone: 'AEDT',
+        utc: '+11',
+    },
+    {
+        city: 'Сува',
+        zone: 'FJST',
+        utc: '+12',
+    },
+]
+
+worldTimeItems.forEach((item, index) => {
+    let i = ` <div class="worldTime__item" style="background-image: url(\'../img/countries/${item.img}\')">
+                    <h1 class="worldTime__city">${item.city}</h1>
+                    <div class="worldTime__time" data-utc="${item.utc}"></div>
+                    <div class="worldTime__timeZone">${item.zone}, UTC${item.utc}</div>
+                </div>`
+    worldTimeContainer.innerHTML += i
+})
+const worldTimeTime = qsAll('.worldTime__time')
+// cl(worldTimeTime[1].dataset.utc)
+let date = new Date()
+
+let hours
+let minutes
+let seconds
+
+const currentUTC = -parseInt(date.getTimezoneOffset()/60)
+
+// cl(UTC)
+hours = date.getHours().toString().length === 2 ? date.getHours() : "0" + date.getHours()
+minutes = date.getMinutes().toString().length === 2 ? date.getMinutes() : "0" + date.getMinutes()
+seconds = date.getSeconds().toString().length === 2 ? date.getSeconds() : "0" + date.getSeconds()
+
+// cl(hours)
+worldTimeTime.forEach((item, index) => {
+
+    let utc = parseInt(item.dataset.utc)
+    hours2 = (hours - currentUTC + utc ) > 23 ? hours - currentUTC + utc  - 24 : hours - currentUTC + utc
+    hours2 = hours2 > 9 ? hours2 : "0" + hours2
+    cl(hours2)
+    let time = `${hours2}:${minutes}:${seconds}`
+
+    item.innerHTML = time
+    // item.innerHTML = "22"
+})
+
+let currentTime
+
+currentTime = `${hours}:${minutes}:${seconds}`
+currentTimeContainer.innerHTML = currentTime
 setInterval(() => {
     let date = new Date()
 
@@ -74,14 +185,34 @@ setInterval(() => {
     let minutes
     let seconds
 
-    date.getHours().toString().length === 2 ? hours = date.getHours() : hours = "0" + date.getHours()
-    date.getMinutes().toString().length === 2 ? minutes = date.getMinutes() : minutes = "0" + date.getMinutes()
-    date.getSeconds().toString().length === 2 ? seconds = date.getSeconds() : seconds = "0" + date.getSeconds()
+    hours = date.getHours().toString().length === 2 ? date.getHours() : "0" + date.getHours()
+    minutes = date.getMinutes().toString().length === 2 ? date.getMinutes() : "0" + date.getMinutes()
+    seconds = date.getSeconds().toString().length === 2 ? date.getSeconds() : "0" + date.getSeconds()
+
+    worldTimeTime.forEach((item, index) => {
+
+        let utc = parseInt(item.dataset.utc)
+        if((hours + utc - currentUTC) > 23){
+            hours2 = hours - currentUTC + utc  - 24
+        }
+        else if((hours + utc - currentUTC) < 0){
+            hours2 = hours - currentUTC + utc  + 24
+        }
+        else{
+            hours2 = hours - currentUTC + utc
+        }
+        hours2 = hours2 > 9 ? hours2 : "0" + hours2
+        let time = `${hours2}:${minutes}:${seconds}`
+
+        item.innerHTML = time
+        // item.innerHTML = "22"
+    })
 
     let currentTime
 
     currentTime = `${hours}:${minutes}:${seconds}`
     currentTimeContainer.innerHTML = currentTime
+
 }, 1000)
 
 // из DOM в переменные

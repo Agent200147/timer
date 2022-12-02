@@ -910,40 +910,92 @@ input[type="number"]:focus {
     width: 100%;
     height: 100%;
     padding: 30px;
-    row-gap: 100px;
+    row-gap: 60px;
+    column-gap: 20px;
+
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+    /*justify-content: space-between;*/
+
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
     /*grid-template-columns: repeat(auto-fit, 200px);*/
-    grid-template-rows: fit-content(200%);
+    /*grid-template-rows: repeat(auto-fill, 200px);*/
+
+    /*grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));*/
+    /*grid-template-rows: auto;*/
 }
 
 .worldTime__item{
+    position: relative;
+    padding-block: 7px;
+    /*width: 200px;*/
+    padding: 20px;
+    /*background: #f6f0ff;*/
+    /*background: #ffffff;*/
+    border-radius: 7px;
+    background-size: cover;
+    /*bac*/
+    flex-basis: 31%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     row-gap: 2px;
+
+}
+
+.worldTime__item:after {
+    border-radius: 7px;
+
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,.85);
+    z-index: 0;
 }
 
 .worldTime__city{
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 28px;
     color: #3F086B;
+    z-index: 10;
+
+    /*color: white;*/
+
+    /*padding-inline: 20px;*/
+    /*border-radius: 5px;*/
+
+    /*background: #67378A;*/
+
 }
 
 .worldTime__time{
 
-    font-size: 36px;
+    font-size: 32px;
     color: white;
-    padding-inline: 20px;
     background: #67378A;
+
+    padding-inline: 20px;
+    /*background: linear-gradient(145deg, #67378A 0%, #A18CD1 100%);*/
+    /*background: #9c6ec0;*/
     border-radius: 5px;
+
+    /*color: #3F086B;*/
+    z-index: 10;
+
 }
 
 .worldTime__timeZone{
     font-size: 16px;
     color: #67378A;
+    z-index: 10;
+
 }
 
 
