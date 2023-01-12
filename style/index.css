@@ -47,6 +47,10 @@ body{
     background: linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%);
 }
 
+:root{
+    --main-color: #8648B4;
+    --main-color-dark: #67378A;
+}
 
 .header{
     display: flex;
@@ -57,7 +61,7 @@ body{
     padding: 0 45px;
     max-width: 1400px;
     height: 70px;
-    background: #8648B4;
+    background: var(--main-color);
     border-radius: 0px 0px 10px 10px;
 }
 
@@ -85,7 +89,7 @@ body{
     height: 70px;
 
     z-index: 0;
-    background: #67378A;
+    background: var(--main-color-dark);
 
     -webkit-transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
     -moz-transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
@@ -131,7 +135,7 @@ body{
 }
 
 .menu__item.active{
-    background: #67378A;
+    background: var(--main-color-dark);
 }
 
 .menu__item:hover{
@@ -249,7 +253,7 @@ svg {
     }
     50%{
         transform: scale(1.2);
-        background: #8648B4;
+        background: var(--main-color);
         /*background: linear-gradient(135deg, #FF4B4B, #FF8C5A);*/
         /*background: #FF4B4B;*/
 
@@ -369,12 +373,12 @@ svg {
 }
 
 .timer__item{
-    /*width: 92px;*/
-    /*height: 300px;*/
-
     padding: 0 25px;
     margin: auto;
+}
 
+.timer__item input:focus{
+    border: 3px solid var(--main-color);
 }
 
 .swiper-slide{
@@ -486,8 +490,8 @@ svg {
     inset -4px -4px 7px #ebbfff;
 
     /*color: #3F086B;*/
-    color: #8648B4;
-    caret-color: #8648B4;
+    color: var(--main-color);
+    caret-color: var(--main-color);
     caret: #ad8dbd;
 
     -webkit-transition: all 0.1s ease;
@@ -523,7 +527,7 @@ svg {
     box-shadow: inset 4px 4px 7px #ad8dbd,
     inset -4px -4px 7px #ebbfff;
 
-    caret-color: #8648B4;
+    caret-color: var(--main-color);
     caret: #ad8dbd;
 }
 
@@ -555,7 +559,7 @@ svg {
 
     color: #3F086B;
 
-    caret-color: #8648B4;
+    caret-color: var(--main-color);
     caret: #ad8dbd;
 
     overflow-y: hidden;
@@ -665,7 +669,7 @@ svg {
     aspect-ratio: 1;
     /*height: 10px;*/
     /*margin-top: 10px;*/
-    background: #8648B4;
+    background: var(--main-color);
 }
 
 @keyframes dotsRotate1 {
@@ -799,7 +803,7 @@ svg {
     width: 0;
     height: 20px;
 
-    border-color: transparent transparent transparent #8648B4;
+    border-color: transparent transparent transparent var(--main-color);
     cursor: pointer;
     border-style: solid;
     border-width: 10px 0 10px 18px;
@@ -818,7 +822,7 @@ svg {
     width: 16px;
     aspect-ratio: 1/1;
 
-    background: #8648B4;
+    background: var(--main-color);
 
     -webkit-transition: all 0.2s ease;;
     -moz-transition: all 0.2s ease;;
@@ -933,7 +937,7 @@ input[type="number"]:focus {
     /*width: 200px;*/
     padding: 20px;
     /*background: #f6f0ff;*/
-    /*background: #ffffff;*/
+    background: #ffffff;
     border-radius: 7px;
     background-size: cover;
     /*bac*/
@@ -946,19 +950,37 @@ input[type="number"]:focus {
 
 }
 
-.worldTime__item:after {
-    border-radius: 7px;
+/*.worldTime__item:after {*/
+/*    border-radius: 7px;*/
 
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255,255,255,.85);
-    z-index: 0;
+/*    content: '';*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    background: rgba(255,255,255,.85);*/
+/*    z-index: 0;*/
+/*}*/
+.worldTime__content{
+    /*container-type: inline-size;*/
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
 }
 
+.worldTime__item span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*height: 100%;*/
+    width: 40px;
+}
+
+.worldTime__item span img{
+    width: 100%;
+    height: auto;
+}
 .worldTime__city{
     font-style: normal;
     font-weight: 400;
@@ -979,7 +1001,7 @@ input[type="number"]:focus {
 
     font-size: 32px;
     color: white;
-    background: #67378A;
+    background: var(--main-color-dark);
 
     padding-inline: 20px;
     /*background: linear-gradient(145deg, #67378A 0%, #A18CD1 100%);*/
@@ -993,9 +1015,8 @@ input[type="number"]:focus {
 
 .worldTime__timeZone{
     font-size: 16px;
-    color: #67378A;
+    color: var(--main-color-dark);
     z-index: 10;
-
 }
 
 
