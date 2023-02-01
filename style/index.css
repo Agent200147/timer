@@ -1,13 +1,13 @@
 @font-face {
     font-family: "PlayRegular";
-    src: url("fonts/Playregular.ttf") format("truetype");
+    src: url("fonts/PlayRegular.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
 
 @font-face {
     font-family: "PlayBol d";
-    src: url("fonts/Playbold.ttf") format("truetype");
+    src: url("fonts/PlayBold.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
