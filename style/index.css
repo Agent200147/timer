@@ -151,6 +151,7 @@ body{
 
     /*min-height: 90vh;*/
     transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
+    transition: all 0.3s ease-in-out;
 
 
 }
@@ -313,6 +314,7 @@ svg {
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
     transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
+    transition: all 0.3s ease-in-out;
 
     /*animation: timerAppear 2s forwards ease-in-out;*/
 
@@ -575,6 +577,7 @@ svg {
 }
 
 .unit__item{
+    user-select: none;
     /*padding-top: 2px;*/
     line-height: 74px;
     -webkit-transition: all 0.4s ease;
@@ -870,6 +873,7 @@ input[type="number"]:focus {
             6px 6px 10px 0 #bc9ac5,
             -6px -6px 10px 0 #ddb5e8;
     border-radius: 11px;
+    border: 2px solid var(--main-color);
 }
 
 .secondTab .timer__controls{
@@ -932,6 +936,7 @@ input[type="number"]:focus {
 }
 
 .worldTime__item{
+    user-select: none;
     position: relative;
     padding-block: 7px;
     /*width: 200px;*/
@@ -947,9 +952,21 @@ input[type="number"]:focus {
     align-items: center;
     justify-content: center;
     row-gap: 2px;
-
+    opacity: 0;
+    animation: worldTime 0.5s ease-in-out 0.2s forwards;
 }
 
+.thirdTab .worldTime__item{
+}
+
+@keyframes worldTime {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
 /*.worldTime__item:after {*/
 /*    border-radius: 7px;*/
 
@@ -1019,4 +1036,6 @@ input[type="number"]:focus {
     z-index: 10;
 }
 
+
+/*-----------------------------------------------------------------------------*/
 

@@ -224,9 +224,9 @@ for (let i = 0; i < 60; i++) {
     timerSliderSeconds.innerHTML += `<div class="timer__seconds-unit unit__item">${i}</div>`
 }
 
-var firstSlideHours = qs('.timer__hours-unit')
-var firstSlideMinutes = qs('.timer__minutes-unit')
-var firstSlideSeconds = qs('.timer__seconds-unit')
+let firstSlideHours = qs('.timer__hours-unit')
+let firstSlideMinutes = qs('.timer__minutes-unit')
+let firstSlideSeconds = qs('.timer__seconds-unit')
 
 
 // Переключатель табов
@@ -242,8 +242,8 @@ localStorage.getItem('currentPage')
 menu.classList.remove('firstTab', 'secondTab', 'thirdTab')
 wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
 
-menu.classList.add(localStorage.getItem('currentPage'))
-wrapper.classList.add(localStorage.getItem('currentPage'))
+menu.classList.add(currentPage)
+wrapper.classList.add(currentPage)
 
 menuItems.forEach((item, index) => {
     item.addEventListener('click', () => {
@@ -267,7 +267,6 @@ menuItems.forEach((item, index) => {
 currentPage === 'firstTab' ? FirstPage() : ""
 currentPage === 'secondTab' ? SecondPage() : ""
 currentPage === 'thirdTab' ? ThirdPage() : ""
-
 
 
 const timerSliderItems = [timerSliderHours, timerSliderMinutes, timerSliderSeconds]
@@ -373,6 +372,7 @@ timerInputItems.forEach((item) => {
             item.value > 59 ? item.value = 59 : item.value
     })
 })
+
 
 // -------------------------------------------------------------------
 
