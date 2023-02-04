@@ -170,7 +170,8 @@ const secundomer__hours_unit = qs('.secundomer__hours-unit')
 const worldTimeWrapper = qs('.worldTime')
 
 const timerControls = qs('.timer__controls')
-const flagsWrapper = qs('.flags__wrapper')
+const flagsWrapper1 = gbid('flags1')
+const flagsWrapper2 = gbid('flags2')
 
 // Таймер
 let timer_hours_i = 0
@@ -234,10 +235,10 @@ const menu = qs('.menu')
 const menuItems = qsAll('.menu__item')
 const wrapper = qs('.timer')
 
-let currentPage
-localStorage.getItem('currentPage')
-    ? currentPage = localStorage.getItem('currentPage')
-    : currentPage = 'firstTab'
+let currentPage = localStorage.getItem('currentPage')
+    ? localStorage.getItem('currentPage')
+    : 'firstTab'
+
 
 menu.classList.remove('firstTab', 'secondTab', 'thirdTab')
 wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
@@ -603,16 +604,16 @@ function timerStart() {
             timer.style.animation = 'timerBeep 0.75s infinite ease-in-out'
             timerProgressSvg.style.animation = 'progressBeep 0.75s infinite ease-in-out'
 
-            timer.addEventListener('mouseover', () => {
-                timer.style.cursor = 'pointer'
+            timerProgressSvg.addEventListener('mouseover', () => {
+                timerProgressSvg.style.cursor = 'pointer'
             }, {once: true})
 
 
-            timer.addEventListener('click', () => {
+            timerProgressSvg.addEventListener('click', () => {
                 timerProgress.style.strokeDashoffset = '0'
                 timer.style.animation = 'none'
-                timer.style.cursor = 'auto'
                 timerProgressSvg.style.animation = 'none'
+                timerProgressSvg.style.cursor = 'auto'
             }, {once: true})
             return
         }
@@ -704,13 +705,26 @@ function secundomerStop() {
 
 timerBtnFlag.addEventListener('click', secundomerFlag)
 
+let flagsCounter = 0
 function secundomerFlag() {
     let seconds
     let minutes
-    secundomerSeconds.innerText < 10 ? seconds = secundomerSeconds.innerText + "0" : seconds = secundomerSeconds.innerText
+    seconds = secundomerSeconds.innerText < 10 ? secundomerSeconds.innerText + "0" : secundomerSeconds.innerText
     minutes = secundomerMinutes.innerText
-    flagsWrapper.innerHTML += `
+    if (flagsCounter < 10){
+        flagsWrapper1.innerHTML += `
         <div class="flags__item">
-           ${minutes} : ${seconds}
+          ${flagsCounter+1}) ${minutes} : ${seconds}
         </div>`
+    }
+    else if(flagsCounter === 20){
+        return false
+    }
+    else{
+        flagsWrapper2.innerHTML += `
+        <div class="flags__item">
+          ${flagsCounter+1}) ${minutes} : ${seconds}
+        </div>`
+    }
+    flagsCounter++
 }

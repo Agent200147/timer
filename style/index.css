@@ -1,13 +1,13 @@
 @font-face {
     font-family: "PlayRegular";
-    src: url("fonts/Playregular.ttf") format("truetype");
+    src: url("fonts/PlayRegular.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
 
 @font-face {
-    font-family: "PlayBol d";
-    src: url("fonts/Playbold.ttf") format("truetype");
+    font-family: "PlayBold";
+    src: url("fonts/PlayBold.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
@@ -160,26 +160,60 @@ body{
     margin: 0 auto;
     padding: 0 20px;
     width: 1340px;
-    display: flex;
-    justify-content: center;
+    /*display: flex;*/
+    /*justify-content: center;*/
 }
 
 .timer__wrapper{
-
+    display: grid;
+    justify-content: center;
+    grid-template-areas:
+    "flag1 timer flag2";
+    grid-template-columns: 150px 600px 150px;
+    column-gap: 30px;
 }
 
 .timer__current-time{
     font-size: 1.25rem;
 }
 
+.flags1{
+    grid-area: flag1;
+}
+
+.timer__self, svg{
+    grid-area: timer;
+}
+
+.flags2{
+    grid-area: flag2;
+}
+
+.flags{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 400px;
+    row-gap: 14px;
+}
+
 svg {
+    margin-inline: auto;
+    margin-top: -7px;
     rotate: -90deg;
-    position: absolute;
+    /*position: absolute;*/
     display: flex;
     justify-content: center;
-    transition: all 1s cubic-bezier(.5, 1.95, .03, .82);
-    z-index: -1;
+    z-index: 1;
 
+}
+
+.firstTab svg{
+    transition: opacity 1s cubic-bezier(.5, 1.95, .03, .82) 0.3s;
+}
+
+.secondTab svg, .thirdTab svg{
+    transition: opacity 0.5s cubic-bezier(.5, 1.95, .03, .82);
 }
 
 .circle_animation {
@@ -371,6 +405,7 @@ svg {
     /*background: -webkit-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(125,185,232,0) 100%);*/
     /*opacity: 0.5;*/
     filter: alpha(opacity=50);
+    z-index: 2;
     /*opacity: 0.5;*/
 }
 
@@ -592,6 +627,7 @@ svg {
     justify-content: space-between;
     margin-top: 250px;
     width: 200px;
+    z-index: 2;
 }
 
 .timer__btn{
@@ -838,7 +874,9 @@ svg {
     display: none;
 }
 
-.fla
+.flags{
+    /*position: absolute;*/
+}
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -864,7 +902,9 @@ input[type="number"]:focus {
 
 /*---------------------------------------------------------------------------------*/
 
-
+.firstTab .timer__self{
+    border: 2px solid var(--main-color);
+}
 
 .secondTab .timer__self{
     width: 600px;
@@ -892,7 +932,7 @@ input[type="number"]:focus {
     stroke-dashoffset: 0;
 }
 
-.secondTab .svg{
+.secondTab .svg, .thirdTab .svg{
     opacity: 0;
 }
 
