@@ -163,8 +163,8 @@ const timerBtnFlag = qs('.timer__btn.btn-flag')
 
 const timerBtnPlayIcon = qs('.timer__btn-icon')
 
-const secundomer__seconds_unit = qs('.secundomer__seconds-unit')
-const secundomer__minutes_unit = qs('.secundomer__minutes-unit')
+const secundomer__miliseconds_unit = qs('.secundomer__seconds-unit')
+const secundomer__seconds_unit = qs('.secundomer__minutes-unit')
 const secundomer__hours_unit = qs('.secundomer__hours-unit')
 
 const worldTimeWrapper = qs('.worldTime')
@@ -180,8 +180,8 @@ let timer_seconds_i = 0
 
 // Секундомер
 let secundomer_hours_i = 0
-let secundomer_minutes_i = 0
 let secundomer_seconds_i = 0
+let secundomer_miliseconds_i = 0
 
 const sliderHeight = 74
 
@@ -386,6 +386,10 @@ timerInputItems.forEach((item) => {
 
 
 let secundomerInterval
+let secundomerSecondsInterval
+
+timerBtnFlag.addEventListener('click', secundomerFlag)
+
 
 function cl(n) {
     return console.log(n)
@@ -494,23 +498,25 @@ function SecondPage() {
     hideTimerInputs()
     hideTimerUnits()
     showSecundomerUnits()
-    cl(secundomer_seconds_i)
-    if(secundomer_seconds_i === 0 && secundomer_minutes_i === 0 && secundomer_hours_i === 0){
+    cl(secundomer_miliseconds_i)
+    if(secundomer_miliseconds_i === 0 && secundomer_seconds_i === 0 && secundomer_hours_i === 0){
         timerBtnPlayIcon.classList.remove('paused')
+        secundomer__miliseconds_unit.innerText = '00'
         secundomer__seconds_unit.innerText = '00'
-        secundomer__minutes_unit.innerText = '00'
         secundomer__hours_unit.innerText = '00'
     }
     else {
         timerBtnPlayIcon.classList.remove('paused')
-        secundomer__seconds_unit.innerText = secundomer_seconds_i
-        secundomer_minutes_i < 10
-            ? secundomer__minutes_unit.innerText = '0' + secundomer_minutes_i
-            : secundomer__minutes_unit.innerText = secundomer_minutes_i
+        secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i < 10 ? "0" + secundomer_miliseconds_i : secundomer_miliseconds_i
+        // secundomer_seconds_i < 10
+        //     ? secundomer__seconds_unit.innerText = '0' + secundomer_seconds_i
+        //     : secundomer__seconds_unit.innerText = secundomer_seconds_i
+        secundomer__seconds_unit.innerText = secundomer_seconds_i < 10 ? "0" + secundomer_seconds_i : secundomer_seconds_i
+
         secundomer__hours_unit.innerText = secundomer_hours_i
         if(secundomerIsGoing){
             timerBtnPlayIcon.classList.add('paused')
-            secundomerStart()
+
         }
     }
 }
@@ -667,64 +673,148 @@ function timerStop() {
     timerBtnPlayIcon.classList.remove('paused')
 }
 
+// function secundomerStart() {
+//     clearInterval(secundomerInterval)
+//     clearInterval(secundomerSecondsInterval)
+//     secundomerIsGoing = true
+//     dots.forEach((item, index) => item.classList.add('rotatingSecundomer'))
+//
+//     let date = new Date()
+//     let dateSecondsNull = date.getSeconds()
+//     let dateMilliSecondsNull = date.getMilliseconds()
+// cl(dateMilliSecondsNull)
+//     secundomerInterval = setInterval(() => {
+//         let date = new Date()
+//         let dateMiliSeconds = date.getMilliseconds()
+//
+//         secundomer_miliseconds_i = String(dateMiliSeconds).slice(0,2) - String(dateMilliSecondsNull).slice(0,2)
+//         secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i
+//
+//         // secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i
+//         // secundomer_miliseconds_i++
+//         // if(secundomer_miliseconds_i > 98){
+//         //     secundomer_seconds_i += 1
+//         //     secundomer__seconds_unit.innerText = secundomer_seconds_i < 10 ? "0" + secundomer_seconds_i : secundomer_seconds_i
+//         //     // secundomer_miliseconds_i = 0
+//         // }
+//
+//     }, 10)
+//
+//     setTimeout(() => {
+//         secundomerSecondsInterval = setInterval(() => {
+//             let date = new Date()
+//             let dateSeconds = date.getSeconds()
+//             let dateSeconds2 = dateSeconds
+//             secundomer__seconds_unit.innerText = dateSeconds - dateSecondsNull
+//         }, 100)
+//     }, dateMilliSecondsNull)
+//
+// }
+
+// // Мой способ
+// let seconds = 0
+// function secundomerStart() {
+//     clearInterval(secundomerInterval)
+//     clearInterval(secundomerSecondsInterval)
+//     secundomerIsGoing = true
+//     dots.forEach((item, index) => item.classList.add('rotatingSecundomer'))
+//
+//     let date = new Date()
+//     let dateSecondsNull = date.getSeconds()
+//     let dateMilliSecondsNull = date.getMilliseconds()
+//     cl(dateMilliSecondsNull)
+//
+//     secundomerInterval = setInterval(() => {
+//         let date = new Date()
+//         let dateMiliSeconds = date.getMilliseconds()
+//
+//         secundomer_miliseconds_i = String(dateMiliSeconds).slice(0,2) - String(dateMilliSecondsNull).slice(0,2) < 0
+//         ? 100 - (String(dateMilliSecondsNull).slice(0,2) - String(dateMiliSeconds).slice(0,2))
+//             : String(dateMiliSeconds).slice(0,2) - String(dateMilliSecondsNull).slice(0,2)
+//         secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i < 10 ? "0" + secundomer_miliseconds_i : secundomer_miliseconds_i
+//
+//         // secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i
+//         // secundomer_miliseconds_i++
+//         // if(secundomer_miliseconds_i > 98){
+//         //     secundomer_seconds_i += 1
+//         //     secundomer__seconds_unit.innerText = secundomer_seconds_i < 10 ? "0" + secundomer_seconds_i : secundomer_seconds_i
+//         //     // secundomer_miliseconds_i = 0
+//         // }
+//
+//     }, 10)
+//
+//     let dateSeconds2 = date.getSeconds()
+//     setTimeout(() => {
+//         secundomerSecondsInterval = setInterval(() => {
+//             let date = new Date()
+//             let dateSeconds = date.getSeconds()
+//             if(dateSeconds !== dateSeconds2){
+//                 seconds++
+//                 secundomer__seconds_unit.innerText = seconds < 10 ? "0" + seconds : seconds
+//             }
+//             dateSeconds2 = dateSeconds
+//         }, 8)
+//     },  dateMilliSecondsNull + 50)
+// }
+
+
 function secundomerStart() {
     clearInterval(secundomerInterval)
+    clearInterval(secundomerSecondsInterval)
     secundomerIsGoing = true
     dots.forEach((item, index) => item.classList.add('rotatingSecundomer'))
 
     secundomerInterval = setInterval(() => {
-        secundomer__seconds_unit.innerText = secundomer_seconds_i
-        secundomer_seconds_i++
-        if(secundomer_seconds_i == 10){
-
-            secundomer_minutes_i += 1
-            secundomer_minutes_i < 10 ? secundomer__minutes_unit.innerText = "0" + secundomer_minutes_i : secundomer__minutes_unit.innerText = secundomer_minutes_i
-            secundomer_seconds_i = 0
+        secundomer_miliseconds_i++
+        if(secundomer_miliseconds_i === 100){
+            secundomer_miliseconds_i = 0
+            secundomer_seconds_i++
+            secundomer__seconds_unit.innerText = secundomer_seconds_i < 10 ? "0" + secundomer_seconds_i : secundomer_seconds_i
         }
-    }, 100)
+        secundomer_miliseconds_i = secundomer_miliseconds_i % 100
+        secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i < 10 ? "0" + secundomer_miliseconds_i : secundomer_miliseconds_i
+    }, 10)
 }
 
 function secundomerPause() {
     dots.forEach((item, index) => item.classList.remove('rotatingSecundomer'))
     secundomerIsGoing = false
     clearInterval(secundomerInterval)
+    clearInterval(secundomerSecondsInterval)
 }
 
 function secundomerStop() {
+    secundomer__miliseconds_unit.innerText = '00'
     secundomer__seconds_unit.innerText = '00'
-    secundomer__minutes_unit.innerText = '00'
     secundomer__hours_unit.innerText = '00'
 
     secundomerPause()
     timerBtnPlayIcon.classList.remove('paused')
 
     secundomer_hours_i = 0
-    secundomer_minutes_i = 0
     secundomer_seconds_i = 0
+    secundomer_miliseconds_i = 0
 }
 
-timerBtnFlag.addEventListener('click', secundomerFlag)
 
 let flagsCounter = 0
 function secundomerFlag() {
     let seconds
     let minutes
-    seconds = secundomerSeconds.innerText < 10 ? secundomerSeconds.innerText + "0" : secundomerSeconds.innerText
+    seconds = secundomerSeconds.innerText.length < 2 ? secundomerSeconds.innerText + "0" : secundomerSeconds.innerText
     minutes = secundomerMinutes.innerText
+
+    const flagsItem = document.createElement('div')
+    flagsItem.classList.add('flags__item')
+    flagsItem.innerText = `${flagsCounter+1}) ${minutes} : ${seconds}`
     if (flagsCounter < 10){
-        flagsWrapper1.innerHTML += `
-        <div class="flags__item">
-          ${flagsCounter+1}) ${minutes} : ${seconds}
-        </div>`
+        flagsWrapper1.append(flagsItem)
     }
     else if(flagsCounter === 20){
         return false
     }
     else{
-        flagsWrapper2.innerHTML += `
-        <div class="flags__item">
-          ${flagsCounter+1}) ${minutes} : ${seconds}
-        </div>`
+        flagsWrapper2.append(flagsItem)
     }
     flagsCounter++
 }

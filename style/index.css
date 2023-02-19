@@ -53,15 +53,17 @@ body{
 }
 
 .header{
+    background: var(--main-color);
+}
+
+.header__wrapper{
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
     margin: 0 auto;
-    padding: 0 45px;
     max-width: 1400px;
     height: 70px;
-    background: var(--main-color);
     border-radius: 0px 0px 10px 10px;
 }
 
@@ -156,6 +158,31 @@ body{
 
 }
 
+
+
+
+
+.grid {
+    display: grid;
+    /*grid-auto-rows: 100px; !* размер "неявных" строк, для демонстрации *!*/
+    /*grid-auto-columns: 100px; !* размер "неявных" столбцов, для демонстрации *!*/
+    place-items: center;
+    max-width: 800px;
+}
+
+.item-1 {
+    /*background-color: yellow;*/
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+}
+
+.item-2 {
+    background-color: lime;
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    /*max-width: 200px;*/
+}
+
 [class*="__wrapper"]{
     margin: 0 auto;
     padding: 0 20px;
@@ -167,10 +194,9 @@ body{
 .timer__wrapper{
     display: grid;
     justify-content: center;
-    grid-template-areas:
-    "flag1 timer flag2";
-    grid-template-columns: 150px 600px 150px;
-    column-gap: 30px;
+    /*grid-template-areas:*/
+    /*"timer";*/
+    /*grid-template-columns: 150px 600px 150px;*/
 }
 
 .timer__current-time{
@@ -179,6 +205,7 @@ body{
 
 .flags1{
     grid-area: flag1;
+    align-items: self-end;
 }
 
 .timer__self, svg{
@@ -187,14 +214,29 @@ body{
 
 .flags2{
     grid-area: flag2;
+    align-items: self-start;
 }
 
 .flags{
-    display: flex;
+    display: none;
     flex-direction: column;
-    align-items: center;
     max-height: 400px;
     row-gap: 14px;
+}
+
+.flags__item{
+    animation: flags__item 0.3s cubic-bezier(.5, 1.95, .03, .82) forwards;
+}
+
+@keyframes flags__item {
+    from{
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to{
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 svg {
@@ -205,16 +247,10 @@ svg {
     display: flex;
     justify-content: center;
     z-index: 1;
-
+    opacity: 0;
 }
 
-.firstTab svg{
-    transition: opacity 1s cubic-bezier(.5, 1.95, .03, .82) 0.3s;
-}
 
-.secondTab svg, .thirdTab svg{
-    transition: opacity 0.5s cubic-bezier(.5, 1.95, .03, .82);
-}
 
 .circle_animation {
     position: absolute;
@@ -570,6 +606,7 @@ svg {
 
 .unit{
     display: none;
+    cursor: text;
     /*height: 64px !important;*/
 
     width: 90px;
@@ -901,6 +938,37 @@ input[type="number"]:focus {
 
 
 /*---------------------------------------------------------------------------------*/
+@keyframes svgAppear {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+
+.firstTab svg{
+    animation: svgAppear 0.5s ease-in-out forwards 0.3s;
+}
+
+/*.secondTab svg, .thirdTab svg{*/
+/*    transition: opacity 0.5s cubic-bezier(.5, 1.95, .03, .82);*/
+/*}*/
+
+/*.firstTab .svg{*/
+/*    opacity: 1;*/
+/*}*/
+
+.firstTab .svg .circle_animation{
+    /*animation: circleAppear 1s forwards 0.3s;*/
+    stroke-dashoffset: 0;
+}
+
+.secondTab .svg, .thirdTab .svg{
+    display: none;
+}
+
 
 .firstTab .timer__self{
     border: 2px solid var(--main-color);
@@ -924,17 +992,7 @@ input[type="number"]:focus {
     display: block;
 }
 
-.firstTab .svg{
-    opacity: 1;
-}
 
-.firstTab .svg .circle_animation{
-    stroke-dashoffset: 0;
-}
-
-.secondTab .svg, .thirdTab .svg{
-    opacity: 0;
-}
 
 .timer.secondTab {
     margin-top: 235px;
@@ -947,11 +1005,29 @@ input[type="number"]:focus {
 .thirdTab .timer__self{
     width: 100%;
     /*height: 700px;*/
-    height: auto;
+    height: 100%;
     box-shadow:
             6px 6px 10px 0 #bc9ac5,
             -6px -6px 10px 0 #ddb5e8;
     border-radius: 11px;
+}
+
+
+.secondTab .flags{
+    display: flex;
+}
+
+.secondTab .timer__wrapper{
+    grid-template-areas:
+    "flag1 timer flag2";
+    grid-template-columns: 150px 600px 150px;
+    column-gap: 30px;
+}
+
+.thirdTab .timer__wrapper{
+    display: block;
+    grid-template-areas:
+    "timer ";
 }
 
 .thirdTab .worldTime{
@@ -967,6 +1043,9 @@ input[type="number"]:focus {
     /*justify-content: space-between;*/
 
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+    opacity: 0;
+    animation: worldTime 0.5s ease-in-out 0.4s forwards;
 
     /*grid-template-columns: repeat(auto-fit, 200px);*/
     /*grid-template-rows: repeat(auto-fill, 200px);*/
@@ -992,8 +1071,7 @@ input[type="number"]:focus {
     align-items: center;
     justify-content: center;
     row-gap: 2px;
-    opacity: 0;
-    animation: worldTime 0.5s ease-in-out 0.2s forwards;
+
 }
 
 .thirdTab .worldTime__item{

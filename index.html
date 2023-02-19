@@ -20,17 +20,23 @@
 <body>
 
 <header class="header">
-    <div class="header__logo">
-        Aesthetic Timer
+    <div class="header__wrapper">
+        <div class="header__logo">
+            Aesthetic Timer
+        </div>
+        <nav class="menu firstTab">
+            <div class="menu__item" data-link="firstTab">Таймер</div>
+            <div class="menu__item" data-link="secondTab">Секундомер</div>
+            <div class="menu__item" data-link="thirdTab">Мировое время</div>
+        </nav>
+        <div class="timer__current-time"></div>
     </div>
-    <nav class="menu firstTab">
-        <div class="menu__item" data-link="firstTab">Таймер</div>
-        <div class="menu__item" data-link="secondTab">Секундомер</div>
-        <div class="menu__item" data-link="thirdTab">Мировое время</div>
-    </nav>
-    <div class="timer__current-time"></div>
 </header>
 
+<!--<div class="grid">-->
+<!--    <div class="item-1"><img src="https://png.pngtree.com/thumb_back/fh260/background/20200714/pngtree-modern-double-color-futuristic-neon-background-image_351866.jpg" alt=""></div>-->
+<!--    <div class="item-2"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus odit officia pariatur qui ut voluptas! </div>-->
+<!--</div>-->
 
 <section class="timer firstTab">
     <div class="timer__wrapper">
@@ -163,7 +169,7 @@
             <circle id="circle" class="circle_animation" cy="242" cx="242" r="234" stroke-width="8" stroke="#8648B4" fill="none"/>
         </svg>
         <div class="flags flags2" id="flags2">
-       
+
         </div>
 
     </div>
