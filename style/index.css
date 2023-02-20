@@ -49,7 +49,9 @@ body{
 
 :root{
     --main-color: #8648B4;
+    /*--main-color: #48cbb6;*/
     --main-color-dark: #67378A;
+    /*--main-color-dark: #008a8d;*/
 }
 
 .header{
@@ -150,16 +152,11 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-
     /*min-height: 90vh;*/
     transition: all 0.75s cubic-bezier(.5, 1.95, .03, .82);
     transition: all 0.3s ease-in-out;
 
-
 }
-
-
-
 
 
 .grid {
@@ -221,11 +218,29 @@ body{
     display: none;
     flex-direction: column;
     max-height: 400px;
-    row-gap: 14px;
+    row-gap: 10px;
 }
 
 .flags__item{
+    /*background: var(--main-color);*/
+    background: linear-gradient(145deg, #fff4ff, #dbcde6);
+    box-shadow: rgb(188 154 197) 2px 2px 2px 0px, rgb(221 181 232) -2px -2px 3px 0px;
+
+    color: var(--main-color-dark);
+    color: black;
+    padding: 2px 7px;
+    padding-left: 0;
+    border-radius: 4px;
     animation: flags__item 0.3s cubic-bezier(.5, 1.95, .03, .82) forwards;
+}
+
+.flags__item span{
+    margin-right: 2px;
+    color: white;
+    background: var(--main-color);
+    padding: 2px 7px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 @keyframes flags__item {
@@ -978,10 +993,13 @@ input[type="number"]:focus {
     width: 600px;
     height: 400px;
     box-shadow:
-            6px 6px 10px 0 #bc9ac5,
-            -6px -6px 10px 0 #ddb5e8;
+            6px 6px 5px 0 #bc9ac5,
+            -6px -6px 5px 0 #ddb5e8;
+
+    /*box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);*/
+    /*box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.25);*/
     border-radius: 11px;
-    border: 2px solid var(--main-color);
+    /*border: 2px solid var(--main-color);*/
 }
 
 .secondTab .timer__controls{
@@ -1007,8 +1025,8 @@ input[type="number"]:focus {
     /*height: 700px;*/
     height: 100%;
     box-shadow:
-            6px 6px 10px 0 #bc9ac5,
-            -6px -6px 10px 0 #ddb5e8;
+            6px 6px 5px 0 #bc9ac5,
+            -6px -6px 5px 0 #ddb5e8;
     border-radius: 11px;
 }
 
@@ -1020,7 +1038,7 @@ input[type="number"]:focus {
 .secondTab .timer__wrapper{
     grid-template-areas:
     "flag1 timer flag2";
-    grid-template-columns: 150px 600px 150px;
+    grid-template-columns: 200px 600px 200px;
     column-gap: 30px;
 }
 

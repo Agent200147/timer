@@ -149,9 +149,9 @@ const timerSliderHours = qs('.slider-wrapper__hours')
 const timerSliderMinutes = qs('.slider-wrapper__minutes')
 const timerSliderSeconds = qs('.slider-wrapper__seconds')
 
-const secundomerHours = qs('.secundomer-wrapper__hours')
 const secundomerMinutes = qs('.secundomer-wrapper__minutes')
 const secundomerSeconds = qs('.secundomer-wrapper__seconds')
+const secundomerMiliSeconds = qs('.secundomer-wrapper__miliSeconds')
 
 const timer = gbid('timer__self')
 const timerBtnWrapper = qsAll('.btn-wrapper')
@@ -163,11 +163,12 @@ const timerBtnFlag = qs('.timer__btn.btn-flag')
 
 const timerBtnPlayIcon = qs('.timer__btn-icon')
 
-const secundomer__miliseconds_unit = qs('.secundomer__seconds-unit')
-const secundomer__seconds_unit = qs('.secundomer__minutes-unit')
-const secundomer__hours_unit = qs('.secundomer__hours-unit')
+const secundomer__minutes_unit = qs('.secundomer__minutes-unit')
+const secundomer__seconds_unit = qs('.secundomer__seconds-unit')
+const secundomer__miliseconds_unit = qs('.secundomer__miliSeconds-unit')
 
 const worldTimeWrapper = qs('.worldTime')
+
 
 const timerControls = qs('.timer__controls')
 const flagsWrapper1 = gbid('flags1')
@@ -179,7 +180,7 @@ let timer_minutes_i = 0
 let timer_seconds_i = 0
 
 // Секундомер
-let secundomer_hours_i = 0
+let secundomer_minutes_i = 0
 let secundomer_seconds_i = 0
 let secundomer_miliseconds_i = 0
 
@@ -367,7 +368,7 @@ timerInputItems.forEach((item) => {
         item.value = item.value.replace(/[^0-9]/g, '')
         item.value = item.value.slice(0, 2)
 
-        if(item.id == "hours")
+        if(item.id === "hours")
             item.value > 99 ? item.value = 99 : item.value
         else
             item.value > 59 ? item.value = 59 : item.value
@@ -432,15 +433,15 @@ function showTimerUnits() {
 }
 
 function hideSecundomerUnits() {
+    secundomerMiliSeconds.style.display = 'none'
     secundomerSeconds.style.display = 'none'
     secundomerMinutes.style.display = 'none'
-    secundomerHours.style.display = 'none'
 }
 
 function showSecundomerUnits() {
+    secundomerMiliSeconds.style.display = 'block'
     secundomerSeconds.style.display = 'block'
     secundomerMinutes.style.display = 'block'
-    secundomerHours.style.display = 'block'
 }
 
 function showControls() {
@@ -499,11 +500,11 @@ function SecondPage() {
     hideTimerUnits()
     showSecundomerUnits()
     cl(secundomer_miliseconds_i)
-    if(secundomer_miliseconds_i === 0 && secundomer_seconds_i === 0 && secundomer_hours_i === 0){
+    if(secundomer_miliseconds_i === 0 && secundomer_seconds_i === 0 && secundomer_minutes_i === 0){
         timerBtnPlayIcon.classList.remove('paused')
         secundomer__miliseconds_unit.innerText = '00'
         secundomer__seconds_unit.innerText = '00'
-        secundomer__hours_unit.innerText = '00'
+        secundomer__minutes_unit.innerText = '00'
     }
     else {
         timerBtnPlayIcon.classList.remove('paused')
@@ -513,7 +514,7 @@ function SecondPage() {
         //     : secundomer__seconds_unit.innerText = secundomer_seconds_i
         secundomer__seconds_unit.innerText = secundomer_seconds_i < 10 ? "0" + secundomer_seconds_i : secundomer_seconds_i
 
-        secundomer__hours_unit.innerText = secundomer_hours_i
+        secundomer__minutes_unit.innerText = secundomer_minutes_i
         if(secundomerIsGoing){
             timerBtnPlayIcon.classList.add('paused')
 
@@ -771,7 +772,14 @@ function secundomerStart() {
             secundomer_seconds_i++
             secundomer__seconds_unit.innerText = secundomer_seconds_i < 10 ? "0" + secundomer_seconds_i : secundomer_seconds_i
         }
-        secundomer_miliseconds_i = secundomer_miliseconds_i % 100
+        
+        if(secundomer_seconds_i === 60){
+            secundomer__seconds_unit.innerText = "00"
+            secundomer_seconds_i = 0
+            secundomer_minutes_i++
+            secundomer__minutes_unit.innerText = secundomer_minutes_i < 10 ? "0" + secundomer_minutes_i : secundomer_minutes_i
+        }
+        // secundomer_miliseconds_i = secundomer_miliseconds_i % 100
         secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i < 10 ? "0" + secundomer_miliseconds_i : secundomer_miliseconds_i
     }, 10)
 }
@@ -786,12 +794,12 @@ function secundomerPause() {
 function secundomerStop() {
     secundomer__miliseconds_unit.innerText = '00'
     secundomer__seconds_unit.innerText = '00'
-    secundomer__hours_unit.innerText = '00'
+    secundomer__minutes_unit.innerText = '00'
 
     secundomerPause()
     timerBtnPlayIcon.classList.remove('paused')
 
-    secundomer_hours_i = 0
+    secundomer_minutes_i = 0
     secundomer_seconds_i = 0
     secundomer_miliseconds_i = 0
 }
@@ -799,14 +807,20 @@ function secundomerStop() {
 
 let flagsCounter = 0
 function secundomerFlag() {
+    let miliSeconds
     let seconds
     let minutes
-    seconds = secundomerSeconds.innerText.length < 2 ? secundomerSeconds.innerText + "0" : secundomerSeconds.innerText
+    miliSeconds = secundomerMiliSeconds.innerText.length < 2 ? secundomerMiliSeconds.innerText + "0" : secundomerMiliSeconds.innerText
+    seconds = secundomerSeconds.innerText
     minutes = secundomerMinutes.innerText
 
+
+    if(miliSeconds === "00" && seconds === "00" && minutes === "00"){
+        return false
+    }
     const flagsItem = document.createElement('div')
     flagsItem.classList.add('flags__item')
-    flagsItem.innerText = `${flagsCounter+1}) ${minutes} : ${seconds}`
+    flagsItem.innerHTML = `<span>${flagsCounter+1}</span> ${minutes}:${seconds}:${miliSeconds}`
     if (flagsCounter < 10){
         flagsWrapper1.append(flagsItem)
     }
