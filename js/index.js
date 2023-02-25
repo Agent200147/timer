@@ -4,6 +4,7 @@
 // -----------------------------------------------
 
 // Текуще время
+const header = qs('.header')
 const currentTimeContainer = qs('.timer__current-time')
 const worldTimeContainer = qs('.worldTime')
 
@@ -576,9 +577,9 @@ function timerStart() {
         item.classList.add('rotatingTimer')
     })
 
-    timerSliderHours.style.animation = 'inputAppear1 0.2s forwards'
-    timerSliderMinutes.style.animation = 'inputAppear2 0.2s forwards'
-    timerSliderSeconds.style.animation = 'inputAppear3 0.2s forwards'
+    // timerSliderHours.style.animation = 'inputAppear1 0.2s forwards'
+    // timerSliderMinutes.style.animation = 'inputAppear2 0.2s forwards'
+    // timerSliderSeconds.style.animation = 'inputAppear3 0.2s forwards'
 
     timerProgress.style.transition = 'all 1s linear'
 
@@ -831,4 +832,130 @@ function secundomerFlag() {
         flagsWrapper2.append(flagsItem)
     }
     flagsCounter++
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
+}
+
+const inputColor = gbid('inputColor')
+inputColor.oninput = (e) => {
+    const hex = e.target.value
+    let [r, g, b] = hexToRgb(hex)
+
+    // let rgba = (a) => `rgba(${r}, ${g}, ${b}, ${a})`
+    let rgba = (r, g, b, a) => `rgba(${r}, ${g}, ${b}, ${a})`
+    let [r1, g1, b1] = hexToRgb(ColorLuminance(hex, 1))
+    let [r2, g2, b2] = hexToRgb(ColorLuminance(hex, 1.5))
+    // const inputsBackgroundLight = '#F3E4FF'
+    // const inputsBackgroundDark = rgba2(0.8)
+    document.documentElement.style.setProperty('--timer-stroke', 'var(--main-color-dark)')
+    document.documentElement.style.setProperty('--dots-color', 'var(--main-color-dark)')
+    document.documentElement.style.setProperty('--input-focus-color', 'var(--main-color-dark)')
+    document.documentElement.style.setProperty('--input-text-color', 'var(--main-color-darkest)')
+
+    if (1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5){
+        let [r, g, b] = hexToRgb(ColorLuminance(hex, -0.07))
+
+        document.documentElement.style.setProperty('--text-color1', 'black')
+        // document.documentElement.style.setProperty('--inputs-background', inputsBackgroundDark)
+        document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, -0.15)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
+        document.documentElement.style.setProperty('--timer-border', `2px solid ${ColorLuminance(hex, -0.3)}`)
+        document.documentElement.style.setProperty('--inputs-background', ColorLuminance(hex, 2.2))
+        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset 4px 4px 7px ${ColorLuminance(hex, -0.3)}, inset -4px -4px 7px ${rgba(r, g, b, 1)}`)
+        document.documentElement.style.setProperty('--controls-inner-shadow', `inset 3px 3px 6px ${ColorLuminance(hex, -0.3)}, inset -4px -4px 7px ${rgba(r, g, b, 1)}`)
+        document.documentElement.style.setProperty('--controls-shadow', `2px 2px 2px 0 ${ColorLuminance(hex, -0.3)}, -2px -2px 3px 0 ${rgba(r, g, b, 1)}`)
+        document.documentElement.style.setProperty('--controls-color', 'black')
+
+        if(hex === "#ffffff"){
+            document.documentElement.style.setProperty('--timer-stroke', 'black')
+            document.documentElement.style.setProperty('--dots-color', 'black')
+            document.documentElement.style.setProperty('--input-focus-color', 'black')
+            document.documentElement.style.setProperty('--input-text-color', 'black')
+        }
+    }
+    else
+    {
+        let [r, g, b] = hexToRgb(ColorLuminance(hex, 1.3))
+
+        document.documentElement.style.setProperty('--text-color1', 'white')
+
+        document.documentElement.style.setProperty('--inputs-background', 'white')
+        document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, 0.7)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
+        document.documentElement.style.setProperty('--timer-border', `2px solid var(--main-color)`)
+        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset 4px 4px 7px ${rgba(r1, g1, b1, 0.8)}, inset -4px -4px 7px ${rgba(r2, g2, b2, 0.5)}`)
+        document.documentElement.style.setProperty('--controls-inner-shadow', `inset 3px 3px 6px ${rgba(r1, g1, b1, 0.8)}, inset -4px -4px 7px ${rgba(r2, g2, b2, 0.5)}`)
+        document.documentElement.style.setProperty('--controls-shadow', 'none')
+        document.documentElement.style.setProperty('--controls-color', 'var(--main-color)')
+        if(hex === "#000000"){
+            document.documentElement.style.setProperty('--timer-stroke', 'white')
+            document.documentElement.style.setProperty('--dots-color', 'white')
+            document.documentElement.style.setProperty('--input-focus-color', 'white')
+            document.documentElement.style.setProperty('--input-text-color', 'black')
+        }
+    }
+
+    document.documentElement.style.setProperty('--input-color', 'black')
+    document.documentElement.style.setProperty('--main-color', hex)
+    document.documentElement.style.setProperty('--main-color-darkest', ColorLuminance(hex, -0.5))
+    document.documentElement.style.setProperty('--timer-shadow', `6px 6px 5px 0 ${rgba(r1, g1, b1, 0.8)}, -6px -6px 5px 0 ${rgba(r2, g2, b2, 0.5)}`)
+
+    // document.documentElement.style.setProperty('--placeholder-color', ColorLuminance(hex, 0.4))
+
+    document.documentElement.style.setProperty('--main-color-dark', ColorLuminance(e.target.value, -0.4))
+    // header.style.background = e.target.value
+}
+
+const maincolor = '#8648B4'
+document.documentElement.style.setProperty('--inputs-background', ColorLuminance(maincolor, 2.2))
+
+function LightenDarkenColor(col, amt) {
+
+    var usePound = false;
+
+    if (col[0] === "#") {
+        col = col.slice(1);
+        usePound = true;
+    }
+
+    var num = parseInt(col,16);
+
+    var r = (num >> 16) + amt;
+
+    if (r > 255) r = 255;
+    else if  (r < 0) r = 0;
+
+    var b = ((num >> 8) & 0x00FF) + amt;
+
+    if (b > 255) b = 255;
+    else if  (b < 0) b = 0;
+
+    var g = (num & 0x0000FF) + amt;
+
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
+
+    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+
+}
+
+function ColorLuminance(hex, lum) {
+
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    lum = lum || 0;
+
+    // convert to decimal and change luminosity
+    var rgb = "#", c, i;
+    for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i*2,2), 16);
+        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+        rgb += ("00"+c).substr(c.length);
+    }
+
+    return rgb;
 }
