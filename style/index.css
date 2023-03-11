@@ -45,7 +45,9 @@ body {
 }
 
 :root{
-    --main-color: #8648B4;
+  --black: #363434;
+  --white: #f3f3f3;
+  --main-color: #8648B4;
     --text-color1: white;
     --placeholder-color: #757575;
     /*--main-color: #48cbb6;*/
@@ -66,11 +68,27 @@ body {
     --dots-color: var(--main-color);
     --input-focus-color: var(--main-color-dark);
     --input-text-color: var(--main-color-darkest);
+    --worldItem-main: var(--main-color-dark);
+    --worldItem-darker: var(--main-color-darkest);
+    --worldItem-time-color: white;
+    --worldItem-bg: var(--white);
+    --menu-active-bg: rgba(0, 0, 0, 0.25);
+    --menu-active-color: var(--text-color1);
     /*--main-color-dark: #008a8d;*/
+}
+
+[class*=__wrapper] {
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 1340px;
+  /*display: flex;*/
+  /*justify-content: center;*/
 }
 
 .header {
   background: var(--main-color);
+  display: flex;
+  align-items: center;
 }
 
 .header__wrapper {
@@ -79,9 +97,10 @@ body {
   align-items: center;
   color: var(--text-color1);
   margin: 0 auto;
-  max-width: 1400px;
+  width: 100%;
+  max-width: 1500px;
   height: 70px;
-  border-radius: 0px 0px 10px 10px;
+  /*border-radius: 0px 0px 10px 10px;*/
 }
 
 .header__logo {
@@ -94,8 +113,8 @@ body {
 .menu {
   display: flex;
   align-items: center;
-  margin-right: auto;
-  margin-left: 125px;
+  /*margin-right: auto;*/
+  /*margin-left: 125px;*/
   height: 100%;
   z-index: 1;
 }
@@ -105,8 +124,8 @@ body {
   content: " ";
   height: 70px;
   z-index: 0;
-  background: var(--main-color-dark);
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--menu-active-bg);
+  background: var(--menu-active-bg);
   -webkit-transition: all 0.75s cubic-bezier(0.5, 1.95, 0.03, 0.82);
   -moz-transition: all 0.75s cubic-bezier(0.5, 1.95, 0.03, 0.82);
   -o-transition: all 0.75s cubic-bezier(0.5, 1.95, 0.03, 0.82);
@@ -146,9 +165,23 @@ body {
   transition: all 0.2s ease;
 }
 
-.menu__item.active {
-  background: var(--main-color-dark);
+.menu.firstTab .menu__item:nth-child(1) {
+  color: var(--menu-active-color);
 }
+
+.menu.secondTab .menu__item:nth-child(2) {
+  color: var(--menu-active-color);
+
+}
+
+.menu.thirdTab .menu__item:nth-child(3) {
+  color: var(--menu-active-color);
+}
+/*.menu__item.active {*/
+/*  background: var(--main-color-dark);*/
+/*}*/
+
+
 
 .menu__item:hover {
   color: #BEBEBE;
@@ -162,6 +195,54 @@ body {
   /*min-height: 90vh;*/
   transition: all 0.75s cubic-bezier(0.5, 1.95, 0.03, 0.82);
   transition: all 0.3s ease-in-out;
+}
+
+.input-changeColor{
+
+}
+
+input[type="color"] {
+
+  border: none;
+  /*border-radius: 50%;*/
+}
+
+
+.input-changeColor {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 50px;
+  height: 53px;
+  /*aspect-ratio: 1/2;*/
+  /*height: 100px;*/
+  border: none;
+  cursor: pointer;
+  transition: 0.2s cubic-bezier(0.5, 1.95, 0.03, 0.82);
+  /*margin-left: auto;*/
+}
+.input-changeColor::-webkit-color-swatch {
+  border-radius: 50%;
+  border: 3px dashed var(--text-color1);
+}
+.input-changeColor::-moz-color-swatch {
+  border-radius: 50%;
+  border: 3px dashed var(--text-color1);
+}
+
+.input-changeColor:focus{
+  transform: scale(1.2);
+  animation: inputColor-rotaion 3s infinite linear;
+}
+
+@keyframes inputColor-rotaion {
+  from{
+    rotate: 0deg;
+  }
+  to{
+    rotate: 360deg;
+  }
 }
 
 .grid {
@@ -185,13 +266,6 @@ body {
   /*max-width: 200px;*/
 }
 
-[class*=__wrapper] {
-  margin: 0 auto;
-  padding: 0 20px;
-  width: 1340px;
-  /*display: flex;*/
-  /*justify-content: center;*/
-}
 
 .timer__wrapper {
   display: grid;
@@ -955,7 +1029,7 @@ input[type=number]:focus {
   /*width: 200px;*/
   padding: 20px;
   /*background: #f6f0ff;*/
-  background: #ffffff;
+  background: var(--worldItem-bg);
   border-radius: 7px;
   background-size: cover;
   /*bac*/
@@ -1010,7 +1084,7 @@ input[type=number]:focus {
   font-style: normal;
   font-weight: 400;
   font-size: 28px;
-  color: #3F086B;
+  color: var(--worldItem-darker);
   z-index: 10;
   /*color: white;*/
   /*padding-inline: 20px;*/
@@ -1020,8 +1094,9 @@ input[type=number]:focus {
 
 .worldTime__time {
   font-size: 32px;
-  color: white;
-  background: var(--main-color-dark);
+  color: var(--worldItem-time-color);
+
+  background: var(--worldItem-main);
   padding-inline: 20px;
   /*background: linear-gradient(145deg, #67378A 0%, #A18CD1 100%);*/
   /*background: #9c6ec0;*/
@@ -1032,7 +1107,7 @@ input[type=number]:focus {
 
 .worldTime__timeZone {
   font-size: 16px;
-  color: var(--main-color-dark);
+  color: var(--worldItem-main);
   z-index: 10;
 }
 

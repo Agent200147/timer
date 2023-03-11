@@ -13,7 +13,7 @@ const worldTimeItems = [
         city: 'Лондон',
         zone: 'GMT',
         utc: '0',
-        img: 'australia.png'
+        // img: 'australia.png'
     },
     {
         city: 'Вена',
@@ -24,7 +24,7 @@ const worldTimeItems = [
         city: 'Афины',
         zone: 'EET',
         utc: '+2',
-        img: 'greece.svg'
+        // img: 'greece.svg'
     },
     {
         city: 'Москва',
@@ -854,6 +854,13 @@ inputColor.oninput = (e) => {
     document.documentElement.style.setProperty('--dots-color', 'var(--main-color-dark)')
     document.documentElement.style.setProperty('--input-focus-color', 'var(--main-color-dark)')
     document.documentElement.style.setProperty('--input-text-color', 'var(--main-color-darkest)')
+    document.documentElement.style.setProperty('--worldItem-main', 'var(--main-color-dark)')
+    document.documentElement.style.setProperty('--worldItem-darker', 'var(--main-color-darkest)')
+    document.documentElement.style.setProperty('--worldItem-time-color', 'white')
+    document.documentElement.style.setProperty('--worldItem-bg', 'var(--white)')
+    document.documentElement.style.setProperty('--menu-active-color', 'var(--text-color1)')
+    document.documentElement.style.setProperty('--menu-active-bg', 'rgba(0, 0, 0, 0.25)')
+
 
     if (1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5){
         let [r, g, b] = hexToRgb(ColorLuminance(hex, -0.07))
@@ -866,13 +873,21 @@ inputColor.oninput = (e) => {
         document.documentElement.style.setProperty('--inputs-inner-shadow', `inset 4px 4px 7px ${ColorLuminance(hex, -0.3)}, inset -4px -4px 7px ${rgba(r, g, b, 1)}`)
         document.documentElement.style.setProperty('--controls-inner-shadow', `inset 3px 3px 6px ${ColorLuminance(hex, -0.3)}, inset -4px -4px 7px ${rgba(r, g, b, 1)}`)
         document.documentElement.style.setProperty('--controls-shadow', `2px 2px 2px 0 ${ColorLuminance(hex, -0.3)}, -2px -2px 3px 0 ${rgba(r, g, b, 1)}`)
-        document.documentElement.style.setProperty('--controls-color', 'black')
+        document.documentElement.style.setProperty('--controls-color', 'var(--black)')
 
         if(hex === "#ffffff"){
-            document.documentElement.style.setProperty('--timer-stroke', 'black')
-            document.documentElement.style.setProperty('--dots-color', 'black')
+            document.documentElement.style.setProperty('--timer-stroke', 'var(--black)')
+            document.documentElement.style.setProperty('--timer-border', '2px solid var(--black)')
+            document.documentElement.style.setProperty('--dots-color', 'var(--black)')
             document.documentElement.style.setProperty('--input-focus-color', 'black')
             document.documentElement.style.setProperty('--input-text-color', 'black')
+            document.documentElement.style.setProperty('--worldItem-main', 'white')
+            document.documentElement.style.setProperty('--worldItem-darker', 'white')
+            document.documentElement.style.setProperty('--worldItem-time-color', 'var(--black)')
+            document.documentElement.style.setProperty('--worldItem-bg', 'var(--black)')
+            document.documentElement.style.setProperty('--menu-active-color', 'white')
+            document.documentElement.style.setProperty('--menu-active-bg', 'var(--black)')
+
         }
     }
     else
@@ -889,10 +904,13 @@ inputColor.oninput = (e) => {
         document.documentElement.style.setProperty('--controls-shadow', 'none')
         document.documentElement.style.setProperty('--controls-color', 'var(--main-color)')
         if(hex === "#000000"){
-            document.documentElement.style.setProperty('--timer-stroke', 'white')
+            document.documentElement.style.setProperty('--timer-stroke', 'var(--white)')
             document.documentElement.style.setProperty('--dots-color', 'white')
             document.documentElement.style.setProperty('--input-focus-color', 'white')
             document.documentElement.style.setProperty('--input-text-color', 'black')
+
+            document.documentElement.style.setProperty('--menu-active-color', 'var(--black)')
+            document.documentElement.style.setProperty('--menu-active-bg', 'var(--white)')
         }
     }
 
