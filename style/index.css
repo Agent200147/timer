@@ -74,6 +74,7 @@ body {
     --worldItem-bg: var(--white);
     --menu-active-bg: rgba(0, 0, 0, 0.25);
     --menu-active-color: var(--text-color1);
+    --flags-bg: linear-gradient(145deg, #fff4ff, #dbcde6)
     /*--main-color-dark: #008a8d;*/
 }
 
@@ -207,32 +208,48 @@ input[type="color"] {
   /*border-radius: 50%;*/
 }
 
+.changeColor{
+  position: relative;
+}
 
 .input-changeColor {
+  /*display: none;*/
+  opacity: 0;
+  position: absolute;
+  bottom: 0;
+  width: 0;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+
+  /*margin-left: auto;*/
+}
+
+.label-inputColor{
+  display: block;
   background-color: transparent;
-  width: 50px;
-  height: 53px;
-  /*aspect-ratio: 1/2;*/
+  width: 35px;
+  /*height: 53px;*/
+  aspect-ratio: 1/1;
   /*height: 100px;*/
   border: none;
   cursor: pointer;
-  transition: 0.2s cubic-bezier(0.5, 1.95, 0.03, 0.82);
-  /*margin-left: auto;*/
-}
-.input-changeColor::-webkit-color-swatch {
+  transition: 0.2s scale, 2s background-color ease-in-out;
   border-radius: 50%;
-  border: 3px dashed var(--text-color1);
-}
-.input-changeColor::-moz-color-swatch {
-  border-radius: 50%;
-  border: 3px dashed var(--text-color1);
+  outline: 3px dashed var(--text-color1);
+  animation: inputColor-rotaion 8s infinite linear;
 }
 
-.input-changeColor:focus{
-  transform: scale(1.2);
+/*.input-changeColor::-webkit-color-swatch {*/
+
+/*}*/
+/*.input-changeColor::-moz-color-swatch {*/
+/*  border-radius: 50%;*/
+/*  border: 3px dashed var(--text-color1);*/
+/*}*/
+
+.input-changeColor:focus + .label-inputColor{
+  scale: 1.2;
   animation: inputColor-rotaion 3s infinite linear;
 }
 
@@ -302,10 +319,13 @@ input[type="color"] {
 
 .flags__item {
   /*background: var(--main-color);*/
-  background: linear-gradient(145deg, #fff4ff, #dbcde6);
-  box-shadow: rgb(188, 154, 197) 2px 2px 2px 0px, rgb(221, 181, 232) -2px -2px 3px 0px;
+  /*background: var(--flags-bg);*/
+  background: var(--text-color1);
+  /*box-shadow: rgb(188, 154, 197) 2px 2px 2px 0px, rgb(221, 181, 232) -2px -2px 3px 0px;*/
   color: var(--main-color-dark);
   color: black;
+  color: var(--main-color-darkest);
+  color: var(--main-color);
   padding: 2px 7px;
   padding-left: 0;
   border-radius: 4px;

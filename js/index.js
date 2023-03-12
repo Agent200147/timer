@@ -903,6 +903,7 @@ inputColor.oninput = (e) => {
         document.documentElement.style.setProperty('--controls-inner-shadow', `inset 3px 3px 6px ${rgba(r1, g1, b1, 0.8)}, inset -4px -4px 7px ${rgba(r2, g2, b2, 0.5)}`)
         document.documentElement.style.setProperty('--controls-shadow', 'none')
         document.documentElement.style.setProperty('--controls-color', 'var(--main-color)')
+
         if(hex === "#000000"){
             document.documentElement.style.setProperty('--timer-stroke', 'var(--white)')
             document.documentElement.style.setProperty('--dots-color', 'white')
@@ -918,6 +919,7 @@ inputColor.oninput = (e) => {
     document.documentElement.style.setProperty('--main-color', hex)
     document.documentElement.style.setProperty('--main-color-darkest', ColorLuminance(hex, -0.5))
     document.documentElement.style.setProperty('--timer-shadow', `6px 6px 5px 0 ${rgba(r1, g1, b1, 0.8)}, -6px -6px 5px 0 ${rgba(r2, g2, b2, 0.5)}`)
+    document.documentElement.style.setProperty('--flags-bg', `linear-gradient(145deg, #fff4ff 70%, ${rgba(r2, g2, b2, 0.05)})`)
 
     // document.documentElement.style.setProperty('--placeholder-color', ColorLuminance(hex, 0.4))
 
@@ -925,9 +927,33 @@ inputColor.oninput = (e) => {
     // header.style.background = e.target.value
 }
 
-const maincolor = '#8648B4'
-document.documentElement.style.setProperty('--inputs-background', ColorLuminance(maincolor, 2.2))
+const changeColorAnimation = (element) => {
+    setInterval(() => {
+        let [r, g, b, a] = [(Math.random()*255).toFixed(0), (Math.random()*255).toFixed(0), (Math.random()*255).toFixed(0), Math.random()]
+        let color = 'rgba('+ r + ',' + g + ',' + b + ')'
+        element.style.backgroundColor = '#' + rgba2hex(color)
+    }, 2000)
+}
 
+const labelInputColor = document.querySelector('.label-inputColor')
+changeColorAnimation(labelInputColor)
+// const maincolor = '#8648B4'
+// document.documentElement.style.setProperty('--inputs-background', ColorLuminance(maincolor, 2.2))
+
+function rgba2hex(orig) {
+    var a, isPercent,
+        rgb = orig.replace(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i),
+        hex = rgb ?
+            (rgb[1] | 1 << 8).toString(16).slice(1) +
+            (rgb[2] | 1 << 8).toString(16).slice(1) +
+            (rgb[3] | 1 << 8).toString(16).slice(1) : orig;
+
+    return hex;
+}
+let [r, g, b, a] = [(Math.random()*255).toFixed(0), (Math.random()*255).toFixed(0), (Math.random()*255).toFixed(0), Math.random()]
+
+let color = 'rgba('+ r + ',' + g + ',' + b + ')'
+console.log(rgba2hex(color))
 function LightenDarkenColor(col, amt) {
 
     var usePound = false;
