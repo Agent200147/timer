@@ -46,9 +46,9 @@ body {
     background: var(--body-background);
 }
 
-/** {*/
-/*    outline: 2px solid black !important;*/
-/*}*/
+* {
+    outline: 2px solid black !important;
+}
 
 .preload *, .preload *::before, .preload *::after {
     -webkit-transition: none !important;
@@ -203,6 +203,7 @@ body {
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 .input-changeColor {
