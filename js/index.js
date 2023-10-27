@@ -14,9 +14,14 @@ function scaleWatcher() {
     const scale = window?.devicePixelRatio || 1
     document.documentElement.style.setProperty('--scale', scale)
 }
-
+function scaleWatcher2() {
+    const scale = window?.devicePixelRatio || 1
+    document.documentElement.style.setProperty('--scale', scale)
+    // document.documentElement.style.setProperty('font-size', 'calc(62.5% / var(--scale) + 2px)')
+}
 scaleWatcher()
 window.addEventListener('load', scaleWatcher)
+window.addEventListener('resize', scaleWatcher)
 //-----Масштаб страницы------
 
 
@@ -134,6 +139,7 @@ const secundomerMinutes = qs('.secundomer-wrapper__minutes')
 const secundomerSeconds = qs('.secundomer-wrapper__seconds')
 const secundomerMiliSeconds = qs('.secundomer-wrapper__miliSeconds')
 
+
 const timer = gbid('timer__self')
 const timerWrapper = qs('.timer__wrapper')
 const flagResetBg = qs('.btn-flag__reset-bg')
@@ -170,11 +176,13 @@ const timerSeconds = gbid('seconds')
 
 const menu = qs('.menu')
 const menuItems = qsAll('.menu__item')
+const menuMobileItems = qsAll('.menu-mobile__item')
 const wrapper = qs('.timer')
 //-----Из DOM в переменные-----
 
 //Высота слайда
 const sliderHeight = 74
+const fzTimerUnitsRatio = 5.8
 
 //Таймер
 //Текущее количество "тиков" таймера
@@ -292,6 +300,35 @@ menuItems.forEach((item) => {
         log(currentPage)
     })
 })
+menuMobileItems.forEach((item) => {
+    item.addEventListener('click', () => {
+        previousPage = localStorage.getItem('currentPage')
+        currentPage = item.dataset.link
+
+        menuMobileItems.forEach(item => item.classList.remove('active'))
+        item.classList.add('active')
+        if (previousPage === currentPage) return
+        menu.classList.remove('firstTab', 'secondTab', 'thirdTab')
+        localStorage.setItem('currentPage', currentPage)
+
+        if (previousPage === 'thirdTab' && currentPage !== 'thirdTab') {
+            // wrapper.style.transition = "opacity 3s ease-in-out"
+            worldTimeWrapper.addEventListener('animationend', () => {
+                wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
+                wrapper.classList.add(item.dataset.link)
+            }, {once: true})
+        } else {
+            // wrapper.style.transition = 'all 0.3s ease-in-out'
+            wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
+            wrapper.classList.add(currentPage)
+        }
+
+        menu.classList.add(currentPage)
+
+        toPage[currentPage]()
+        log(currentPage)
+    })
+})
 toPage[currentPage]()
 //-----Обработка кликов по пунктам меню-----
 
@@ -391,6 +428,7 @@ timerInputItems.forEach((item) => {
 //------Флаги-----
 secundomerBtnFlag.addEventListener('click', secundomerFlagAdd)
 secundomerBtnFlag.addEventListener('mousedown', secundomerFlagResetFill)
+secundomerBtnFlag.addEventListener('mouseleave', secundomerFlagResetUnFill)
 secundomerBtnFlag.addEventListener('mouseup', () => {
     secundomerFlagResetUnFill()
     setTimeout(() => flagResetBg.classList.remove('resetting'), 1)
@@ -469,11 +507,11 @@ function hideWorldTimeItems() {
     worldTimeWrapper.style.display = 'none'
 }
 
-function pxToRem(px) {
+function pxToUnit(px, unit, fzRatio = 1) {
     const UNIT_RATIO = 10
-    let unit = 'rem'
+    // let unit = 'rem'
     // let unit = 'px'
-    return (px / UNIT_RATIO) + unit
+    return (px / UNIT_RATIO / fzRatio) + unit
 }
 
 //-----Страницы-----
@@ -490,6 +528,7 @@ function FirstPage() {
         }, {once: true})
         timerWrapper.addEventListener('animationend', () => timerWrapper.classList.remove('fading-in'), {once: true})
     }
+    menuMobileItems[0].classList.add('active')
     timer.classList.contains('isGoing') ? timer.classList.add('timerBeep') : ''
     flags.forEach(item => item.style.display = 'none')
     dots.forEach((item, index) => item.classList.remove('rotatingSecundomer'))
@@ -510,9 +549,9 @@ function FirstPage() {
             hideTimerInputs()
             showTimerUnits()
 
-            firstSlideHours.style.marginTop = pxToRem(timer_hours_i)
-            firstSlideMinutes.style.marginTop = pxToRem(timer_minutes_i)
-            firstSlideSeconds.style.marginTop = pxToRem(timer_seconds_i)
+            firstSlideHours.style.marginTop = pxToUnit(timer_hours_i, 'em', fzTimerUnitsRatio)
+            firstSlideMinutes.style.marginTop = pxToUnit(timer_minutes_i, 'em', fzTimerUnitsRatio)
+            firstSlideSeconds.style.marginTop = pxToUnit(timer_seconds_i, 'em', fzTimerUnitsRatio)
         }
         timerBtnPlayIcon.classList.remove('paused')
     }
@@ -537,6 +576,7 @@ function SecondPage() {
     } else {
         setTimeout(() => flags.forEach(item => item.style.display = 'flex'), 300)
     }
+    menuMobileItems[1].classList.add('active')
     dots.forEach((item) => item.classList.remove('rotatingTimer'))
 
     showControls()
@@ -566,7 +606,7 @@ function ThirdPage() {
         showWorldTimeItems()
         return
     }
-
+    menuMobileItems[2].classList.add('active')
     timer.classList.remove('timerBeep')
 
     dots.forEach((item, index) => item.classList.remove('rotatingTimer'))
@@ -600,21 +640,21 @@ let timerInterval
 function timerStart() {
     clearInterval(timerInterval)
     if (currentTimerIterations === 1 || timerHoursIsChanged) {
-        firstSlideHours.style.marginTop = pxToRem(-timerHours.value * sliderHeight)
+        firstSlideHours.style.marginTop = pxToUnit(-timerHours.value * sliderHeight, 'em', fzTimerUnitsRatio)
         timer_hours_i = -timerHours.value * sliderHeight
     } else {
-        firstSlideHours.style.marginTop = pxToRem(timer_hours_i)
+        firstSlideHours.style.marginTop = pxToUnit(timer_hours_i, 'em', fzTimerUnitsRatio)
     }
 
     if (currentTimerIterations === 1 || timerMinutesIsChanged) {
-        firstSlideMinutes.style.marginTop = pxToRem(-timerMinutes.value * sliderHeight)
+        firstSlideMinutes.style.marginTop = pxToUnit(-timerMinutes.value * sliderHeight, 'em', fzTimerUnitsRatio)
         timer_minutes_i = -timerMinutes.value * sliderHeight
     } else {
-        firstSlideMinutes.style.marginTop = pxToRem(timer_minutes_i)
+        firstSlideMinutes.style.marginTop = pxToUnit(timer_minutes_i, 'em', fzTimerUnitsRatio)
     }
 
     if (currentTimerIterations === 1 || timerSecondsIsChanged) {
-        firstSlideSeconds.style.marginTop = pxToRem(-timerSeconds.value * sliderHeight)
+        firstSlideSeconds.style.marginTop = pxToUnit(-timerSeconds.value * sliderHeight, 'em', fzTimerUnitsRatio)
         timer_seconds_i = -timerSeconds.value * sliderHeight
     }
 
@@ -639,22 +679,22 @@ function timerStart() {
 
     if (currentTimerIterations !== 1) {
         timer_seconds_i = timer_seconds_i + sliderHeight
-        firstSlideSeconds.style.marginTop = pxToRem(timer_seconds_i)
+        firstSlideSeconds.style.marginTop = pxToUnit(timer_seconds_i, 'em', fzTimerUnitsRatio)
 
         if (timer_seconds_i === sliderHeight) {
             timer_minutes_i = timer_minutes_i + sliderHeight
-            firstSlideMinutes.style.marginTop = pxToRem(timer_minutes_i)
+            firstSlideMinutes.style.marginTop = pxToUnit(timer_minutes_i, 'em', fzTimerUnitsRatio)
             timer_seconds_i = -59 * sliderHeight
         }
 
         if (timer_minutes_i === sliderHeight) {
             timer_hours_i = timer_hours_i + sliderHeight
-            firstSlideHours.style.marginTop = pxToRem(timer_hours_i)
+            firstSlideHours.style.marginTop = pxToUnit(timer_hours_i, 'em', fzTimerUnitsRatio)
             timer_minutes_i = -59 * sliderHeight
-            firstSlideMinutes.style.marginTop = pxToRem(timer_minutes_i)
+            firstSlideMinutes.style.marginTop = pxToUnit(timer_minutes_i, 'em', fzTimerUnitsRatio)
         }
 
-        timerProgress.style.strokeDashoffset = initialOffset * currentTimerIterations / totalSeconds
+        timerProgress.style.strokeDashoffset =  pxToUnit(initialOffset * currentTimerIterations / totalSeconds, 'em')
         currentTimerIterations++
     }
 
@@ -662,7 +702,7 @@ function timerStart() {
     timerInterval = setInterval(() => {
         if (timer_hours_i === 0 && timer_minutes_i === 0 && timer_seconds_i === 0) {
             timerStop()
-            timerProgress.style.strokeDashoffset = '1508'
+            timerProgress.style.strokeDashoffset = pxToUnit(1508, 'em')
 
             timer.classList.add('timerBeep', 'isGoing')
             timerProgressSvg.classList.add('cursorPointer')
@@ -679,20 +719,20 @@ function timerStart() {
         timer_seconds_i = timer_seconds_i + sliderHeight
         if (timer_seconds_i === sliderHeight) {
             timer_minutes_i = timer_minutes_i + sliderHeight
-            firstSlideMinutes.style.marginTop = pxToRem(timer_minutes_i)
+            firstSlideMinutes.style.marginTop = pxToUnit(timer_minutes_i, 'em', fzTimerUnitsRatio)
             timer_seconds_i = -59 * sliderHeight
 
         }
 
         if (timer_minutes_i === sliderHeight) {
             timer_hours_i = timer_hours_i + sliderHeight
-            firstSlideHours.style.marginTop = pxToRem(timer_hours_i)
+            firstSlideHours.style.marginTop = pxToUnit(timer_hours_i, 'em', fzTimerUnitsRatio)
             timer_minutes_i = -59 * sliderHeight
-            firstSlideMinutes.style.marginTop = pxToRem(timer_minutes_i)
+            firstSlideMinutes.style.marginTop = pxToUnit(timer_minutes_i, 'em', fzTimerUnitsRatio)
         }
-        firstSlideSeconds.style.marginTop = pxToRem(timer_seconds_i)
+        firstSlideSeconds.style.marginTop = pxToUnit(timer_seconds_i, 'em', fzTimerUnitsRatio)
 
-        timerProgress.style.strokeDashoffset = initialOffset * currentTimerIterations / totalSeconds
+        timerProgress.style.strokeDashoffset = pxToUnit(initialOffset * currentTimerIterations / totalSeconds, 'em')
         currentTimerIterations++
     }, 1000)
 }
@@ -804,7 +844,6 @@ function secundomerFlagAdd() {
     }
     flagsCounter++
 }
-
 //-----Флаги-----
 
 
@@ -892,11 +931,11 @@ inputColor.oninput = (e) => {
         const [r, g, b] = hexToRgb(ColorLuminance(hex, -0.07))
         document.documentElement.style.setProperty('--text-color1', 'black')
         document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, -0.15)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
-        document.documentElement.style.setProperty('--timer-border', `${pxToRem(2)} solid ${ColorLuminance(hex, -0.3)}`)
+        document.documentElement.style.setProperty('--timer-border', `${pxToUnit(2, 'em')} solid ${ColorLuminance(hex, -0.3)}`)
         document.documentElement.style.setProperty('--inputs-background', ColorLuminance(hex, 2.2))
-        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToRem(4)} ${pxToRem(4)} ${pxToRem(7)} ${ColorLuminance(hex, -0.3)}, inset ${pxToRem(-4)} ${pxToRem(-4)} ${pxToRem(7)} ${rgba(r, g, b, 1)}`)
-        document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToRem(3)} ${pxToRem(3)} ${pxToRem(6)} ${ColorLuminance(hex, -0.3)}, inset ${pxToRem(-4)} ${pxToRem(-4)} ${pxToRem(7)} ${rgba(r, g, b, 1)}`)
-        document.documentElement.style.setProperty('--controls-shadow', `${pxToRem(2)} ${pxToRem(2)} ${pxToRem(2)} 0 ${ColorLuminance(hex, -0.3)}, ${pxToRem(-2)} ${pxToRem(-2)} ${pxToRem(3)} 0 ${rgba(r, g, b, 1)}`)
+        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r, g, b, 1)}`)
+        document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(6,'em', fzTimerUnitsRatio)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r, g, b, 1)}`)
+        document.documentElement.style.setProperty('--controls-shadow', `${pxToUnit(2, 'em', fzTimerUnitsRatio)} ${pxToUnit(2, 'em', fzTimerUnitsRatio)} ${pxToUnit(2, 'em', fzTimerUnitsRatio)} 0 ${ColorLuminance(hex, -0.3)}, ${pxToUnit(-2, 'em', fzTimerUnitsRatio)} ${pxToUnit(-2, 'em', fzTimerUnitsRatio)} ${pxToUnit(3, 'em', fzTimerUnitsRatio)} 0 ${rgba(r, g, b, 1)}`)
         document.documentElement.style.setProperty('--controls-color', 'var(--black)')
         document.documentElement.style.setProperty('--flag-color', 'var(--main-color)')
         //Белый цвет
@@ -920,9 +959,9 @@ inputColor.oninput = (e) => {
         document.documentElement.style.setProperty('--text-color1', 'white')
         document.documentElement.style.setProperty('--inputs-background', 'white')
         document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, 0.7)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
-        document.documentElement.style.setProperty('--timer-border', `${pxToRem(2)} solid var(--main-color)`)
-        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToRem(4)} ${pxToRem(4)} ${pxToRem(7)} ${rgba(r1, g1, b1, 0.8)}, inset ${pxToRem(-2)} ${pxToRem(-4)} ${pxToRem(7)} ${rgba(r2, g2, b2, 0.5)}`)
-        document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToRem(3)} ${pxToRem(3)} ${pxToRem(6)} ${rgba(r1, g1, b1, 0.8)}, inset -4px -4px 7px ${rgba(r2, g2, b2, 0.5)}`)
+        document.documentElement.style.setProperty('--timer-border', `${pxToUnit(2, 'em')} solid var(--main-color)`)
+        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r1, g1, b1, 0.8)}, inset ${pxToUnit(-2, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r2, g2, b2, 0.5)}`)
+        document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(6, 'em', fzTimerUnitsRatio)} ${rgba(r1, g1, b1, 0.8)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r2, g2, b2, 0.5)}`)
         document.documentElement.style.setProperty('--controls-shadow', 'none')
         document.documentElement.style.setProperty('--controls-color', 'var(--main-color)')
         document.documentElement.style.setProperty('--flag-color', 'var(--main-color-darkest)')
@@ -941,7 +980,7 @@ inputColor.oninput = (e) => {
     document.documentElement.style.setProperty('--input-color', 'black')
     document.documentElement.style.setProperty('--main-color', hex)
     document.documentElement.style.setProperty('--main-color-darkest', ColorLuminance(hex, -0.5))
-    document.documentElement.style.setProperty('--timer-shadow', `${pxToRem(6)} ${pxToRem(6)} ${pxToRem(5)} 0 ${rgba(r1, g1, b1, 0.8)}, ${pxToRem(-6)} ${pxToRem(-6)} ${pxToRem(5)} 0 ${rgba(r2, g2, b2, 0.5)}`)
+    document.documentElement.style.setProperty('--timer-shadow', `${pxToUnit(6, 'em', fzTimerUnitsRatio)} ${pxToUnit(6, 'em', fzTimerUnitsRatio)} ${pxToUnit(5, 'em', fzTimerUnitsRatio)} 0 ${rgba(r1, g1, b1, 0.8)}, ${pxToUnit(-6, 'em', fzTimerUnitsRatio)} ${pxToUnit(-6, 'em', fzTimerUnitsRatio)} ${pxToUnit(5, 'em', fzTimerUnitsRatio)} 0 ${rgba(r2, g2, b2, 0.5)}`)
     document.documentElement.style.setProperty('--flags-bg', `linear-gradient(145deg, #fff4ff 70%, ${rgba(r2, g2, b2, 0.05)})`)
 
     document.documentElement.style.setProperty('--main-color-dark', ColorLuminance(e.target.value, -0.4))
