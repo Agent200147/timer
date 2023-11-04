@@ -166,6 +166,7 @@ const timerControls = qs('.timer__controls')
 let flags = qsAll('.flags')
 const flagsWrapper1 = gbid('flags1')
 const flagsWrapper2 = gbid('flags2')
+const flagsMobile = gbid('flags-mobile')
 
 const dots = qsAll('.dots')
 
@@ -179,6 +180,10 @@ const menuItems = qsAll('.menu__item')
 const menuMobileItems = qsAll('.menu-mobile__item')
 const wrapper = qs('.timer')
 //-----Из DOM в переменные-----
+
+let isMobile = window.innerWidth <= 1024
+
+window.addEventListener('resize', () => isMobile = window.innerWidth <= 1024)
 
 //Высота слайда
 const sliderHeight = 74
@@ -212,10 +217,10 @@ let currentPage = localStorage.getItem('currentPage')
     : 'firstTab'
 
 menu.classList.remove('firstTab', 'secondTab', 'thirdTab')
-wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
+document.body.classList.remove('firstTab', 'secondTab', 'thirdTab')
 
 menu.classList.add(currentPage)
-wrapper.classList.add(currentPage)
+document.body.classList.add(currentPage)
 
 const toPage = {
     firstTab: FirstPage,
@@ -280,18 +285,19 @@ menuItems.forEach((item) => {
 
         if (previousPage === currentPage) return
         menu.classList.remove('firstTab', 'secondTab', 'thirdTab')
+        // document.body.classList.remove('firstTab', 'secondTab', 'thirdTab')
         localStorage.setItem('currentPage', currentPage)
 
         if (previousPage === 'thirdTab' && currentPage !== 'thirdTab') {
             wrapper.style.transition = "opacity 3s ease-in-out"
             worldTimeWrapper.addEventListener('animationend', () => {
-                wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
-                wrapper.classList.add(item.dataset.link)
+                document.body.classList.remove('firstTab', 'secondTab', 'thirdTab')
+                document.body.classList.add(item.dataset.link)
             }, {once: true})
         } else {
             wrapper.style.transition = 'all 0.3s ease-in-out'
-            wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
-            wrapper.classList.add(currentPage)
+            document.body.classList.remove('firstTab', 'secondTab', 'thirdTab')
+            document.body.classList.add(currentPage)
         }
 
         menu.classList.add(currentPage)
@@ -302,31 +308,42 @@ menuItems.forEach((item) => {
 })
 menuMobileItems.forEach((item) => {
     item.addEventListener('click', () => {
+        window.navigator?.vibrate(1);
         previousPage = localStorage.getItem('currentPage')
         currentPage = item.dataset.link
 
         menuMobileItems.forEach(item => item.classList.remove('active'))
         item.classList.add('active')
+
         if (previousPage === currentPage) return
-        menu.classList.remove('firstTab', 'secondTab', 'thirdTab')
+        // menu.classList.remove('firstTab', 'secondTab', 'thirdTab')
         localStorage.setItem('currentPage', currentPage)
 
         if (previousPage === 'thirdTab' && currentPage !== 'thirdTab') {
-            // wrapper.style.transition = "opacity 3s ease-in-out"
+            wrapper.style.transition = "opacity 3s ease-in-out"
             worldTimeWrapper.addEventListener('animationend', () => {
-                wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
-                wrapper.classList.add(item.dataset.link)
+                document.body.classList.remove('firstTab', 'secondTab', 'thirdTab')
+                document.body.classList.add(item.dataset.link)
+                // if(currentPage === 'secondTab') showFlagsMobile()
             }, {once: true})
         } else {
-            // wrapper.style.transition = 'all 0.3s ease-in-out'
-            wrapper.classList.remove('firstTab', 'secondTab', 'thirdTab')
-            wrapper.classList.add(currentPage)
+            wrapper.style.transition = 'all 0.3s ease-in-out'
+            document.body.classList.remove('firstTab', 'secondTab', 'thirdTab')
+            document.body.classList.add(currentPage)
         }
 
-        menu.classList.add(currentPage)
+        if(previousPage === 'secondTab') {
+            flagsMobile.classList.add('sliding-out-left')
+            flagsMobile.addEventListener('animationend', () => {
+                flagsMobile.classList.remove('sliding-out-left')
+                hideFlagsMobile()
+            }, {once:true})
+        }
+
+        // menu.classList.add(currentPage)
 
         toPage[currentPage]()
-        log(currentPage)
+        // log(currentPage)
     })
 })
 toPage[currentPage]()
@@ -336,16 +353,16 @@ toPage[currentPage]()
 //-----Обработка кликов по кнопкам таймера и секундомера-----
 //Клик на play
 timerBtnPlay.addEventListener('click', function () {
+    window.navigator?.vibrate(1);
     //Если таймер
     if (currentPage === 'firstTab') {
         if (!timerBtnPlayIcon.classList.contains('paused')) {
-            timerHours.value === "" ? timerHours.focus() :
-                timerMinutes.value === "" ? timerMinutes.focus() :
-                    timerSeconds.value === "" ? timerSeconds.focus() : ''
-
-            if (timerHours.value === "" || timerMinutes.value === "" || timerSeconds.value === "") {
+            if (timerHours.value === "" && timerMinutes.value === "" && timerSeconds.value === "") {
                 return
             }
+            timerHours.value === "" ? timerHours.value === "00" :
+                timerMinutes.value === "" ? timerMinutes.value === "00" :
+                    timerSeconds.value === "" ? timerSeconds.value === "00" : ''
             timerStart()
         } else {
             timerPause()
@@ -364,6 +381,7 @@ timerBtnPlay.addEventListener('click', function () {
 
 //Клик на stop
 timerBtnStop.addEventListener('click', () => {
+    window.navigator?.vibrate(1);
     if (currentPage === 'firstTab') {
         timerStop()
     } else if (currentPage === 'secondTab') {
@@ -428,6 +446,8 @@ timerInputItems.forEach((item) => {
 //------Флаги-----
 secundomerBtnFlag.addEventListener('click', secundomerFlagAdd)
 secundomerBtnFlag.addEventListener('mousedown', secundomerFlagResetFill)
+secundomerBtnFlag.addEventListener('touchstart', secundomerFlagResetFill)
+secundomerBtnFlag.addEventListener('touchend', secundomerFlagResetUnFill)
 secundomerBtnFlag.addEventListener('mouseleave', secundomerFlagResetUnFill)
 secundomerBtnFlag.addEventListener('mouseup', () => {
     secundomerFlagResetUnFill()
@@ -491,19 +511,30 @@ function showSecundomerUnits() {
 
 function showControls() {
     timerControls.style.display = 'flex'
-    dots.forEach((item, index) => item.style.display = 'flex')
+    dots.forEach((item) => item.style.display = 'flex')
+}
+
+
+function showFlagsMobile() {
+    flagsMobile.style.display = 'flex'
+}
+
+function hideFlagsMobile() {
+    flagsMobile.style.display = 'none'
 }
 
 function hideControls() {
     timerControls.style.display = 'none'
-    dots.forEach((item, index) => item.style.display = 'none')
+    dots.forEach((item) => item.style.display = 'none')
 }
 
 function showWorldTimeItems() {
     worldTimeWrapper.style.display = 'grid'
+    // if (isMobile) document.body.classList.add('thirdTab')
 }
 
 function hideWorldTimeItems() {
+    // if (isMobile) document.body.classList.remove('thirdTab')
     worldTimeWrapper.style.display = 'none'
 }
 
@@ -514,6 +545,14 @@ function pxToUnit(px, unit, fzRatio = 1) {
     return (px / UNIT_RATIO / fzRatio) + unit
 }
 
+function toDoubleNumber(a) {
+    if (typeof a === "string") {
+        return a.length < 2 ? "0" + a : a
+    }
+    else {
+        return a < 10 ? "0" + a : a
+    }
+}
 //-----Страницы-----
 function FirstPage() {
     if (!previousPage) {
@@ -528,6 +567,8 @@ function FirstPage() {
         }, {once: true})
         timerWrapper.addEventListener('animationend', () => timerWrapper.classList.remove('fading-in'), {once: true})
     }
+
+
     menuMobileItems[0].classList.add('active')
     timer.classList.contains('isGoing') ? timer.classList.add('timerBeep') : ''
     flags.forEach(item => item.style.display = 'none')
@@ -568,12 +609,15 @@ function SecondPage() {
             hideWorldTimeItems()
             timerWrapper.style.display = 'grid'
             timerWrapper.classList.add('fading-in')
+            if (isMobile)showFlagsMobile()
         }, {once: true})
         timerWrapper.addEventListener('animationend', () => {
             timerWrapper.classList.remove('fading-in')
             flags.forEach(item => item.style.display = 'flex')
+
         }, {once: true})
     } else {
+        if (isMobile)showFlagsMobile()
         setTimeout(() => flags.forEach(item => item.style.display = 'flex'), 300)
     }
     menuMobileItems[1].classList.add('active')
@@ -590,12 +634,12 @@ function SecondPage() {
         secundomer__minutes_unit.innerText = '00'
     } else {
         timerBtnPlayIcon.classList.remove('paused')
-        secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i < 10 ? "0" + secundomer_miliseconds_i : secundomer_miliseconds_i
-        secundomer__seconds_unit.innerText = secundomer_seconds_i < 10 ? "0" + secundomer_seconds_i : secundomer_seconds_i
-        secundomer__minutes_unit.innerText = secundomer_minutes_i < 10 ? "0" + secundomer_minutes_i : secundomer_minutes_i
+        secundomer__miliseconds_unit.innerText = toDoubleNumber(secundomer_miliseconds_i)
+        secundomer__seconds_unit.innerText = toDoubleNumber(secundomer_seconds_i)
+        secundomer__minutes_unit.innerText = toDoubleNumber(secundomer_minutes_i)
         if (secundomerIsGoing) {
             timerBtnPlayIcon.classList.add('paused')
-            dots.forEach((item, index) => item.classList.add('rotatingSecundomer'))
+            dots.forEach((item) => item.classList.add('rotatingSecundomer'))
         }
     }
 }
@@ -606,12 +650,13 @@ function ThirdPage() {
         showWorldTimeItems()
         return
     }
+
     menuMobileItems[2].classList.add('active')
     timer.classList.remove('timerBeep')
 
-    dots.forEach((item, index) => item.classList.remove('rotatingTimer'))
-    wrapper.classList.add(previousPage)
-    wrapper.classList.remove(currentPage)
+    dots.forEach((item) => item.classList.remove('rotatingTimer'))
+    document.body.classList.add(previousPage)
+    document.body.classList.remove(currentPage)
 
     timerWrapper.classList.add('fading-out')
     flags.forEach(item => item.classList.add('fading-out'))
@@ -620,8 +665,8 @@ function ThirdPage() {
         timerWrapper.style.display = 'none'
         timerWrapper.classList.remove('fading-out')
 
-        wrapper.classList.add(currentPage)
-        wrapper.classList.remove(previousPage)
+        document.body.classList.add(currentPage)
+        document.body.classList.remove(previousPage)
 
         flags.forEach(item => item.classList.remove('fading-out'))
         flags.forEach(item => item.style.display = 'none')
@@ -702,9 +747,15 @@ function timerStart() {
     timerInterval = setInterval(() => {
         if (timer_hours_i === 0 && timer_minutes_i === 0 && timer_seconds_i === 0) {
             timerStop()
-            timerProgress.style.strokeDashoffset = pxToUnit(1508, 'em')
+            if (currentPage === 'secondTab') {
+                hideTimerInputs()
+                timer.classList.add('isGoing')
+            }
+            else {
+                timer.classList.add('timerBeep', 'isGoing')
+            }
 
-            timer.classList.add('timerBeep', 'isGoing')
+            timerProgress.style.strokeDashoffset = pxToUnit(1508, 'em')
             timerProgressSvg.classList.add('cursorPointer')
 
             timerProgressSvg.addEventListener('click', () => {
@@ -783,21 +834,21 @@ function secundomerStart() {
         if (secundomer_miliseconds_i === 100) {
             secundomer_miliseconds_i = 0
             secundomer_seconds_i++
-            secundomer__seconds_unit.innerText = secundomer_seconds_i < 10 ? "0" + secundomer_seconds_i : secundomer_seconds_i
+            secundomer__seconds_unit.innerText = toDoubleNumber(secundomer_seconds_i)
         }
 
         if (secundomer_seconds_i === 60) {
             secundomer__seconds_unit.innerText = "00"
             secundomer_seconds_i = 0
             secundomer_minutes_i++
-            secundomer__minutes_unit.innerText = secundomer_minutes_i < 10 ? "0" + secundomer_minutes_i : secundomer_minutes_i
+            secundomer__minutes_unit.innerText = toDoubleNumber(secundomer_minutes_i)
         }
-        secundomer__miliseconds_unit.innerText = secundomer_miliseconds_i < 10 ? "0" + secundomer_miliseconds_i : secundomer_miliseconds_i
+        secundomer__miliseconds_unit.innerText = toDoubleNumber(secundomer_miliseconds_i)
     }, 10)
 }
 
 function secundomerPause() {
-    dots.forEach((item, index) => item.classList.remove('rotatingSecundomer'))
+    dots.forEach((item) => item.classList.remove('rotatingSecundomer'))
     secundomerIsGoing = false
     clearInterval(secundomerInterval)
     clearInterval(secundomerSecondsInterval)
@@ -821,19 +872,38 @@ function secundomerStop() {
 
 //-----Флаги-----
 let flagsCounter = 0
-
+let totalMiliSeconds = 0
 function secundomerFlagAdd() {
     if (flagResetBg.classList.contains('resetting')) return
-    const miliSeconds = secundomerMiliSeconds.innerText.length < 2 ? secundomerMiliSeconds.innerText + "0" : secundomerMiliSeconds.innerText
+
+    const totalMiliSecondsPrevious = totalMiliSeconds
+    const miliSeconds = toDoubleNumber(secundomerMiliSeconds.innerText)
     const seconds = secundomerSeconds.innerText
     const minutes = secundomerMinutes.innerText
-
     if (miliSeconds === "00" && seconds === "00" && minutes === "00") {
         return false
     }
+    totalMiliSeconds = Number(minutes) * 60 * 100 + Number(seconds) * 100 + Number(miliSeconds)
+    const currentTime = `${minutes}:${seconds}:${miliSeconds}`
+    console.log(Number(seconds))
+    let leapTimeMiliSeconds = totalMiliSeconds - totalMiliSecondsPrevious
+
+    const leapMinutes = toDoubleNumber(Math.floor(leapTimeMiliSeconds / 6000))
+    leapTimeMiliSeconds %= 6000
+    const leapSeconds = toDoubleNumber(Math.floor(leapTimeMiliSeconds / 100))
+    leapTimeMiliSeconds %= 100
+    const leapMiliSeconds = toDoubleNumber(leapTimeMiliSeconds)
+    const leapTime = `${leapMinutes}:${leapSeconds}:${leapMiliSeconds}`
+
+
     const flagsItem = document.createElement('div')
     flagsItem.classList.add('flags__item')
-    flagsItem.innerHTML = `<span>${flagsCounter + 1}</span> ${minutes}:${seconds}:${miliSeconds}`
+    flagsItem.innerHTML = `<span>${flagsCounter + 1}</span> ${currentTime}`
+
+    const flagsItemMobile = document.createElement('div')
+    flagsItemMobile.classList.add('flags__item')
+    flagsItemMobile.innerHTML = `<span>${flagsCounter + 1}</span> <div class="flags__item-info"><div>Время круга: <strong>${leapTime}</strong></div>  <div>Общее время: <strong>${currentTime}</strong></div></div>`
+
 
     if (flagsCounter < 10) {
         flagsWrapper1.append(flagsItem)
@@ -842,6 +912,7 @@ function secundomerFlagAdd() {
     } else {
         flagsWrapper2.append(flagsItem)
     }
+    flagsMobile.append(flagsItemMobile)
     flagsCounter++
 }
 //-----Флаги-----
@@ -853,22 +924,35 @@ let secundomerFlagInterval
 let secundomerFlagTimeout
 
 function secundomerFlagResetFill() {
+    window.navigator?.vibrate(1);
     flagResetBg.classList.remove('resettingComplete')
     flagResetBg.style.transition = ''
     secundomerFlagTimeout = setTimeout(() => {
         secundomerFlagInterval = setInterval(() => {
             if (secundomerFlagFillingPercentage <= 0) {
-                flagsWrapper1.classList.add('sliding-out-left')
-                flagsWrapper2.classList.add('sliding-out-right')
-
-                flagsWrapper1.addEventListener('animationend', () => {
+                if (isMobile) {
                     flagsWrapper1.innerHTML = ''
-                    flagsWrapper1.classList.remove('sliding-out-left')
-                }, {once: true})
-                flagsWrapper2.addEventListener('animationend', () => {
                     flagsWrapper2.innerHTML = ''
-                    flagsWrapper2.classList.remove('sliding-out-right')
-                }, {once: true})
+                    flagsMobile.classList.add('sliding-out-right')
+                    flagsMobile.addEventListener('animationend', () => {
+                        flagsMobile.innerHTML = ''
+                        flagsMobile.classList.remove('sliding-out-right')
+                    }, {once: true})
+                }
+                else {
+                    flagsMobile.innerHTML = ''
+                    flagsWrapper1.classList.add('sliding-out-left')
+                    flagsWrapper2.classList.add('sliding-out-right')
+
+                    flagsWrapper1.addEventListener('animationend', () => {
+                        flagsWrapper1.innerHTML = ''
+                        flagsWrapper1.classList.remove('sliding-out-left')
+                    }, {once: true})
+                    flagsWrapper2.addEventListener('animationend', () => {
+                        flagsWrapper2.innerHTML = ''
+                        flagsWrapper2.classList.remove('sliding-out-right')
+                    }, {once: true})
+                }
 
                 flagsCounter = 0
                 secundomerFlagResetComplete()
@@ -892,6 +976,7 @@ function secundomerFlagResetUnFill() {
 }
 
 function secundomerFlagResetComplete() {
+    window.navigator?.vibrate([50, 100, 50]);
     flagResetBg.classList.remove('resettingComplete')
     clearInterval(secundomerFlagInterval)
     clearTimeout(secundomerFlagTimeout)
@@ -929,44 +1014,72 @@ inputColor.oninput = (e) => {
     //Светлый цвет
     if (1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5) {
         const [r, g, b] = hexToRgb(ColorLuminance(hex, -0.07))
+        const [rD, gD, bD] = hexToRgb(ColorLuminance(hex, -0.2))
         document.documentElement.style.setProperty('--text-color1', 'black')
-        document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, -0.15)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
+
+        // document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, -0.15)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
+        document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${rgba(rD, gD, bD, 0.8)} 0%, ${rgba(r, g, b, 0.2)} 100%)`)
+
         document.documentElement.style.setProperty('--timer-border', `${pxToUnit(2, 'em')} solid ${ColorLuminance(hex, -0.3)}`)
-        document.documentElement.style.setProperty('--inputs-background', ColorLuminance(hex, 2.2))
-        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r, g, b, 1)}`)
-        document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(6,'em', fzTimerUnitsRatio)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r, g, b, 1)}`)
-        document.documentElement.style.setProperty('--controls-shadow', `${pxToUnit(2, 'em', fzTimerUnitsRatio)} ${pxToUnit(2, 'em', fzTimerUnitsRatio)} ${pxToUnit(2, 'em', fzTimerUnitsRatio)} 0 ${ColorLuminance(hex, -0.3)}, ${pxToUnit(-2, 'em', fzTimerUnitsRatio)} ${pxToUnit(-2, 'em', fzTimerUnitsRatio)} ${pxToUnit(3, 'em', fzTimerUnitsRatio)} 0 ${rgba(r, g, b, 1)}`)
-        document.documentElement.style.setProperty('--controls-color', 'var(--black)')
+        // document.documentElement.style.setProperty('--inputs-background', ColorLuminance(hex, 2.2))
+        document.documentElement.style.setProperty('--inputs-background', 'white')
+
+        // document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r, g, b, 1)}`)
+        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r, g, b, 0.4)}`)
+        // document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(6,'em', fzTimerUnitsRatio)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r, g, b, 1)}`)
+        document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToUnit(3, 'rem', 1.5)} ${pxToUnit(3, 'rem', 1.5)} ${pxToUnit(6,'rem', 1.5)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'rem', 1.5)} ${pxToUnit(-4, 'rem', 1.5)} ${pxToUnit(7, 'em', 1.5)} ${rgba(rD, gD, bD, 0.7)}`)
+
+        document.documentElement.style.setProperty('--controls-shadow', `${pxToUnit(2, 'rem', 2)} ${pxToUnit(2, 'rem', 2)} ${pxToUnit(2, 'rem', 2)} 0 ${ColorLuminance(hex, -0.3)}, ${pxToUnit(-2, 'rem', 2)} ${pxToUnit(-2, 'rem', 2)} ${pxToUnit(3, 'rem', 2)} 0 ${rgba(rD, gD, bD, 1)}`)
+        document.documentElement.style.setProperty('--controls-color', 'var(--main-color-dark)')
         document.documentElement.style.setProperty('--flag-color', 'var(--main-color)')
+        document.documentElement.style.setProperty('--icon-color', 'var(--main-color-dark)')
+        document.documentElement.style.setProperty('--icon-color-darker', ColorLuminance(hex, -0.7))
         //Белый цвет
         if (hex === "#ffffff") {
             document.documentElement.style.setProperty('--timer-stroke', 'var(--black)')
             document.documentElement.style.setProperty('--timer-border', '2px solid var(--black)')
             document.documentElement.style.setProperty('--dots-color', 'var(--black)')
-            document.documentElement.style.setProperty('--input-focus-color', 'black')
-            document.documentElement.style.setProperty('--input-text-color', 'black')
+            document.documentElement.style.setProperty('--input-focus-color', 'var(--black)')
+            document.documentElement.style.setProperty('--input-text-color', 'var(--black)')
+            document.documentElement.style.setProperty('--controls-color', 'var(--black)')
+
             document.documentElement.style.setProperty('--worldItem-main', 'white')
             document.documentElement.style.setProperty('--worldItem-darker', 'white')
             document.documentElement.style.setProperty('--worldItem-time-color', 'var(--black)')
             document.documentElement.style.setProperty('--worldItem-bg', 'var(--black)')
             document.documentElement.style.setProperty('--menu-active-color', 'white')
             document.documentElement.style.setProperty('--menu-active-bg', 'var(--black)')
+            document.documentElement.style.setProperty('--icon-color', 'var(--main-color-darkest)')
+            document.documentElement.style.setProperty('--icon-color-darker', 'var(--black)')
         }
     }
     //Темный цвет
     else {
         const [r, g, b] = hexToRgb(ColorLuminance(hex, 1.3))
+        const [rD, gD, bD] = hexToRgb(ColorLuminance(hex, -0.2))
         document.documentElement.style.setProperty('--text-color1', 'white')
         document.documentElement.style.setProperty('--inputs-background', 'white')
-        document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, 0.7)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
+
+        // document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, 0.7)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
+        // document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${ColorLuminance(hex, -0.2)} 0%, ${rgba(r, g, b, 0.2)} 100%)`)
+        document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${rgba(rD, gD, bD, 0.8)} 0%, ${rgba(r, g, b, 0.2)} 100%)`)
+        // document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, ${rgba(r, g, b, 0.7)} 0%, ${rgba(r, g, b, 0.3)} 100%)`)
+
         document.documentElement.style.setProperty('--timer-border', `${pxToUnit(2, 'em')} solid var(--main-color)`)
-        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r1, g1, b1, 0.8)}, inset ${pxToUnit(-2, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r2, g2, b2, 0.5)}`)
-        document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(6, 'em', fzTimerUnitsRatio)} ${rgba(r1, g1, b1, 0.8)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r2, g2, b2, 0.5)}`)
+        // document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r1, g1, b1, 0.8)}, inset ${pxToUnit(-2, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r2, g2, b2, 0.5)}`)
+        document.documentElement.style.setProperty('--inputs-inner-shadow', `inset ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${ColorLuminance(hex, -0.3)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r, g, b, 0.4)}`)
+
+        // document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(3, 'em', fzTimerUnitsRatio)} ${pxToUnit(6, 'em', fzTimerUnitsRatio)} ${rgba(r1, g1, b1, 0.8)}, inset ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(-4, 'em', fzTimerUnitsRatio)} ${pxToUnit(7, 'em', fzTimerUnitsRatio)} ${rgba(r2, g2, b2, 0.5)}`)
+        document.documentElement.style.setProperty('--controls-inner-shadow', `inset ${pxToUnit(3, 'rem', 1.5)} ${pxToUnit(3, 'rem', 1.5)} ${pxToUnit(6,'rem', 1.5)} ${rgba(rD, gD, bD, 0.9)}, inset ${pxToUnit(-4, 'rem', 1.5)} ${pxToUnit(-4, 'rem', 1.5)} ${pxToUnit(7, 'em', 1.5)} ${rgba(r, g, b, 0.7)}`)
+
         document.documentElement.style.setProperty('--controls-shadow', 'none')
         document.documentElement.style.setProperty('--controls-color', 'var(--main-color)')
         document.documentElement.style.setProperty('--flag-color', 'var(--main-color-darkest)')
+        document.documentElement.style.setProperty('--icon-color', ColorLuminance(hex, 0.7))
+        document.documentElement.style.setProperty('--icon-color-darker', 'var(--main-color-dark)')
         //Черный цвет
         if (hex === "#000000") {
+            document.documentElement.style.setProperty('--body-background', `linear-gradient(135deg, #1B1B1B 0%, ${rgba(r, g, b, 0.2)} 100%)`)
             document.documentElement.style.setProperty('--timer-stroke', 'var(--white)')
             document.documentElement.style.setProperty('--dots-color', 'white')
             document.documentElement.style.setProperty('--input-focus-color', 'white')
@@ -974,6 +1087,8 @@ inputColor.oninput = (e) => {
 
             document.documentElement.style.setProperty('--menu-active-color', 'var(--black)')
             document.documentElement.style.setProperty('--menu-active-bg', 'var(--white)')
+            document.documentElement.style.setProperty('--icon-color', 'gray')
+            document.documentElement.style.setProperty('--icon-color-darker', 'black')
         }
     }
 
