@@ -40,10 +40,64 @@ const currentTimeContainer = qs('.timer__current-time')
 const worldTimeContainer = qs('.worldTime')
 const worldTimeItems = [
     {
+        city: 'Паго-Паго',
+        zone: 'SST',
+        utc: '-11',
+    },
+    {
+        city: 'Гонолулу',
+        zone: 'HST',
+        utc: '-10',
+    },
+    {
+        city: 'Анкоридж',
+        zone: 'AKST',
+        utc: '-9',
+    },
+    {
+        city: 'Вашингтон',
+        zone: 'PST',
+        utc: '-8',
+    },
+    {
+        city: 'Монтана',
+        zone: 'MST',
+        utc: '-7',
+    },
+    {
+        city: 'Гватемала',
+        zone: 'CST',
+        utc: '-6',
+    },
+    {
+        city: 'Оттава',
+        zone: 'EST',
+        utc: '-5',
+    },
+    {
+        city: 'Каракас',
+        zone: 'VET',
+        utc: '-4',
+    },
+    {
+        city: 'Буэнос-Айрес',
+        zone: 'ART',
+        utc: '-3',
+    },
+    {
+        city: 'Нуук',
+        zone: 'WGST',
+        utc: '-2',
+    },
+    {
+        city: 'Кабо-Верде',
+        zone: 'CVT',
+        utc: '-1',
+    },
+    {
         city: 'Лондон',
         zone: 'GMT',
         utc: '0',
-        // img: 'australia.png'
     },
     {
         city: 'Вена',
@@ -54,7 +108,6 @@ const worldTimeItems = [
         city: 'Афины',
         zone: 'EET',
         utc: '+2',
-        // img: 'greece.svg'
     },
     {
         city: 'Москва',
@@ -122,7 +175,9 @@ worldTimeItems.forEach((item) => {
 const timerSliderHours = qs('.slider-wrapper__hours')
 const timerSliderMinutes = qs('.slider-wrapper__minutes')
 const timerSliderSeconds = qs('.slider-wrapper__seconds')
-
+const box = qs('.box')
+// window.innerHeight = 300
+// box.innerHTML = window.innerHeight
 //Заполнение слайдов-цифр для таймера
 for (let i = 0; i < 100; i++) {
     i < 10 ? i = '0' + i : i
@@ -646,6 +701,7 @@ function SecondPage() {
 function ThirdPage() {
     if (!previousPage) {
         timerWrapper.style.display = 'none'
+        menuMobileItems[2].classList.add('active')
         showWorldTimeItems()
         return
     }

@@ -238,7 +238,6 @@ body {
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease-in-out;
-    /*overflow: hidden;*/
 }
 
 .input-changeColor {
@@ -1139,7 +1138,7 @@ input[type=number]:focus {
     }
 
     .flags {
-        display: none;
+        display: none !important;
     }
 
     .flags-mobile {
@@ -1222,7 +1221,7 @@ input[type=number]:focus {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px){
 
     .header {
         font-size: calc(0.65rem + (7.5 - 6.5) * ((100vw - 32rem) / (768 - 320)));
@@ -1271,6 +1270,10 @@ input[type=number]:focus {
         font-size: calc(((100vh) / 768 * 10 + 1.25px));
     }
 
+    .menu-mobile {
+        font-size: calc(0.7rem + (10 - 7) * ((100vh - 32rem) / (768 - 320)));
+    }
+
     .worldTime {
         font-size: calc(0.65rem + (8 - 6.5) * ((100vh - 32rem) / (768 - 320)));
     }
@@ -1278,7 +1281,7 @@ input[type=number]:focus {
 
 @media (max-width: 576px) {
     body {
-        grid-template-rows: min-content calc(100vh - 3 * var(--header-height));
+        grid-template-rows: min-content calc(100vh - 2.75 * var(--header-height));
     }
 
     .flags-mobile {
@@ -1300,6 +1303,16 @@ input[type=number]:focus {
 
     .timer__btn {
         font-size: 1.2em;
+    }
+}
+
+@media (max-height: 640px) and  (max-width: 576px) {
+    body {
+        grid-template-rows: min-content calc(100vh - 1.75 * var(--header-height));
+    }
+
+    .flags-mobile {
+        margin-top: calc(-0.1 * (100vh - 3 * var(--header-height)));
     }
 }
 
