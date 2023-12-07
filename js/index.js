@@ -365,6 +365,14 @@ menuItems.forEach((item) => {
             document.body.classList.add(currentPage)
         }
 
+        if (previousPage === 'secondTab') {
+            flagsMobile.classList.add('sliding-out-left')
+            flagsMobile.addEventListener('animationend', () => {
+                flagsMobile.classList.remove('sliding-out-left')
+                hideFlagsMobile()
+            }, {once: true})
+        }
+
         menu.classList.add(currentPage)
 
         toPage[currentPage]()
