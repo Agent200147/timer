@@ -892,13 +892,14 @@ function secundomerStart() {
 
     secundomerInterval = setInterval(() => {
         secundomerMilisecondsI++
-        secundomerMilisecondsUnit.innerText = toDoubleNumber(secundomerMilisecondsI)
 
         if (secundomerMilisecondsI === 100) {
             secundomerMilisecondsI = 0
             secundomerSecondsI++
             secundomerSecondsUnit.innerText = toDoubleNumber(secundomerSecondsI)
         }
+
+        secundomerMilisecondsUnit.innerText = toDoubleNumber(secundomerMilisecondsI)
 
         if (secundomerSecondsI === 60) {
             secundomerSecondsUnit.innerText = "00"
