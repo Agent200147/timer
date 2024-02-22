@@ -825,6 +825,8 @@ input[type=number]:focus {
     display: none;
     justify-content: center;
     margin-bottom: 1rem;
+
+    z-index: 1;
 }
 
 .menu-mobile__wrapper {
